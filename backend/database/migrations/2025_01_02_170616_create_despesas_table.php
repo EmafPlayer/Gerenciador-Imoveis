@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('despesas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_imovel');
-            $table->string('titulo', 50);
+            $table->foreignId('titulo');
+            $table->double('valor');
             $table->string('descricao', 255);
             $table->foreignId('tipo_despesa');
             $table->foreignId('tipo_recorrencia');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_imovel')->references('id')->on('imoveis');
+            $table->foreign('titulo')->references('id')->on('titulos_despesas');
             $table->foreign('tipo_despesa')->references('id')->on('tipo_despesa');
             $table->foreign('tipo_recorrencia')->references('id')->on('tipo_recorrencia');
         });

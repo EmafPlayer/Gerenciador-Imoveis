@@ -14,13 +14,17 @@ return new class extends Migration
         Schema::create('cotacoes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_imovel');
+            $table->foreignId('id_imobiliaria');
             $table->double('valor');
+            $table->double('valor_min');
+            $table->double('valor_max');
             $table->date('data_cotacao');
             $table->string('descricao', 255);
             $table->foreignId('tipo_cotacao');
             $table->timestamps();
 
             $table->foreign('id_imovel')->references('id')->on('imoveis');
+            $table->foreign('id_imobiliaria')->references('id')->on('imobiliarias');
             $table->foreign('tipo_cotacao')->references('id')->on('tipo_cotacao');
         });
     }
