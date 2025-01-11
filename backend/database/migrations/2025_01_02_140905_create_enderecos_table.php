@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('enderecos', function (Blueprint $table) {
             $table->id();
+            $table->string('cep', 10);
             $table->string('rua', 100);
             $table->integer('numero');
             $table->string('bairro', 50);
