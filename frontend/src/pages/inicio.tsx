@@ -2,14 +2,8 @@ import { useState } from "react";
 import { NavBar } from "../components/nav_bar";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { IoAdd } from "react-icons/io5";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-type UserProps = {
-  user: {
-      nome: string
-      foto: string
-  }
-}
 
 export function Inicio() {
 
@@ -50,7 +44,7 @@ export function Inicio() {
       {
         "nome": "a",
         "endereço": "Estrada do Pico, Serra Azul, 45",
-        "foto": "Casa3.jpg",
+        "foto": "Casa4.jpg",
         "latitude": -8.53287498765432,
         "longitude": -35.12456324567891
       }
@@ -78,10 +72,11 @@ export function Inicio() {
     <div className="h-screen w-full">
       <NavBar user={user[0]}>
       </NavBar>
-      <body className="bg-slate-100 h-full w-full pl-16 z-0 pt-[95px]">
-        <div>
+      <body className="relative h-full w-full pl-16 z-0 pt-[95px]">
+        <div className="absolute inset-0 bg-[url('../../public/fundo.jpg')] bg-cover bg-center opacity-40"></div>
+        <div className="relative z-10">
           <div className="flex items-center justify-between w-[50%]">
-            <h1 className="text-[28px] py-10">Imóveis</h1>
+            <h1 className="text-[28px] py-10 font-medium">Imóveis</h1>
             <div className="flex items-center gap-4 pr-10">
               <button onClick={lastPage}><BsArrowLeftCircle className="text-[30px]"/></button>
               <button onClick={nextPage}><BsArrowRightCircle className="text-[30px]"/></button>
