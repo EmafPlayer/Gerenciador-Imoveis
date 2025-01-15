@@ -4,19 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cotacoes extends Model
+class Visitas extends Model
 {
-    protected $table = 'cotacoes';
+    protected $table = 'visitas';
 
     protected $fillable = [
         'id_imovel',
         'id_corretor',
-        'valor',
-        'valor_min',
-        'valor_max',
-        'data_cotacao',
+        'data_visita',
+        'proposta',
+        'valor_proposta',
+        'data_proposta',
         'descricao',
-        'tipo_cotacao',
     ];
-    
 }

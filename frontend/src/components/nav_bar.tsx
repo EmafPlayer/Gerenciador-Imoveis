@@ -18,7 +18,7 @@ export function NavBar( { user }: UserProps ){
   const estaEmInicio = location.pathname === '/';
 
   return(
-      <nav className="h-[11%] w-full flex items-center justify-between px-12 bg-[#995935] bg-gradient-to-r from-[#995935] to-[#996B46] fixed z-10">
+      <nav className="h-[11%] w-full flex items-center justify-between px-12 bg-[#FF5500] bg-gradient-to-r from-[#FF5500] to-[#ff5500da] fixed z-10">
           <a href="/" className='flex items-center justify-between gap-5'>
             {/* <img src={FotoCasa} alt="Logo" className="h-[100px] w-[100px]" /> */}
             <div className='text-[50px] text-[#FFFFFF] '><AiOutlineHome/></div>

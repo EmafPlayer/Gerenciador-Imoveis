@@ -5,11 +5,21 @@ import { IoChevronForwardCircleOutline } from "react-icons/io5";
 import { AiOutlineHome } from "react-icons/ai";
 import { IoAdd } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
+
 
 
 export function Inicio() {
 
   const [contador, setContador] = useState(0);
+  const [imovel, setImovel] = useState(0);
+
+  
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyCBRfZswUbwtx24MDvyRAKZGVHF3XJweME',
+  })
 
   const user = [
     {
@@ -17,6 +27,7 @@ export function Inicio() {
       "foto": "Emanu.jpg"
     }
   ];
+
 
   const casas = [
     [
@@ -32,8 +43,8 @@ export function Inicio() {
         "nome": "Beachfront Villa",
         "endereço": "Rua dos Pescadores, Praia Grande, 120",
         "foto": "Casa2.jpg",
-        "latitude": -8.15234832455632,
-        "longitude": -34.90273453421312,
+        "latitude": -22.70072211276618,
+        "longitude": -43.27024814633193,
         "valor": 600000.00
       },
       {
@@ -79,36 +90,57 @@ export function Inicio() {
       <NavBar user={user[0]}>
       </NavBar>
       <body className="relative h-full w-full pl-16 z-0 pt-[95px]">
-        <div className="absolute inset-0 bg-[url('../../public/fundo.svg')] bg-cover bg-center opacity-60"></div>
-        <div className="relative z-10">
-          <div className="flex items-center justify-between w-[50%]">
-            <h1 className="text-[35px] pt-14 pb-10 font-serif">Imóveis</h1>
-            <div className="flex items-center gap-4 pr-10">
-              <button onClick={lastPage}><BsArrowLeftCircle className="text-[30px]"/></button>
-              <button onClick={nextPage}><BsArrowRightCircle className="text-[30px]"/></button>
-            </div>
-            <div>
-              <button onClick={() => redirect(user[0])} className="bg-blue-400 p-2 text-[#ffffff]"><IoAdd/></button>
-            </div>
-          </div>
-          <div className="grid grid-rows-3 gap-5 w-[50%]">
-          {casas[contador].map((casa) => 
-            <div className="bg-[#ffffff] h-[13rem] w-full p-5 hover:bg-slate-100 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3 flex items-center justify-between">
-              <div className="w-full flex justify-between">
-                <div className="flex">
-                  <img src={`../../public/${casa.foto}`} alt="Foto da casa" className="h-[165px] w-[250px] rounded-xl shadow-md"/>
-                  <div className="pl-8 pt-4">
-                    <h1 className="text-[25px] text-slate-800 pb-2 font-serif">{casa.nome}</h1>
-                    <h1 className="text-[18px] text-slate-600 font-sans">{casa.endereço}</h1>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center justify-center gap-[70px] pb-2">
-                  <h1 className="text-[22px] font-normal pr-6">R$ {casa.valor}</h1>
-                  <button className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
-                </div>
+        <div className="absolute inset-0 bg-[#FFFFFF] bg-cover bg-center opacity-60"></div>
+        <div className="relative z-10 flex">
+          <div className="w-[50%]">
+            <div className="flex items-center justify-between w-full">
+              <h1 className="text-[35px] pt-14 pb-10 font-serif">Imóveis</h1>
+              <div className="flex items-center gap-4 pr-10">
+                <button onClick={lastPage}><BsArrowLeftCircle className="text-[30px]"/></button>
+                <button onClick={nextPage}><BsArrowRightCircle className="text-[30px]"/></button>
+              </div>
+              <div>
+                <button onClick={() => redirect(user[0])} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 text-[#FFFFFF]"><IoAdd/></button>
               </div>
             </div>
-          )}
+            <div className="grid grid-rows-3 gap-5 w-full">
+            {casas[contador].map((casa, index) => 
+              <button onClick={() => setImovel(index)} className="bg-[#DEDEDE] h-[13rem] w-full p-5 hover:bg-slate-300 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3 flex items-center justify-between">
+                <div className="w-full flex justify-between">
+                  <div className="flex">
+                    <img src={`../../public/${casa.foto}`} alt="Foto da casa" className="h-[165px] w-[250px] rounded-xl shadow-md"/>
+                    <div className="pl-8 pt-4">
+                      <h1 className="text-[25px] text-slate-800 text-left pb-2 font-serif">{casa.nome}</h1>
+                      <h1 className="text-[18px] text-slate-600 font-sans">{casa.endereço}</h1>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center justify-center gap-[70px] pb-2">
+                    <h1 className="text-[22px] font-normal pr-6">R$ {casa.valor}</h1>
+                    <button className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
+                  </div>
+                </div>
+              </button>
+            )}
+            </div>
+          </div>
+          <div className="w-[50%] px-9 pt-14">
+            {isLoaded ? (
+              <GoogleMap mapContainerClassName="rounded-xl"
+                mapContainerStyle={{width: '100%', height: '100%'}}
+                center={{
+                  lat: casas[contador][imovel].latitude,
+                  lng: casas[contador][imovel].longitude
+                }}
+                zoom={16}
+              >
+                <Marker position={{
+                  lat: casas[contador][imovel].latitude,
+                  lng: casas[contador][imovel].longitude
+                }}/>
+              </GoogleMap>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         
