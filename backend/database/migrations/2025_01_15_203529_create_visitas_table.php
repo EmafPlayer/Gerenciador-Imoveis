@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cotacoes', function (Blueprint $table) {
+        Schema::create('visitas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_imovel');
             $table->foreignId('id_corretor');
-            $table->double('valor');
-            $table->double('valor_min');
-            $table->double('valor_max');
-            $table->date('data_cotacao');
+            $table->date('data_visita');
+            $table->boolean('proposta');
+            $table->double('valor_proposta');
+            $table->date('data_proposta');
             $table->string('descricao', 255);
-            $table->foreignId('tipo_cotacao');
             $table->timestamps();
 
             $table->foreign('id_imovel')->references('id')->on('imoveis');
             $table->foreign('id_corretor')->references('id')->on('corretores');
-            $table->foreign('tipo_cotacao')->references('id')->on('tipo_cotacao');
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cotacoes');
+        Schema::dropIfExists('visitas');
     }
 };

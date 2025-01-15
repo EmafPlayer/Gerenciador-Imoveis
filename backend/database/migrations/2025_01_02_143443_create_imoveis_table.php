@@ -17,6 +17,16 @@ return new class extends Migration
             $table->foreignId('id_endereco');
             $table->foreignId('id_localizacao');
             $table->boolean('anunciado');
+            $table->string('fornecimento_agua', 30);
+            $table->string('fornecimento_luz', 30);
+            $table->string('cadastro_iptu', 30);
+            $table->string('matricula', 30);
+            $table->string('cartorio_registro', 30);
+            $table->double('area');
+            $table->double('area_testada');
+            $table->double('fracao_ideal');
+            $table->double('area_total');
+            $table->double('area_construida');
             $table->timestamps();
 
             $table->foreign('id_endereco')->references('id')->on('enderecos');
