@@ -76,13 +76,17 @@ export function Inicio() {
   };
 
   function nextPage () {
-    if (contador < casas.length - 1)
+    if (contador < casas.length - 1){
       setContador(contador + 1);
+      setImovel(0);
+    }
   }
 
   function lastPage () {
-    if (contador > 0)
-        setContador(contador - 1);
+    if (contador > 0){
+      setContador(contador - 1);
+      setImovel(0);
+    }
   }
 
   return (
