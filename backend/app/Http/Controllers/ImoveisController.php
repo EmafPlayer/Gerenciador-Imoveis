@@ -25,6 +25,16 @@ class ImoveisController extends Controller
             'estado' => 'required|string',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
+            'fornecimento_agua' => 'required|string',
+            'fornecimento_luz' => 'required|string',
+            'cadastro_iptu' => 'required|string',
+            'matricula' => 'required|string',
+            'cartorio_registro' => 'required|string',
+            'area' => 'required|numeric',
+            'area_testada' => 'required|numeric',
+            'fracao_ideal' => 'required|numeric',
+            'area_total' => 'required|numeric',
+            'area_construida' => 'required|numeric',
         ]);
 
         Enderecos::create([
@@ -52,6 +62,16 @@ class ImoveisController extends Controller
             'id_endereco' => $id_endereco,
             'id_localizacao' => $id_localizacao,
             'anunciado' => true,
+            'fornecimento_agua' => $request->fornecimento_agua,
+            'fornecimento_luz' => $request->fornecimento_luz,
+            'cadastro_iptu' => $request->cadastro_iptu,
+            'matricula' => $request->matricula,
+            'cartorio_registro' => $request->cartorio_registro,
+            'area' => $request->area,
+            'area_testada' => $request->area_testada,
+            'fracao_ideal' => $request->fracao_ideal,
+            'area_total' => $request->area_total,
+            'area_construida' => $request->area_construida,
         ]);
 
         return response()->json(['message' => 'Imóvel criado com sucesso'], 200);
