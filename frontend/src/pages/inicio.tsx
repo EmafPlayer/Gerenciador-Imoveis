@@ -13,8 +13,8 @@ export function Inicio() {
 
   const [contador, setContador] = useState(0);
   const [imovel, setImovel] = useState(0);
+  const [id_imovel, setId_imovel] = useState(0);
 
-  
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -32,6 +32,7 @@ export function Inicio() {
   const casas = [
     [
       {
+        "id": 1,
         "nome": "3 rooms, modern apartament",
         "endereço": "Av. Beberibe, Porto da madeira, 3530",
         "foto": "Casa1.jpg",
@@ -40,6 +41,7 @@ export function Inicio() {
         "valor": 300000.00
       },
       {
+        "id": 2,
         "nome": "Beachfront Villa",
         "endereço": "Rua dos Pescadores, Praia Grande, 120",
         "foto": "Casa2.jpg",
@@ -48,6 +50,7 @@ export function Inicio() {
         "valor": 600000.00
       },
       {
+        "id": 3,
         "nome": "Cozy Mountain Cabin",
         "endereço": "Estrada do Pico, Serra Azul, 45",
         "foto": "Casa3.jpg",
@@ -58,6 +61,7 @@ export function Inicio() {
     ],
     [
       {
+        "id": 4,
         "nome": "a",
         "endereço": "Estrada do Pico, Serra Azul, 45",
         "foto": "Casa4.jpg",
@@ -71,8 +75,12 @@ export function Inicio() {
 
   const navigate = useNavigate();
 
-  const redirect = (user: any) => {
+  const redirectCriarImoveis = (user: any) => {
     navigate('/criar-imoveis', { state: { user } });
+  };
+
+  const redirectExibirImoveis = (user: any) => {
+    navigate(`/exibir-imoveis/${id_imovel}`, { state: { user } });
   };
 
   function nextPage () {
@@ -93,9 +101,9 @@ export function Inicio() {
     <div className="h-screen w-full">
       <NavBar user={user[0]}>
       </NavBar>
-      <body className="relative h-full w-full pl-16 z-0 pt-[95px]">
-        <div className="absolute inset-0 bg-[#FFFFFF] bg-cover bg-center opacity-60"></div>
-        <div className="relative z-10 flex">
+      <body className="h-full w-full pl-16 pt-[95px]">
+        <div className="bg-[#FFFFFF]"></div>
+        <div className="flex">
           <div className="w-[50%]">
             <div className="flex items-center justify-between w-full">
               <h1 className="text-[35px] pt-14 pb-10 font-serif">Imóveis</h1>
@@ -104,12 +112,12 @@ export function Inicio() {
                 <button onClick={nextPage}><BsArrowRightCircle className="text-[30px]"/></button>
               </div>
               <div>
-                <button onClick={() => redirect(user[0])} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 text-[#FFFFFF]"><IoAdd/></button>
+                <button onClick={() => redirectCriarImoveis(user[0])} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 text-[#FFFFFF]"><IoAdd/></button>
               </div>
             </div>
             <div className="grid grid-rows-3 gap-5 w-full">
             {casas[contador].map((casa, index) => 
-              <button onClick={() => setImovel(index)} className="bg-[#DEDEDE] h-[13rem] w-full p-5 hover:bg-slate-300 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3 flex items-center justify-between">
+              <button onClick={() => setImovel(index)} onMouseOver={() => setId_imovel(casa.id)} className="bg-[#DEDEDE] h-[13rem] w-full cursor-default p-5 hover:bg-slate-300 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3 flex items-center justify-between">
                 <div className="w-full flex justify-between">
                   <div className="flex">
                     <img src={`../../public/${casa.foto}`} alt="Foto da casa" className="h-[165px] w-[250px] rounded-xl shadow-md"/>
@@ -120,7 +128,7 @@ export function Inicio() {
                   </div>
                   <div className="flex flex-col items-center justify-center gap-[70px] pb-2">
                     <h1 className="text-[22px] font-normal pr-6">R$ {casa.valor}</h1>
-                    <button className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
+                    <button onClick={() => redirectExibirImoveis(user[0])} className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
                   </div>
                 </div>
               </button>

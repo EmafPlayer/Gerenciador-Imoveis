@@ -6,6 +6,7 @@ export function Router() {
     <Routes>
       <Route path="/" element={<Pages.Inicio/>} />
       <Route path="/criar-imoveis" element={<Pages.CriarImoveis/>} />
+      <Route path="/exibir-imoveis/:id_imovel" element={<Pages.ExibirImoveis/>} />
     </Routes>
   );
 }

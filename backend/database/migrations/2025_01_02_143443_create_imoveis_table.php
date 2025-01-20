@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nome', 50);
             $table->foreignId('id_endereco');
             $table->foreignId('id_localizacao');
+            $table->string('descricao', 255);
             $table->boolean('anunciado');
             $table->string('fornecimento_agua', 30);
             $table->string('fornecimento_luz', 30);
