@@ -11,5 +11,6 @@ class ImoveisImobiliarias extends Model
     protected $fillable = [
         'id_imovel',
         'id_imobiliaria',
+        'url_anuncio',
     ];
 }

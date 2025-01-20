@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_imovel');
             $table->foreignId('id_imobiliaria');
+            $table->string('url_anuncio', 200);
             $table->timestamps();
 
             $table->foreign('id_imovel')->references('id')->on('imoveis');

@@ -61,8 +61,8 @@ export function CriarImoveis () {
         <div className="h-screen w-full">
             <NavBar user={user}>
             </NavBar>
-            <body className="relative h-full w-full z-0 pt-[95px]">
-            <div className="absolute inset-0 bg-[#FFFFFF] bg-cover bg-center opacity-40"></div>
+            <body className="h-full w-full pt-[95px]">
+            <div className="bg-[#FFFFFF]"></div>
             <main className="w-full relative z-10 p-6">
                 <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5">
                     <h1 className={twMerge('text-center sm:text-left text-slate-800 mb-[2rem] font-medium text-[36px] uppercase')} >Cadastro de Imóveis</h1>
@@ -132,53 +132,53 @@ export function CriarImoveis () {
                         <div className="col-span-1">
                             <label htmlFor="fornecimento_agua" className="text-[18px] text-slate-700">Fornecimendo de Água</label>
                             <input {...register('fornecimento_agua')} type="text" name="fornecimento_agua" id="fornecimento_agua" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="01234567890123"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="fornecimento_luz" className="text-[18px] text-slate-700">Fornecimendo de Luz</label>
                             <input {...register('fornecimento_luz')} type="text" name="fornecimento_luz" id="fornecimento_luz" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="012345678901234"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="cadastro_iptu" className="text-[18px] text-slate-700">Cadastro do IPTU</label>
                             <input {...register('cadastro_iptu')} type="text" name="cadastro_iptu" id="cadastro_iptu" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="012.345.6789-0"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="matricula" className="text-[18px] text-slate-700">Matrícula</label>
                             <input {...register('matricula')} type="text" name="matricula" id="matricula" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="123456"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="cartorio_registro" className="text-[18px] text-slate-700">Registro do Cartório</label>
                             <input {...register('cartorio_registro')} type="text" name="cartorio_registro" id="cartorio_registro" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="1º Cartório de Imóveis"/>
                         </div>
 
                         <div className="col-span-1">
-                            <label htmlFor="area" className="text-[18px] text-slate-700">Área</label>
+                            <label htmlFor="area" className="text-[18px] text-slate-700">Área Incorporada</label>
                             <input {...register('area')} type="number" step='0.001' name="area" id="area" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="100"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="area_testada" className="text-[18px] text-slate-700">Área Testada</label>
                             <input {...register('area_testada')} type="number" step='0.001' name="area_testada" id="area_testada" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="10.3"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="fracao_ideal" className="text-[18px] text-slate-700">Fração Ideal</label>
                             <input {...register('fracao_ideal')} type="number" step='0.001' name="fracao_ideal" id="fracao_ideal" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="1"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="area_total" className="text-[18px] text-slate-700">Área Total</label>
                             <input {...register('area_total')} type="area_total" step='0.001' name="area_total" id="area_total" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="120"/>
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="area_construida" className="text-[18px] text-slate-700">Área Construída</label>
                             <input {...register('area_construida')} type="area_construida" step='0.001' name="area_construida" id="area_construida" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="-43.210758860349436"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="90"/>
                         </div>
                         
                     </div>

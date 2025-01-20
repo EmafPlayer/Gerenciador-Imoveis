@@ -12,6 +12,7 @@ class Imoveis extends Model
         'nome',
         'id_endereco',
         'id_localizacao',
+        'descricao',
         'anunciado',
         'fornecimento_agua',
         'fornecimento_luz',
