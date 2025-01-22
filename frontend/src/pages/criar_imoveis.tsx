@@ -4,14 +4,20 @@ import { NavBar } from "../components/nav_bar";
 import { useState } from "react";
 import { api } from '../apis/api';
 import { twMerge } from "tailwind-merge";
+import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
+
 
 
 export function CriarImoveis () {
-
+    
+    const status_imoveis = ["Vago", "Em uso interno", "Alugado", "Loteamento", "Em reforma"];
+    
     const { register, handleSubmit } = useForm();
     
     const[criacao, setCriacao] = useState(false);
     const[mensagem, setMensagem] = useState("");
+    const[status_botao, setStatus_botao] = useState(0);
+    const[ativacao, setAtivacao] = useState(false);
 
     const location = useLocation();
     
@@ -40,7 +46,8 @@ export function CriarImoveis () {
                 area_testada: data.area_testada,
                 fracao_ideal: data.fracao_ideal,
                 area_total: data.area_total,
-                area_construida: data.area_construida
+                area_construida: data.area_construida,
+                tipo_status: data.tipo_status
             }).toString();
     
             const response = await api.get(`/v1/inicio/criacao-imoveis?${params}`);
@@ -53,9 +60,7 @@ export function CriarImoveis () {
         } catch (error) {
             console.error(error);
         }
-}
-
-
+    }
 
     return (
         <div className="h-screen w-full">
@@ -67,11 +72,24 @@ export function CriarImoveis () {
                 <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5">
                     <h1 className={twMerge('text-center sm:text-left text-slate-800 mb-[2rem] font-medium text-[36px] uppercase')} >Cadastro de Imóveis</h1>
 
-                    <div className=" grid grid-cols-4">
+                    <div className="grid grid-cols-4 items-center gap-32">
                         <div className="col-span-2">
                             <label htmlFor="nome_imovel" className="text-[18px] text-slate-700">Nome do imóvel</label>
                             <input {...register('nome_imovel')} type="text" name="nome_imovel" id="nome_imovel" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o nome do imóvel"/>
+                        </div>
+                        <div className="">
+                            <h4 className="text-[18px] text-slate-700 mt-2 mb-[5px]">Status do imóvel</h4>
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} {...register('tipo_status')} value={status_botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{status_imoveis[status_botao]}</h6>
+                                {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
+                            </button>
+                            {ativacao &&
+                                <ul className="absolute translate-y-[6px]">
+                                    {status_imoveis.map((status, index) => 
+                                        <li><button onClick={(e) => {e.preventDefault(); setStatus_botao(index); setAtivacao(!ativacao)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{status}</button></li>
+                                    )}
+                                </ul>}
                         </div>
                     </div>
 
