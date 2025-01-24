@@ -1,6 +1,4 @@
-import { NavLink } from './nav_link';
-import { useLocation } from 'react-router-dom';
-import FotoCasa from '../../public/Foto-Casa.png'
+// import { useLocation } from 'react-router-dom';
 import { AiOutlineHome } from "react-icons/ai";
 
 type UserProps = {
@@ -13,9 +11,9 @@ type UserProps = {
 
 export function NavBar( { user }: UserProps ){
 
-  const location = useLocation();
+  // const location = useLocation();
 
-  const estaEmInicio = location.pathname === '/';
+  // const estaEmInicio = location.pathname === '/';
 
   return(
       <nav className="h-[11%] w-full flex items-center justify-between px-12 bg-[#FF5500] bg-gradient-to-r from-[#FF5500] to-[#ff5500da] fixed z-10">

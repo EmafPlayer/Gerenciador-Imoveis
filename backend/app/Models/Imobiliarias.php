@@ -9,7 +9,8 @@ class Imobiliarias extends Model
     protected $table = 'imobiliarias';
 
     protected $fillable = [
-        'nome',
+        'nome_fantasia',
+        'nome_oficial',
         'id_endereco',
         'email',
         'site',
