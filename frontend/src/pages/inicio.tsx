@@ -3,7 +3,7 @@ import { NavBar } from "../components/nav_bar";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { IoChevronForwardCircleOutline } from "react-icons/io5";
 import { AiOutlineHome } from "react-icons/ai";
-import { IoAdd } from "react-icons/io5";
+import { GrAdd } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 
@@ -107,12 +107,12 @@ export function Inicio() {
           <div className="w-[50%]">
             <div className="flex items-center justify-between w-full">
               <h1 className="text-[35px] pt-14 pb-10 font-serif">Imóveis</h1>
-              <div className="flex items-center gap-4 pr-10">
+              <div className="flex items-center gap-4 pr-7">
                 <button onClick={lastPage}><BsArrowLeftCircle className="text-[30px]"/></button>
                 <button onClick={nextPage}><BsArrowRightCircle className="text-[30px]"/></button>
               </div>
               <div>
-                <button onClick={() => redirectCriarImoveis(user[0])} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 text-[#FFFFFF]"><IoAdd/></button>
+                <button onClick={() => redirectCriarImoveis(user[0])} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
               </div>
             </div>
             <div className="grid grid-rows-3 gap-5 w-full">

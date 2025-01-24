@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enderecos;
+use App\Models\HistoricoStatusImoveis;
 use App\Models\Imoveis;
 use App\Models\Localizacoes;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ class ImoveisController extends Controller
             'fracao_ideal' => 'required|numeric',
             'area_total' => 'required|numeric',
             'area_construida' => 'required|numeric',
+            'tipo_status' => 'required|numeric',
         ]);
 
         Enderecos::create([
@@ -72,6 +74,15 @@ class ImoveisController extends Controller
             'fracao_ideal' => $request->fracao_ideal,
             'area_total' => $request->area_total,
             'area_construida' => $request->area_construida,
+        ]);
+
+        $id_imovel = Imoveis::select('id')->orderBy('id', 'desc')->first();
+        $id_imovel = $id_imovel->id;
+
+        HistoricoStatusImoveis::create([
+            'id_imovel' => $id_imovel,
+            'ultima_alteracao' => now(),
+            'tipo_status' => $request->tipo_status,
         ]);
 
         return response()->json(['message' => 'Imóvel criado com sucesso'], 200);

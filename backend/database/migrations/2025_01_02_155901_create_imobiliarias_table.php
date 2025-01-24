@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('imobiliarias', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 50);
+            $table->string('nome_fantasia', 50);
+            $table->string('nome_oficial', 50);
             $table->foreignId('id_endereco');
             $table->string('email', 50)->nullable();
             $table->string('site', 100)->nullable();
