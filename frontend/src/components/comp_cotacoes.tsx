@@ -119,24 +119,27 @@ export function CompCotacoes () {
         
         <div className="w-full grid grid-cols-2 gap-10 px-14">
             {cotacoes[contador].map((cotacao, index) => 
-                <div className="bg-[#f0f0f0d3] h-[270px] rounded-3xl p-6 border-4 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
-                    <div>
-                        <div className="flex items-center justify-between">
+                <div className="bg-[#f0f0f0d3] h-[270px] rounded-3xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
+                    <div className="flex justify-between items-center">
+                        <div className="flex flex-col">
                             <div className="flex items-center gap-4">
                                 <h1 className="text-[40px] font-outfit">{cotacao.nome_corretor} </h1>
-                                <a href={`mailto:${cotacao.email_corretor}`} target="_blank" className="flex items-center gap-2 px-2 py-[6px] ease-in-out duration-300 text-[40px] bg-[#568692] bg-opacity-15  text-[#568692] hover:text-[#568692] rounded-xl">
+                                <a href={`mailto:${cotacao.email_corretor}`} target="_blank" className="flex items-center gap-2 px-2 py-[6px] ease-in-out duration-300 text-[40px] bg-opacity-15  text-[#568692] rounded-xl">
                                     <MdOutlineEmail/>
                                 </a>
                             </div>
-                            <h1 className="text-[20px] font-outfit">Contato: {cotacao.contato_corretor}</h1>
+                            <div className="flex items-center gap-3">
+                                <h1 className="text-[25px] font-outfit">{cotacao.nome_fantasia_imobiliaria}</h1>
+                                <h1 className="text-[18px] font-outfit">({cotacao.nome_oficial_imobiliaria})</h1>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <h1 className="text-[25px] font-outfit">{cotacao.nome_fantasia_imobiliaria}</h1>
-                            <h1 className="text-[18px] font-outfit">({cotacao.nome_oficial_imobiliaria})</h1>
+                        <div className="flex flex-col gap-1">
+                            <h1 className="text-[20px] font-outfit">Contato: {cotacao.contato_corretor}</h1>
+                            <h1 className="text-[17px] font-kanit text-end">{cotacao.data_cotacao.toLocaleDateString("pt-BR")}</h1>
                         </div>
                     </div>
                     <div>
-                        <div className="flex items-center justify-around">
+                        <div className="flex items-center justify-around pb-3">
                             <div className="flex flex-col">
                                 <h1 className="text-[40px] font-serif" text->{cotacao.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
                                 <h1 className="text-[18px] text-slate-700">REAIS (BRL - R$)</h1>

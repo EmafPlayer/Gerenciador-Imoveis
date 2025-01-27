@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 import { CompImovel } from "../components/comp_imovel";
 import { CompCotacoes } from "../components/comp_cotacoes";
+import { CompDespesas } from "../components/comp_despesas";
 
 
 export function ExibirImoveis () {
@@ -73,6 +74,8 @@ export function ExibirImoveis () {
             {stateImovel && <CompImovel/>}
 
             {stateCotacoes && <CompCotacoes/>}
+
+            {stateDespesas && <CompDespesas/>}
                 
             </body>
 
