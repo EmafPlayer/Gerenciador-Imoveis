@@ -129,39 +129,43 @@ export function CompDespesas () {
     }
 
     return (
-        <div className="w-full flex flex-col items-center justify-center pt-8">
+        <div className="w-full flex flex-col items-center justify-center pt-4">
 
-        <div className="flex items-center justify-around w-full pb-8 pt-4">
+        <div className="flex items-center justify-around w-full pb-6 pt-4">
             <h1 className="text-[35px] font-kanit">Despesas</h1>
             <div className="flex items-center gap-32 pr-28">
-                <button onClick={lastPage}><BsArrowLeftCircle className="text-[45px]"/></button>
-                <button onClick={nextPage}><BsArrowRightCircle className="text-[45px]"/></button>
+                <button onClick={lastPage}><BsArrowLeftCircle className="text-[35px]"/></button>
+                <button onClick={nextPage}><BsArrowRightCircle className="text-[35px]"/></button>
             </div>
             <div>
                 {/* onClick={() => redirectCriarImoveis(user[0])} */}<button className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
             </div>
         </div>
 
-        <div className="w-full grid grid-cols-4 gap-10 px-32">
+        <div className="w-full grid grid-cols-4 gap-x-8 gap-y-4 px-32">
             {despesas[contador].map((despesa, index) => 
-                <div className="bg-[#f0f0f0d3] h-[280px] rounded-3xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
+                <div className="bg-[#f0f0f0d3] h-[310px] rounded-3xl px-5 py-3 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
                     <div className="flex flex-col justify-between h-full">
                         <div className="">
-                            <h1 className="text-[28px] font-outfit text-center mb-6">{despesa.titulo}</h1>
+                            <h1 className="text-[28px] font-outfit text-center mb-4">{despesa.titulo}</h1>
                             <div className="mb-2">
                                 <h4 className="text-[14px] font-semibold">Tipo da Despesa:</h4>
                                 <h1>{despesa.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</h1>
                             </div>
-                            <div>
+                            <div className="mb-2">
                                 <h4 className="text-[14px] font-semibold">Tipo de Recorrência:</h4>
                                 <h1>{despesa.recorrencia == 0 ? 'Anual' : 
                                      despesa.recorrencia == 1 ? 'Mensal' : 
                                      despesa.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</h1>
                             </div>
+                            <div className="">
+                                <h1 className="text-[14px] font-semibold">Vencimento:</h1>
+                                <h1 className="">{despesa.vencimento.toLocaleDateString("pt-BR")}</h1>
+                            </div>
                         </div>
                         <div className="flex flex-col items-center">
-                            <h1 className="text-[30px] font-serif" text->{despesa.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
-                            <h1 className="text-[15px] text-slate-700">REAIS (BRL - R$)</h1>
+                            <h1 className="text-[28px] font-serif" text->{despesa.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
+                            <h1 className="text-[12px] text-slate-700">REAIS (BRL - R$)</h1>
                         </div>
                     </div>
                 </div>

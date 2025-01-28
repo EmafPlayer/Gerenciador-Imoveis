@@ -1,6 +1,6 @@
 import { MdClose } from "react-icons/md";
 
-type props = {
+type propsDetalhesImovel = {
     setModal: Function,
     data: {
         fornecimento_agua: string,
@@ -16,7 +16,7 @@ type props = {
     }
 }
 
-export function DetalhesImovel ( { setModal, data }: props)  {
+export function DetalhesImovel ( { setModal, data }: propsDetalhesImovel)  {
 
     return (
         <div className="fixed inset-0 h-screen w-full z-10 bg-gray-500 bg-opacity-75 flex items-center justify-center">
