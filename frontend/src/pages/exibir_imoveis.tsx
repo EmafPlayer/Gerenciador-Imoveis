@@ -4,6 +4,8 @@ import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 import { CompImovel } from "../components/comp_imovel";
 import { CompCotacoes } from "../components/comp_cotacoes";
+import { CompDespesas } from "../components/comp_despesas";
+import { CompAcontecimentos } from "../components/comp_acontecimentos";
 
 
 export function ExibirImoveis () {
@@ -11,7 +13,7 @@ export function ExibirImoveis () {
     const [stateImovel, setStateImovel] = useState(true);
     const [stateCotacoes, setStateCotacoes] = useState(false);
     const [stateDespesas, setStateDespesas] = useState(false);
-    const [stateImbiliarias, setStateImobiliarias] = useState(false);
+    const [stateAcontecimentos, setStateAcontecimentos] = useState(false);
 
     const imovel = [
         {
@@ -32,28 +34,28 @@ export function ExibirImoveis () {
         setStateImovel(true);
         setStateCotacoes(false);
         setStateDespesas(false);
-        setStateImobiliarias(false);
+        setStateAcontecimentos(false);
     }
 
     function botaoCotacoes () {
         setStateImovel(false);
         setStateCotacoes(true);
         setStateDespesas(false);
-        setStateImobiliarias(false);
+        setStateAcontecimentos(false);
     }
 
     function botaoDespesas () {
         setStateImovel(false);
         setStateCotacoes(false);
         setStateDespesas(true);
-        setStateImobiliarias(false);
+        setStateAcontecimentos(false);
     }
 
-    function botaoImobiliarias () {
+    function botaoAcontecimentos () {
         setStateImovel(false);
         setStateCotacoes(false);
         setStateDespesas(false);
-        setStateImobiliarias(true);
+        setStateAcontecimentos(true);
     }
     
     let user = location.state.user;
@@ -66,13 +68,17 @@ export function ExibirImoveis () {
             <ul className="flex items-center justify-around pt-10">
                 <li><button onClick={() => botaoImovel()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateImovel ? 'border-b-[#FF5500]' : '' )}>Imóveis</button></li>
                 <li><button onClick={() => botaoCotacoes()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateCotacoes ? 'border-b-[#FF5500]' : '' )}>Cotações</button></li>
-                <li><button onClick={() => botaoDespesas()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateDespesas ? 'border-b-[#FF5500]' : '' )}>Despesas</button></li>
-                <li><button onClick={() => botaoImobiliarias()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateImbiliarias ? 'border-b-[#FF5500]' : '' )}>Imobiliárias</button></li>
+                <li><button onClick={() => botaoDespesas()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateDespesas ? 'border-b-[#FF5500]' : '' )}>Receitas e Despesas</button></li>
+                <li><button onClick={() => botaoAcontecimentos()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateAcontecimentos ? 'border-b-[#FF5500]' : '' )}>Acontecimentos</button></li>
             </ul>
 
             {stateImovel && <CompImovel/>}
 
             {stateCotacoes && <CompCotacoes/>}
+
+            {stateDespesas && <CompDespesas/>}
+
+            {stateAcontecimentos && <CompAcontecimentos/>}
                 
             </body>
 

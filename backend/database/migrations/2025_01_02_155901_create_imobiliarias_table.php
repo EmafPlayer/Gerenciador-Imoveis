@@ -16,12 +16,14 @@ return new class extends Migration
             $table->string('nome_fantasia', 50);
             $table->string('nome_oficial', 50);
             $table->foreignId('id_endereco');
+            $table->foreignId('id_localizacao');
             $table->string('email', 50)->nullable();
             $table->string('site', 100)->nullable();
             $table->string('contato', 20)->nullable();
             $table->timestamps();
 
             $table->foreign('id_endereco')->references('id')->on('enderecos');
+            $table->foreign('id_localizacao')->references('id')->on('localizacoes');
         });
     }
 
