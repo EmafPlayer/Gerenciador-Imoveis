@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        montserrat: ["Montserrat","serif"],
         kanit: ["Kanit", "serif"],
         outfit: ["Outfit", "serif"],
       },

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CompImovel } from "../components/comp_imovel";
 import { CompCotacoes } from "../components/comp_cotacoes";
 import { CompDespesas } from "../components/comp_despesas";
+import { CompAcontecimentos } from "../components/comp_acontecimentos";
 
 
 export function ExibirImoveis () {
@@ -67,7 +68,7 @@ export function ExibirImoveis () {
             <ul className="flex items-center justify-around pt-10">
                 <li><button onClick={() => botaoImovel()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateImovel ? 'border-b-[#FF5500]' : '' )}>Imóveis</button></li>
                 <li><button onClick={() => botaoCotacoes()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateCotacoes ? 'border-b-[#FF5500]' : '' )}>Cotações</button></li>
-                <li><button onClick={() => botaoDespesas()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateDespesas ? 'border-b-[#FF5500]' : '' )}>Despesas</button></li>
+                <li><button onClick={() => botaoDespesas()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateDespesas ? 'border-b-[#FF5500]' : '' )}>Receitas e Despesas</button></li>
                 <li><button onClick={() => botaoAcontecimentos()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateAcontecimentos ? 'border-b-[#FF5500]' : '' )}>Acontecimentos</button></li>
             </ul>
 
@@ -76,6 +77,8 @@ export function ExibirImoveis () {
             {stateCotacoes && <CompCotacoes/>}
 
             {stateDespesas && <CompDespesas/>}
+
+            {stateAcontecimentos && <CompAcontecimentos/>}
                 
             </body>
 

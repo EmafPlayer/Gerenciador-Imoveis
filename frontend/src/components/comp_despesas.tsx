@@ -132,7 +132,7 @@ export function CompDespesas () {
         <div className="w-full flex flex-col items-center justify-center pt-4">
 
         <div className="flex items-center justify-around w-full pb-6 pt-4">
-            <h1 className="text-[35px] font-kanit">Despesas</h1>
+            <h1 className="text-[35px] font-kanit">Receitas e Despesas</h1>
             <div className="flex items-center gap-32 pr-28">
                 <button onClick={lastPage}><BsArrowLeftCircle className="text-[35px]"/></button>
                 <button onClick={nextPage}><BsArrowRightCircle className="text-[35px]"/></button>
@@ -144,23 +144,31 @@ export function CompDespesas () {
 
         <div className="w-full grid grid-cols-4 gap-x-8 gap-y-4 px-32">
             {despesas[contador].map((despesa, index) => 
-                <div className="bg-[#f0f0f0d3] h-[310px] rounded-3xl px-5 py-3 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
+                <div className="bg-[#f0f0f0d3] h-[310px] rounded-xl px-5 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
                     <div className="flex flex-col justify-between h-full">
+                        <h1 className="text-[30px] font-outfit font-medium text-center">{despesa.titulo}</h1>
                         <div className="">
-                            <h1 className="text-[28px] font-outfit text-center mb-4">{despesa.titulo}</h1>
-                            <div className="mb-2">
-                                <h4 className="text-[14px] font-semibold">Tipo da Despesa:</h4>
-                                <h1>{despesa.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</h1>
+                            <div className="flex justify-around items-center mb-5">
+                                <div className="">
+                                    <h4 className="text-[14px] font-semibold">Tipo da Despesa:</h4>
+                                    <h1>{despesa.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</h1>
+                                </div>
+                                <div className="">
+                                    <h4 className="text-[14px] font-semibold">Tipo de Recorrência:</h4>
+                                    <h1>{despesa.recorrencia == 0 ? 'Anual' : 
+                                        despesa.recorrencia == 1 ? 'Mensal' : 
+                                        despesa.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</h1>
+                                </div>
                             </div>
-                            <div className="mb-2">
-                                <h4 className="text-[14px] font-semibold">Tipo de Recorrência:</h4>
-                                <h1>{despesa.recorrencia == 0 ? 'Anual' : 
-                                     despesa.recorrencia == 1 ? 'Mensal' : 
-                                     despesa.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</h1>
-                            </div>
-                            <div className="">
-                                <h1 className="text-[14px] font-semibold">Vencimento:</h1>
-                                <h1 className="">{despesa.vencimento.toLocaleDateString("pt-BR")}</h1>
+                            <div className=" flex justify-around items-center">
+                                <div className="">
+                                    <h1 className="text-[14px] font-semibold">Vencimento:</h1>
+                                    <h1 className="">{despesa.vencimento.toLocaleDateString("pt-BR")}</h1>
+                                </div>
+                                <div>
+                                    <h1 className="text-[14px] font-semibold">Acontecimento:</h1>
+                                    <h1 className="">Reforma</h1>
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-col items-center">

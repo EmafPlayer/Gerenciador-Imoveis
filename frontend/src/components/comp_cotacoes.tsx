@@ -179,7 +179,7 @@ export function CompCotacoes () {
             
             <div className="w-full grid grid-cols-2 gap-10 px-14">
                 {cotacoes[contador].map((cotacao, index) => 
-                    <button onMouseOver={() => setEscolhida(index)}  className="bg-[#f0f0f0d3] h-[270px] rounded-3xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
+                    <button onMouseOver={() => setEscolhida(index)}  className="bg-[#f0f0f0d3] h-[270px] rounded-xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
                         <div className="w-full flex justify-between items-center">
                             <div className="flex flex-col">
                                 <div className="flex items-center gap-4">

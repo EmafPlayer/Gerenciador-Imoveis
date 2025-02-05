@@ -127,7 +127,7 @@ export function Inicio() {
                     </div>
                   </div>
                   <div className="flex flex-col items-center justify-center gap-[70px] pb-2">
-                    <h1 className="text-[22px] font-normal pr-6">R$ {casa.valor}</h1>
+                    <h1 className="text-[22px] font-normal pr-6">{casa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                     <button onClick={() => redirectExibirImoveis(user[0])} className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
                   </div>
                 </div>
