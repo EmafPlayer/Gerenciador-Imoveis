@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-import { GrAdd } from "react-icons/gr";
 import { MdOutlineEmail } from "react-icons/md";
 import { FcDepartment } from "react-icons/fc";
 import { DetalhesImobiliaria } from "./detalhes_imobiliria";
+import { AiFillPlusCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 type propsCotacao = {
     nome_corretor: string,
@@ -25,11 +26,29 @@ type propsCotacao = {
     }
 }
 
-export function CompCotacoes () {
+type TipoParametro = {
+    id_imovel: number | null;
+};
+
+export function CompCotacoes ( { id_imovel }: TipoParametro ) {
 
     const [contador, setContador] = useState(0);
     const [statusImobiliaria, setStatusImobiliaria] = useState(false);
     const [escolhida, setEscolhida] = useState(0);
+
+    const navigate = useNavigate();
+
+    const redirectCriarImobiliaria = () => {
+        navigate('/criar-imobiliaria');
+    };
+
+    const redirectCriarCotacao = () => {
+        navigate('/criar-cotacao', { state: { id_imovel } });
+    };
+
+    const redirectCriarCorretor = () => {
+        navigate('/criar-corretor');
+    };
 
     const cotacoes: propsCotacao[][] = [
         [
@@ -166,15 +185,29 @@ export function CompCotacoes () {
     return (
         <div className="w-full flex flex-col items-center justify-center pt-8">
 
-            <div className="flex items-center justify-around w-full pb-8 pt-4">
+            <div className="flex items-center justify-between w-full pb-8 pt-4 px-20">
                 <h1 className="text-[35px] font-kanit">Cotações</h1>
-                <div className="flex items-center gap-32 pr-28">
+                <div className="flex items-center gap-32 pl-[330px]">
                     <button onClick={lastPage}><BsArrowLeftCircle className="text-[45px]"/></button>
                     <button onClick={nextPage}><BsArrowRightCircle className="text-[45px]"/></button>
                 </div>
-                <div>
-                    {/* onClick={() => redirectCriarImoveis(user[0])} */}<button className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
-                </div>
+                <ul className="flex items-center gap-4">
+                    <li>
+                        <button onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                            <h1 className="font-outfit">Criar Imobiliária</h1>
+                        </button> 
+                    </li>
+                    <li>
+                        <button onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                            <h1 className="font-outfit">Criar Corretor</h1>
+                        </button> 
+                    </li>
+                    <li>
+                        <button onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                            <h1 className="font-outfit">Criar Cotação</h1>
+                        </button> 
+                    </li>
+                </ul>
             </div>
             
             <div className="w-full grid grid-cols-2 gap-10 px-14">
@@ -201,15 +234,15 @@ export function CompCotacoes () {
                         </div>
                         <div className="flex items-center justify-around pb-3 w-full">
                             <div className="flex flex-col">
-                                <h1 className="text-[40px] font-serif" text->{cotacao.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
+                                <h1 className="text-[35px] font-serif" text->{cotacao.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                                 <h1 className="text-[18px] text-slate-700">REAIS (BRL - R$)</h1>
                             </div>
                             <div className="flex flex-col">
-                                <h1 className="text-[40px] font-serif" text->{cotacao.valor_min.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
+                                <h1 className="text-[35px] font-serif" text->{cotacao.valor_min.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                                 <h1 className="text-[18px] text-slate-700">Valor (min)</h1>
                             </div>
                             <div className="flex flex-col">
-                                <h1 className="text-[40px] font-serif" text->{cotacao.valor_max.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
+                                <h1 className="text-[35px] font-serif" text->{cotacao.valor_max.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                                 <h1 className="text-[18px] text-slate-700">Valor (max)</h1>
                             </div>
                         </div>

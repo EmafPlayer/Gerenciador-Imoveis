@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('enderecos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_localizacao');
             $table->string('rua', 100);
             $table->integer('numero');
             $table->string('bairro', 50);
@@ -21,6 +22,8 @@ return new class extends Migration
             $table->string('complemento', 50)->nullable();
             $table->string('cep', 10);
             $table->timestamps();
+
+            $table->foreign('id_localizacao')->references('id')->on('localizacoes');
         });
     }
 

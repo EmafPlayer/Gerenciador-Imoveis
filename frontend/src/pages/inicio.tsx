@@ -2,12 +2,14 @@ import { useState } from "react";
 import { NavBar } from "../components/nav_bar";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { IoChevronForwardCircleOutline } from "react-icons/io5";
-import { AiOutlineHome } from "react-icons/ai";
 import { GrAdd } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 
-
+type userProps = {
+  nome: string,
+  foto: string,
+}
 
 export function Inicio() {
 
@@ -21,12 +23,13 @@ export function Inicio() {
     googleMapsApiKey: 'AIzaSyCBRfZswUbwtx24MDvyRAKZGVHF3XJweME',
   })
 
-  const user = [
-    {
-      "nome": "Emanuel",
-      "foto": "Emanu.jpg"
-    }
-  ];
+  localStorage.setItem("nome_usuario", "Emanuel");
+  localStorage.setItem("foto_usuario", "Emanu.jpg");
+
+  const user: userProps = {
+    nome: localStorage.getItem("nome_usuario") ?? "",
+    foto: localStorage.getItem("foto_usuario") ?? ""
+  };
 
 
   const casas = [
@@ -75,12 +78,12 @@ export function Inicio() {
 
   const navigate = useNavigate();
 
-  const redirectCriarImoveis = (user: any) => {
-    navigate('/criar-imoveis', { state: { user } });
+  const redirectCriarImoveis = () => {
+    navigate('/criar-imoveis');
   };
 
-  const redirectExibirImoveis = (user: any) => {
-    navigate(`/exibir-imoveis/${id_imovel}`, { state: { user } });
+  const redirectExibirImoveis = () => {
+    navigate(`/exibir-imoveis/${id_imovel}`);
   };
 
   function nextPage () {
@@ -99,7 +102,7 @@ export function Inicio() {
 
   return (
     <div className="h-screen w-full">
-      <NavBar user={user[0]}>
+      <NavBar user={user}>
       </NavBar>
       <body className="h-full w-full pl-16 pt-[95px]">
         <div className="bg-[#FFFFFF]"></div>
@@ -112,7 +115,7 @@ export function Inicio() {
                 <button onClick={nextPage}><BsArrowRightCircle className="text-[30px]"/></button>
               </div>
               <div>
-                <button onClick={() => redirectCriarImoveis(user[0])} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
+                <button onClick={() => redirectCriarImoveis()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
               </div>
             </div>
             <div className="grid grid-rows-3 gap-5 w-full">
@@ -128,7 +131,7 @@ export function Inicio() {
                   </div>
                   <div className="flex flex-col items-center justify-center gap-[70px] pb-2">
                     <h1 className="text-[22px] font-normal pr-6">{casa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                    <button onClick={() => redirectExibirImoveis(user[0])} className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
+                    <button onClick={() => redirectExibirImoveis()} className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
                   </div>
                 </div>
               </button>

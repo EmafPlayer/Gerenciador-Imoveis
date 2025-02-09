@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 50);
             $table->foreignId('id_endereco');
-            $table->foreignId('id_localizacao');
             $table->string('descricao', 255);
             $table->boolean('anunciado');
             $table->string('fornecimento_agua', 30);
@@ -31,7 +30,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_endereco')->references('id')->on('enderecos');
-            $table->foreign('id_localizacao')->references('id')->on('localizacoes');
         });
     }
 

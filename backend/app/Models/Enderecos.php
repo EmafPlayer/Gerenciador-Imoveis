@@ -16,5 +16,6 @@ class Enderecos extends Model
         'cidade',
         'estado',
         'complemento',
+        'id_localizacao',
     ];
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_imovel');
             $table->foreignId('titulo');
+            $table->boolean('receita_despesa');
             $table->double('valor');
             $table->string('descricao', 255);
             $table->foreignId('tipo_despesa');

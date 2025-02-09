@@ -25,7 +25,11 @@ type propsImovel = {
     longitude: number;
 }
 
-export function CompImovel ( ) {
+type TipoParametro = {
+    id_imovel: number | null;
+};
+
+export function CompImovel ( { id_imovel }: TipoParametro ) {
 
     const [detalhes, setDetalhes] = useState(false);
 

@@ -7,29 +7,27 @@ import { CompCotacoes } from "../components/comp_cotacoes";
 import { CompDespesas } from "../components/comp_despesas";
 import { CompAcontecimentos } from "../components/comp_acontecimentos";
 
+type TipoParametro = {
+    id_imovel: number | null;
+};
 
-export function ExibirImoveis () {
+type userProps = {
+    nome: string,
+    foto: string,
+}
+
+export function ExibirImoveis ( { id_imovel }: TipoParametro ) {
     
     const [stateImovel, setStateImovel] = useState(true);
     const [stateCotacoes, setStateCotacoes] = useState(false);
     const [stateDespesas, setStateDespesas] = useState(false);
     const [stateAcontecimentos, setStateAcontecimentos] = useState(false);
 
-    const imovel = [
-        {
-            id: 1,
-            nome: "Casa de Tiago",
-            endereco: "Av. Beberibe, Porto da madeira, 3530",
-            foto: "Casa1.jpg",
-            latitude: -8.00285832655661,
-            longitude: -34.90021374951911,
-            valor: 300000.00,
-            descricao: "Este incrível apartamento de 3 quartos, localizado no coração da cidade, combina conforto, praticidade e estilo. Com 120m² de área privativa, o imóvel oferece uma ampla sala de estar integrada com varanda, perfeita para momentos de lazer e convívio. ",
-        }
-    ];
+    const user: userProps = {
+        nome: localStorage.getItem("nome_usuario") ?? "",
+        foto: localStorage.getItem("foto_usuario") ?? ""
+    };
 
-    const location = useLocation();
-    
     function botaoImovel () {
         setStateImovel(true);
         setStateCotacoes(false);
@@ -57,8 +55,6 @@ export function ExibirImoveis () {
         setStateDespesas(false);
         setStateAcontecimentos(true);
     }
-    
-    let user = location.state.user;
 
     return (
         <div className="h-screen w-full">
@@ -72,13 +68,13 @@ export function ExibirImoveis () {
                 <li><button onClick={() => botaoAcontecimentos()} className={twMerge('hover:border hover:border-b-4 px-40 py-2 border border-b-4', stateAcontecimentos ? 'border-b-[#FF5500]' : '' )}>Acontecimentos</button></li>
             </ul>
 
-            {stateImovel && <CompImovel/>}
+            {stateImovel && <CompImovel id_imovel={id_imovel}/>}
 
-            {stateCotacoes && <CompCotacoes/>}
+            {stateCotacoes && <CompCotacoes id_imovel={id_imovel}/>}
 
-            {stateDespesas && <CompDespesas/>}
+            {stateDespesas && <CompDespesas id_imovel={id_imovel}/>}
 
-            {stateAcontecimentos && <CompAcontecimentos/>}
+            {stateAcontecimentos && <CompAcontecimentos id_imovel={id_imovel}/>}
                 
             </body>
 
