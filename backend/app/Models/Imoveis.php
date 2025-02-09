@@ -11,7 +11,6 @@ class Imoveis extends Model
     protected $fillable = [
         'nome',
         'id_endereco',
-        'id_localizacao',
         'descricao',
         'anunciado',
         'fornecimento_agua',

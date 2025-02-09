@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-import { GrAdd } from "react-icons/gr";
 import { DataEstilizada } from "./data_estilizada";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/pt-br';
+import { AiFillPlusCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 dayjs.extend(relativeTime);
 dayjs.locale('pt-br')
@@ -18,10 +19,19 @@ type propsAcontecimento = {
     status_acontecimento: 0 | 1 | 2,
 }
 
+type TipoParametro = {
+    id_imovel: number | null;
+};
 
-export function CompAcontecimentos ( ) {
+export function CompAcontecimentos ( { id_imovel }: TipoParametro ) {
 
     const [contador, setContador] = useState(0);
+
+    const navigate = useNavigate();
+
+    const redirectCriarAcontecimento = () => {
+        navigate('/criar-acontecimento', { state: { id_imovel } });
+    };
     
     const acontecimentos: propsAcontecimento[][] = [
         [
@@ -99,14 +109,16 @@ export function CompAcontecimentos ( ) {
     return (
         <div className="w-full flex flex-col items-center justify-center pt-8">
 
-            <div className="flex items-center justify-around w-full pb-8 pt-4">
+            <div className="flex items-center justify-between w-full pb-8 pt-4 px-20">
                 <h1 className="text-[35px] font-kanit">Acontecimentos</h1>
-                <div className="flex items-center gap-32 pr-56">
+                <div className="flex items-center gap-32 pr-20">
                     <button onClick={lastPage}><BsArrowLeftCircle className="text-[45px]"/></button> 
                     <button onClick={nextPage}><BsArrowRightCircle className="text-[45px]"/></button>
                 </div>
                 <div>
-                    {/* onClick={() => redirectCriarImoveis(user[0])} */}<button className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
+                <button onClick={() => redirectCriarAcontecimento()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                        <h1 className="font-outfit font-semibold">Criar Acontecimento</h1>
+                    </button> 
                 </div>
             </div>
 

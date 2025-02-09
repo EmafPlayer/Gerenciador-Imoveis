@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { AiFillPlusCircle } from "react-icons/ai";
 import { BsArrowLeftCircle, BsArrowRightCircle, BsCaretDownFill, BsCaretUpFill } from "react-icons/bs"
-import { GrAdd } from "react-icons/gr"
+import { useNavigate } from "react-router-dom";
 
 type propsDespesa = {
     titulo: string,
@@ -12,12 +13,22 @@ type propsDespesa = {
     vencimento: Date,
 }
 
-export function CompDespesas () {
+type TipoParametro = {
+    id_imovel: number | null;
+};
+
+export function CompDespesas ( { id_imovel }: TipoParametro ) {
 
     const [contador_receitas, setContador_receitas] = useState(0);
     const [contador_despesas, setContador_despesas] = useState(0);
     const [ativacao, setAtivacao] = useState(false);
     const [valorBotao, setValorBotao] = useState(0)
+
+    const navigate = useNavigate();
+
+    const redirectCriarCotacao = () => {
+        navigate('/criar-receita_despesa', { state: { id_imovel } });
+    };
 
     const receitas: propsDespesa[][] = [
         [
@@ -192,19 +203,11 @@ export function CompDespesas () {
                 </div>
             }
             <div>
-                {/* onClick={() => redirectCriarImoveis(user[0])} */}<button className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
+                <button onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                    <h1 className="font-outfit font-semibold">Criar Receita ou Despesa</h1>
+                </button> 
             </div>
         </div>
-
-        {/* 
-            titulo: "Copa",
-            descricao: "Compra de café e lanches",
-            valor: 150.0,
-            tipo_despesa: 1,
-            recorrencia: 1,
-            receitas_despesas: 1, //Despesas
-            vencimento: new Date("2025-02-16"), 
-        */}
 
         {valorBotao == 0 ? 
         <div className="w-full px-36">

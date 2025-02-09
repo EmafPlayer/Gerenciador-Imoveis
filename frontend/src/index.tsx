@@ -1,9 +1,19 @@
+import { AcessarImovel } from "./pages/acessar_imovel";
+import { CriarAcontecimento } from "./pages/criar_acontecimento";
+import { CriarCorretor } from "./pages/criar_corretor";
+import { CriarCotacao } from "./pages/criar_cotacao";
+import { CriarImobiliaria } from "./pages/criar_imobiliaria";
 import { CriarImoveis } from "./pages/criar_imoveis";
-import { ExibirImoveis } from "./pages/exibir_imoveis";
+import { CriarReceitaDespesa } from "./pages/criar_receita_despesa";
 import { Inicio } from "./pages/inicio";
 
 export const Pages = {
   Inicio,
   CriarImoveis,
-  ExibirImoveis,
+  AcessarImovel,
+  CriarImobiliaria,
+  CriarCotacao,
+  CriarCorretor,
+  CriarReceitaDespesa,
+  CriarAcontecimento
 };

@@ -15,5 +15,6 @@ class Despesas extends Model
         'tipo_despesa',
         'tipo_recorrencia',
         'vencimento',
+        'receita_despesa',
     ];
 }
