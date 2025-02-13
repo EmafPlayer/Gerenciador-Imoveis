@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enderecos;
-use App\Models\HistoricoStatusImoveis;
-use App\Models\Imoveis;
+use App\Models\Imobiliarias;
 use App\Models\Localizacoes;
+
 use Illuminate\Http\Request;
 
-class ImoveisController extends Controller
+class ImobiliariaControllers extends Controller
 {
     /**
      * Show the form for creating a new resource.
@@ -17,7 +17,11 @@ class ImoveisController extends Controller
     {
 
         $request->validate([
-            'nome_imovel' => 'required|string',
+            'nome_fantasia' => 'required|string',
+            'nome_oficial' => 'required|string',
+            'email' => 'required|string',
+            'site' => 'required|string',
+            'contato' => 'required|string',
             'rua' => 'required|string',
             'bairro' => 'required|string',
             'numero' => 'required|numeric',
@@ -26,21 +30,8 @@ class ImoveisController extends Controller
             'estado' => 'required|string',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'fornecimento_agua' => 'required|string',
-            'fornecimento_luz' => 'required|string',
-            'cadastro_iptu' => 'required|string',
-            'matricula' => 'required|string',
-            'cartorio_registro' => 'required|string',
-            'area' => 'required|numeric',
-            'area_testada' => 'required|numeric',
-            'fracao_ideal' => 'required|numeric',
-            'area_total' => 'required|numeric',
-            'area_construida' => 'required|numeric',
-            'tipo_status' => 'required|numeric',
-            'descricao' => 'required|string',
         ]);
 
-        
         Localizacoes::create([
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
@@ -63,33 +54,16 @@ class ImoveisController extends Controller
         $id_endereco = Enderecos::select('id')->orderBy('id', 'desc')->first();
         $id_endereco = $id_endereco->id;
 
-        Imoveis::create([
-            'nome' => $request->nome_imovel,
+        Imobiliarias::create([
+            'nome_fantasia' => $request->nome_fantasia,
+            'nome_oficial' => $request->nome_oficial,
             'id_endereco' => $id_endereco,
-            'anunciado' => true,
-            'fornecimento_agua' => $request->fornecimento_agua,
-            'fornecimento_luz' => $request->fornecimento_luz,
-            'cadastro_iptu' => $request->cadastro_iptu,
-            'matricula' => $request->matricula,
-            'cartorio_registro' => $request->cartorio_registro,
-            'area' => $request->area,
-            'area_testada' => $request->area_testada,
-            'fracao_ideal' => $request->fracao_ideal,
-            'area_total' => $request->area_total,
-            'area_construida' => $request->area_construida,
-            'descricao' => $request->descricao,
+            'email' => $request->email,
+            'site' => $request->site,
+            'contato' => $request->contato,
         ]);
 
-        $id_imovel = Imoveis::select('id')->orderBy('id', 'desc')->first();
-        $id_imovel = $id_imovel->id;
-
-        HistoricoStatusImoveis::create([
-            'id_imovel' => $id_imovel,
-            'ultima_alteracao' => now(),
-            'tipo_status' => $request->tipo_status,
-        ]);
-
-        return response()->json(['message' => 'Imóvel criado com sucesso'], 200);
+        return response()->json(['message' => 'Imobiliária criado com sucesso'], 200);
     }
 
     /**
@@ -97,7 +71,12 @@ class ImoveisController extends Controller
      */
     public function show()
     {  
+        $imobiliarias = Imobiliarias::select('nome_oficial')->orderBy('id','asc')->get()->toArray();
 
+        if (count($imobiliarias) == 0)
+            return response()->json(['message' => 'Ainda não possui imobiliarias cadastradas no banco de dados'], 404);
+
+        return response()->json(['message' => 'Imobiliárias buscados com sucesso', 'imobiliarias' => $imobiliarias], 200);
     }
     
 

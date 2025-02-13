@@ -24,43 +24,42 @@ export function CriarImobiliaria () {
 
     const submit = async (data: any) => 
     {
-        // try {
-            // const params = new URLSearchParams({
-            //     id_imovel: id_imovel,
-            //     nome_fantasia: data.nome_fantasia,
-            //     nome_oficial: data.nome_oficial,       
-            //     email: data.email,
-            //     site: data.site,
-            //     contato: data.contato,
-            //     rua: data.rua,
-            //     bairro: data.bairro,
-            //     numero: data.numero,
-            //     cep: data.cep,
-            //     cidade: data.cidade,
-            //     estado: data.estado,
-            //     complemento: data.complemento,
-            //     latitude: data.latitude,
-            //     longitude: data.longitude,
-            // }).toString();
+        try {
+            const params = new URLSearchParams({
+                nome_fantasia: data.nome_fantasia,
+                nome_oficial: data.nome_oficial,       
+                email: data.email,
+                site: data.site,
+                contato: data.contato,
+                rua: data.rua,
+                bairro: data.bairro,
+                numero: data.numero,
+                cep: data.cep,
+                cidade: data.cidade,
+                estado: data.estado,
+                complemento: data.complemento,
+                latitude: data.latitude,
+                longitude: data.longitude,
+            }).toString();
     
-        //     const response = await api.get(`/v1/inicio/criacao-imoveis?${params}`);
+            const response = await api.get(`/v1/inicio/criacao-imobiliaria?${params}`);
             
-        //     console.log(response.data.message);
+            console.log(response.data.message);
 
-        //     setCriacao(true);
-        //     setMensagem(response.data.message);
+            setCriacao(true);
+            setMensagem(response.data.message);
             
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
-        <div className="h-screen w-full">
+        <div className="h-full w-full">
             <NavBar user={user}>
             </NavBar>
             <main className="w-full h-full pt-[115px] bg-[#FFFFFF] p-6">
-                <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5">
+                <form onSubmit={handleSubmit(submit)} className={twMerge('bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5', criacao ? 'mb-6' : '')}>
                     
                     <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[2rem] font-medium text-[36px] uppercase')} >Cadastro de Imobiliária</h1>
 
@@ -138,7 +137,7 @@ export function CriarImobiliaria () {
                         </div>
                         <div className="col-span-2">
                             <label htmlFor="complemento" className="text-[18px] text-slate-700 font-outfit">Complemento</label>
-                            <input {...register('complemento')} type="text" name="complemento" id="complemento" required
+                            <input {...register('complemento')} type="text" name="complemento" id="complemento"
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Bloco 1, Apto 2"/>
                         </div>
 

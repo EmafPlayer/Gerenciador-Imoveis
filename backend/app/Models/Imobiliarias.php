@@ -12,7 +12,6 @@ class Imobiliarias extends Model
         'nome_fantasia',
         'nome_oficial',
         'id_endereco',
-        'id_localizacao',
         'email',
         'site',
         'contato',

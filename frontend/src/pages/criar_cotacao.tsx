@@ -12,6 +12,10 @@ type userProps = {
 
 export function CriarCotacao () {
 
+    // data-toggle="tooltip"
+    // data-placement="top"
+    // title={option.label} o que aparece ao passar o mouse sobre o elemento
+
     const[criacao, setCriacao] = useState(false);
     const[mensagem, setMensagem] = useState("");
     const[status_tipo, setStatus_tipo] = useState(0);
@@ -98,9 +102,15 @@ export function CriarCotacao () {
                             <input {...register('descricao')} type="text" name="descricao" id="descricao" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
                         </div>
+
+                        <div className="col-span-1 sm:col-span-5 mt-6">
+                            <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Site de anuncio</label>
+                            <input {...register('descricao')} type="text" name="descricao" id="descricao" required
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-32 mt-14">
+                    <div className="flex items-center gap-32 mt-12">
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo da cotação</h4>
                             <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} {...register('tipo_cotacao')} value={status_tipo} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
@@ -130,7 +140,7 @@ export function CriarCotacao () {
                         </div>
                     </div>
 
-                    <div className="text-center sm:text-right mt-24">
+                    <div className="text-center sm:text-right mt-16">
                         <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                     </div>
                     <div className="text-center sm:text-right pr-2">
