@@ -1,20 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { NavBar } from "../components/nav_bar";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
+import { api } from "../apis/api";
+import buscarCorretores from "../apis/buscar_corretores";
 
 type userProps = {
     nome: string,
     foto: string,
 }
 
+type returnImobiliaria = {
+    nome_corretor: string,
+    nome_imobiliaria: string,
+}
+
 export function CriarCotacao () {
 
-    // data-toggle="tooltip"
-    // data-placement="top"
-    // title={option.label} o que aparece ao passar o mouse sobre o elemento
 
     const[criacao, setCriacao] = useState(false);
     const[mensagem, setMensagem] = useState("");
@@ -22,9 +26,9 @@ export function CriarCotacao () {
     const[ativacao_tipo, setAtivacao_tipo] = useState(false);
     const[status_corretor, setStatus_corretor] = useState(0);
     const[ativacao_corretor, setAtivacao_corretor] = useState(false);
+    const[corretores, setCorretores] = useState<returnImobiliaria[]>([])
 
     const tipo_cotacao = ["Aluguel", "Venda"];
-    const corretores = ["Emanuel", "João", "Daniel"];
 
     const { register, handleSubmit } = useForm();
 
@@ -36,30 +40,48 @@ export function CriarCotacao () {
         foto: localStorage.getItem("foto_usuario") ?? ""
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const dataCorretores = await buscarCorretores();
+
+            console.log(dataCorretores?.corretores_imobiliarias);
+
+            if (dataCorretores?.corretores_imobiliarias) {
+                setCorretores(dataCorretores.corretores_imobiliarias);
+            } else {
+                console.warn("Tabela não encontrada ou dados inválidos:");
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const submit = async (data: any) => 
     {
-        // try {
-            // const params = new URLSearchParams({
-            //     id_imovel: id_imovel,
-            //     valor: data.valor,
-            //     valor_min: data.valor_min,
-            //     valor_max: data.valor_max,
-            //     data_cotacao: data.data_cotacao,
-            //     descricao: data.descricao,
-            //     tipo_cotacao: data.tipo_cotacao + 1,
-            //     id_corretor: data.id_corretor
-            // }).toString();
-    
-        //     const response = await api.get(`/v1/inicio/criacao-imoveis?${params}`);
-            
-        //     console.log(response.data.message);
+        try {
+            const params = new URLSearchParams({
+                id_imovel: id_imovel,
+                id_corretor: data.id_corretor,
+                valor: data.valor,
+                valor_min: data.valor_min,
+                valor_max: data.valor_max,
+                data_cotacao: data.data_cotacao,
+                descricao: data.descricao,
+                tipo_cotacao: data.tipo_cotacao,
+                url_anuncio: data.url_anuncio
 
-        //     setCriacao(true);
-        //     setMensagem(response.data.message);
+            }).toString();
+    
+            const response = await api.get(`/v1/inicio/criacao-cotacao?${params}`);
             
-        // } catch (error) {
-        //     console.error(error);
-        // }
+            console.log(response.data.message);
+
+            setCriacao(true);
+            setMensagem(response.data.message);
+            
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -104,8 +126,8 @@ export function CriarCotacao () {
                         </div>
 
                         <div className="col-span-1 sm:col-span-5 mt-6">
-                            <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Site de anuncio</label>
-                            <input {...register('descricao')} type="text" name="descricao" id="descricao" required
+                            <label htmlFor="url_anuncio" className="text-[18px] text-slate-700 font-outfit">Site de anúncio</label>
+                            <input {...register('url_anuncio')} type="text" name="url_anuncio" id="url_anuncio"
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
                         </div>
                     </div>
@@ -113,7 +135,7 @@ export function CriarCotacao () {
                     <div className="flex items-center gap-32 mt-12">
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo da cotação</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} {...register('tipo_cotacao')} value={status_tipo} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} {...register('tipo_cotacao')} value={status_tipo + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo_cotacao[status_tipo]}</h6>
                                 {ativacao_tipo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -125,16 +147,17 @@ export function CriarCotacao () {
                                 </ul>}
                         </div>
 
+
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Corretores</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} {...register('id_corretor')} value={status_corretor} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
-                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores[status_corretor]}</h6>
+                            <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? corretores[status_corretor].nome_imobiliaria : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} {...register('id_corretor')} value={status_corretor + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? corretores[status_corretor].nome_corretor : ""}</h6>
                                 {ativacao_corretor ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao_corretor &&
                                 <ul className="absolute translate-y-[6px]">
-                                    {corretores.map((corretor, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{corretor}</button></li>
+                                    {corretores.length != 0 && corretores.map((corretor, index) => 
+                                        <li data-toggle="tooltip" data-placement="top" title={corretor.nome_imobiliaria}><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{corretor.nome_corretor}</button></li>
                                     )}
                                 </ul>}
                         </div>

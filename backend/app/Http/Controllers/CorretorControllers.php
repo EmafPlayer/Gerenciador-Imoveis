@@ -42,7 +42,7 @@ class CorretorControllers extends Controller
         if (count($corretores_imobiliarias) == 0)
             return response()->json(['message' => 'Ainda não possui corretores cadastradas no banco de dados'], 404);
 
-        return response()->json(['message' => 'Corretores buscados com sucesso', 'corretores' => $corretores_imobiliarias], 200);
+        return response()->json(['message' => 'Corretores buscados com sucesso', 'corretores_imobiliarias' => $corretores_imobiliarias], 200);
     }
     
 
