@@ -12,7 +12,7 @@ type propsDetalhesImovel = {
         area_testada: number,
         fracao_ideal: number,
         area_total: number,
-        area_construida: number 
+        area_construida: number,
     }
 }
 

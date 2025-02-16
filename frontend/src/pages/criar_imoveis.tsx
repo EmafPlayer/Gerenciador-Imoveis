@@ -28,7 +28,7 @@ export function CriarImoveis () {
     const user: userProps = {
         nome: localStorage.getItem("nome_usuario") ?? "",
         foto: localStorage.getItem("foto_usuario") ?? ""
-      };
+    };
 
     const submit = async (data: any) => 
     {
@@ -54,7 +54,7 @@ export function CriarImoveis () {
                 fracao_ideal: data.fracao_ideal,
                 area_total: data.area_total,
                 area_construida: data.area_construida,
-                tipo_status: data.tipo_status + 1,
+                tipo_status: String(status_botao + 1),
                 descricao: data.descricao
             }).toString();
     
@@ -86,7 +86,7 @@ export function CriarImoveis () {
                         </div>
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do imóvel</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} {...register('tipo_status')} value={status_botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{status_imoveis[status_botao]}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>

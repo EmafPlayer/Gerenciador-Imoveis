@@ -68,6 +68,19 @@ class DespesaControllers extends Controller
 
         return response()->json(['message' => 'Titulos buscados com sucesso', 'titulos' => $titulos], 200);
     }
+
+    public function criarTitulos(Request $request)
+    {
+        $request->validate([
+            "descricao" => 'required|string',
+        ]);
+
+        TitulosDepesas::create ([
+            "descricao" => $request->descricao
+        ]);
+
+        return response()->json(['message' => 'Título criado com sucesso'], 200);
+    }
     
 
     /**

@@ -38,7 +38,7 @@ export function CriarAcontecimento () {
             const params = new URLSearchParams({
                 id_imovel: id_imovel,
                 titulo: data.titulo,
-                status_acontecimento: data.status_acontecimento,
+                status_acontecimento: String(status_acontecimento + 1),
                 descricao: data.descricao,
             }).toString();
     
@@ -71,7 +71,7 @@ export function CriarAcontecimento () {
                         </div>
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do Acontecimento</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} {...register('status_acontecimento')} value={status_acontecimento+1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_acontecimento + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{status_acontecimentos[status_acontecimento]}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>

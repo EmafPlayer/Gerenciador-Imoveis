@@ -61,13 +61,13 @@ export function CriarCotacao () {
         try {
             const params = new URLSearchParams({
                 id_imovel: id_imovel,
-                id_corretor: data.id_corretor,
+                id_corretor: String(status_corretor + 1),
                 valor: data.valor,
                 valor_min: data.valor_min,
                 valor_max: data.valor_max,
                 data_cotacao: data.data_cotacao,
                 descricao: data.descricao,
-                tipo_cotacao: data.tipo_cotacao,
+                tipo_cotacao: String(status_tipo + 1),
                 url_anuncio: data.url_anuncio
 
             }).toString();
@@ -135,7 +135,7 @@ export function CriarCotacao () {
                     <div className="flex items-center gap-32 mt-12">
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo da cotação</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} {...register('tipo_cotacao')} value={status_tipo + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} value={status_tipo + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo_cotacao[status_tipo]}</h6>
                                 {ativacao_tipo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -150,8 +150,8 @@ export function CriarCotacao () {
 
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Corretores</h4>
-                            <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? corretores[status_corretor].nome_imobiliaria : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} {...register('id_corretor')} value={status_corretor + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
-                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? corretores[status_corretor].nome_corretor : ""}</h6>
+                            <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? corretores[status_corretor].nome_imobiliaria : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} value={status_corretor + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? corretores[status_corretor].nome_corretor : "Ainda não foi criado"}</h6>
                                 {ativacao_corretor ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao_corretor &&

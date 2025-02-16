@@ -23,6 +23,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/criacao-cotacao', [CotacaoControllers::class, 'create']);
         Route::get('/criacao-acontecimento', [AcontecimentoControllers::class, 'create']);
         Route::get('/criacao-despesa', [DespesaControllers::class, 'create']);
+        Route::get('/criacao-titulo', [DespesaControllers::class, 'criarTitulos']);
         Route::get('/ver-imobiliarias', [ImobiliariaControllers::class, 'show']);
         Route::get('/ver-corretores', [CorretorControllers::class, 'show']);
         Route::get('/ver-titulos', [DespesaControllers::class, 'verTitulos']);

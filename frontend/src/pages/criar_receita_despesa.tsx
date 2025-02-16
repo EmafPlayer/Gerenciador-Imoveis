@@ -7,6 +7,8 @@ import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import buscarTitulos from "../apis/buscar_titulos";
 import buscarAcontecimentos from "../apis/buscar_acontecimentos";
 import { api } from "../apis/api";
+import { GrAdd } from "react-icons/gr";
+import { CriarTitulo } from "../components/criar_titulo";
 
 type userProps = {
     nome: string,
@@ -24,6 +26,8 @@ type acontecimentosProps = {
 export function CriarReceitaDespesa () {
 
     const { register, handleSubmit } = useForm();
+
+    const[modal, setModal] = useState(false);
     
     const[criacao, setCriacao] = useState(false);
     const[mensagem, setMensagem] = useState("");
@@ -63,9 +67,16 @@ export function CriarReceitaDespesa () {
             console.log(dataTitulos?.titulos);
             console.log(dataAcontecimentos?.acontecimentos);
 
-            if(dataTitulos?.titulos && dataAcontecimentos?.acontecimentos){
+            setAcontecimentos([{ titulo: "Não possui vínculo a acontecimentos" }, ...(dataAcontecimentos?.acontecimentos || []) ]);
+
+            if(dataAcontecimentos?.acontecimentos){
+                setAcontecimentos([...(dataAcontecimentos?.acontecimentos || []) ]);
+            } else {
+                console.warn("Tabela não encontrada ou dados inválidos:");
+            }
+
+            if(dataTitulos?.titulos){
                 setTitulos_despesa(dataTitulos?.titulos);
-                setAcontecimentos([{ titulo: "Não possui vínculo a acontecimentos" }, ...(dataAcontecimentos?.acontecimentos || []) ]);
             } else {
                 console.warn("Tabela não encontrada ou dados inválidos:");
             }
@@ -75,33 +86,33 @@ export function CriarReceitaDespesa () {
     }, []);
 
     const submit = async (data: any) => 
-        {
-            try {
-                const params = new URLSearchParams({
-                    id_imovel: id_imovel,
-                    titulo: String(titulo_despesa + 1),
-                    receita_despesa: data.receita_despesa,
-                    valor: data.valor,
-                    descricao: data.descricao,
-                    tipo_despesa: data.tipo_despesa,
-                    tipo_recorrencia: data.tipo_recorrencia,
-                    vencimento: data.vencimento,
-                    id_acontecimento: data.id_acontecimento,
-                }).toString();
-
-                console.log(data.id_acontecimento);
-        
-                const response = await api.get(`/v1/inicio/criacao-despesa?${params}`);
-                
-                console.log(response.data.message);
+    {
+        try {
+            const params = new URLSearchParams({
+                id_imovel: id_imovel,
+                titulo: String(titulo_despesa + 1),
+                receita_despesa: String(receita_despesa),
+                valor: data.valor,
+                descricao: data.descricao,
+                tipo_despesa: String(tipo_despesa + 1),
+                tipo_recorrencia: String(tipo_recorrencia + 1),
+                vencimento: data.vencimento,
+                id_acontecimento: String(acontecer),
+            }).toString();
     
-                setCriacao(true);
-                setMensagem(response.data.message);
-                
-            } catch (error) {
-                console.error(error);
-            }
+            const response = await api.get(`/v1/inicio/criacao-despesa?${params}`);
+            
+            console.log(response.data.message);
+
+            setCriacao(true);
+            setMensagem(response.data.message);
+            
+        } catch (error) {
+            console.error(error);
         }
+    }
+
+        console.log(titulos_despesa);
 
     return (
         <div className="h-screen w-full">
@@ -114,23 +125,29 @@ export function CriarReceitaDespesa () {
 
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-6 mt-6">
                         
-                        <div className="col-span-3 mb-3">
-                            <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Títulos das Receitas e Despesas</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_titulo(!status_titulo)}} {...register('titulo')} value={titulo_despesa + 1} className="w-[600px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
-                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{titulos_despesa.length != 0 ? titulos_despesa[titulo_despesa].descricao : ""}</h6>
-                                {status_titulo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
-                            </button>
-                            {status_titulo &&
-                                <ul className="absolute translate-y-[6px]">
-                                    {titulos_despesa.length != 0 && titulos_despesa.map((titulo, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setTitulo_despesa(index); setStatus_titulo(!status_titulo)}} className="w-[600px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{titulo.descricao}</button></li>
-                                    )}
-                                </ul>}
+                        <div className="col-span-3 mb-3 flex gap-2">
+                            <div>
+                                <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Títulos das Receitas e Despesas</h4>
+                                <button onClick={(e) => {e.preventDefault(); setStatus_titulo(!status_titulo)}} value={titulo_despesa + 1} className="w-[600px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                    <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{titulos_despesa.length != 0 ? titulos_despesa[titulo_despesa].descricao : "Ainda não foi criado"}</h6>
+                                    {status_titulo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
+                                </button>
+                                {status_titulo &&
+                                    <ul className="absolute translate-y-[6px]">
+                                        {titulos_despesa.length != 0 && titulos_despesa.map((titulo, index) => 
+                                            <li><button onClick={(e) => {e.preventDefault(); setTitulo_despesa(index); setStatus_titulo(!status_titulo)}} className="w-[600px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{titulo.descricao}</button></li>
+                                        )}
+                                    </ul>}
+                            </div>
+                            <div className="flex items-end">
+                                <button onClick={(e) => {e.preventDefault(); setModal(true)}} data-toggle="tooltip" data-placement="top" title="Criar Título" className="rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center p-3"><GrAdd className="text-white text-[25px]"/></button>
+                            </div>
+                                    
                         </div>
 
                         <div className="col-span-2 mb-3">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo (Receita ou Despesa)</h4>
-                            <button onClick={(e) => {e.preventDefault(); setSreceita_despesa(!Sreceita_despesa)}} {...register('receita_despesa')} value={receita_despesa} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setSreceita_despesa(!Sreceita_despesa)}} value={receita_despesa} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo_dr[receita_despesa]}</h6>
                                 {Sreceita_despesa ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -165,7 +182,7 @@ export function CriarReceitaDespesa () {
                         
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipos de Despesa e Receita</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_despesa(!status_despesa)}} {...register('tipo_despesa')} value={tipo_despesa + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setStatus_despesa(!status_despesa)}} value={tipo_despesa + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipos_despesa[tipo_despesa]}</h6>
                                 {status_despesa ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -179,7 +196,7 @@ export function CriarReceitaDespesa () {
 
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipos de Recorrência</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_recorrencia(!status_recorrencia)}} {...register('tipo_recorrencia')} value={tipo_recorrencia + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setStatus_recorrencia(!status_recorrencia)}} value={tipo_recorrencia + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipos_recorrencia[tipo_recorrencia]}</h6>
                                 {status_recorrencia ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -193,8 +210,8 @@ export function CriarReceitaDespesa () {
 
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Acontecimentos</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_acontecimento(!status_acontecimento)}} {...register('id_acontecimento')} value={acontecer} className="w-[350px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
-                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{acontecimentos.length != 0 ? acontecimentos[acontecer].titulo : ""}</h6>
+                            <button onClick={(e) => {e.preventDefault(); setStatus_acontecimento(!status_acontecimento)}} value={acontecer} className="w-[350px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{acontecimentos.length != 0 ? acontecimentos[acontecer].titulo : "Ainda não foi criado"}</h6>
                                 {status_acontecimento ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {status_acontecimento &&
@@ -215,6 +232,7 @@ export function CriarReceitaDespesa () {
 
                 </form>
             </main>
+            {modal && <CriarTitulo setModal={setModal}/>}
         </div>
     )
 }
