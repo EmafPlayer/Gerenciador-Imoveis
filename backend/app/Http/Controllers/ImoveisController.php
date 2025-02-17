@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enderecos;
+use App\Models\FotosImoveis;
 use App\Models\HistoricoStatusImoveis;
 use App\Models\Imoveis;
 use App\Models\Localizacoes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImoveisController extends Controller
 {
@@ -91,6 +93,24 @@ class ImoveisController extends Controller
 
         return response()->json(['message' => 'Imóvel criado com sucesso'], 200);
     }
+
+    public function uploadFotos(Request $request)
+    {
+
+        if (!$request->hasFile('file')) {
+            return response()->json(['message' => 'Arquivo não encontrado.'], 400);
+        }
+
+        $path = $request->file('file')->storeAs('fotos', $request->file('file')->getClientOriginalName());
+
+        FotosImoveis::create([
+            'id_imovel' => $request->id_imovel,
+            'endereco' => $path, 
+        ]);
+
+        return response()->json(['message' => 'Foto armazenada com sucesso'], 200);
+    }
+
 
     /**
      * Display the specified resource.

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { TbRulerMeasure } from "react-icons/tb";
 import { DetalhesImovel } from "../components/detalhes_imovel";
-import { FaClipboardList } from "react-icons/fa";
+import { FaClipboardList, FaFileImage } from "react-icons/fa";
+import { UploadFotos } from "./upload_fotos";
 
 type propsImovel = {
     id: number;
@@ -32,6 +33,8 @@ type TipoParametro = {
 export function CompImovel ( { id_imovel }: TipoParametro ) {
 
     const [detalhes, setDetalhes] = useState(false);
+
+    const[modal, setModal] = useState(false);
 
     const imovel: propsImovel = {
         id: 1,
@@ -79,7 +82,10 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                         </div>
                     </div>
                     <div className="justify-around flex items-center">
-                        <button onClick={() => setDetalhes(true)} className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[30px]"><FaClipboardList/></button>
+                        <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[30px]"><FaClipboardList/></button>
+                        <div className="flex items-end">
+                            <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[30px]"><FaFileImage/></button>
+                        </div>
                         <div className="w-[200px] h-[160px] pt-1">
                             {isLoaded ? (
                             <GoogleMap mapContainerClassName="rounded-xl"
@@ -117,6 +123,8 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                     area_construida: imovel.area_construida,
                 }}
             />}
+
+            {modal && <UploadFotos setModal={setModal} id_imovel={id_imovel}/>}
         </div>
     )
 }

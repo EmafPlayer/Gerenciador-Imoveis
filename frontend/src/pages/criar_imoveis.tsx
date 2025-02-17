@@ -5,6 +5,7 @@ import { api } from '../apis/api';
 import { twMerge } from "tailwind-merge";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 
+
 type userProps = {
     nome: string,
     foto: string,
@@ -78,8 +79,8 @@ export function CriarImoveis () {
                 <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5 mb-12">
                     <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[2rem] font-medium text-[36px] uppercase')} >Cadastro de Imóveis</h1>
 
-                    <div className="grid grid-cols-4 items-center gap-32">
-                        <div className="col-span-2">
+                    <div className="grid grid-cols-4 gap-32">
+                        <div className="col-span-2 ">
                             <label htmlFor="nome_imovel" className="text-[18px] text-slate-700 font-outfit">Nome do imóvel</label>
                             <input {...register('nome_imovel')} type="text" name="nome_imovel" id="nome_imovel" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o nome do imóvel"/>
@@ -97,6 +98,7 @@ export function CriarImoveis () {
                                     )}
                                 </ul>}
                         </div>
+                        
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-6 mt-6">
