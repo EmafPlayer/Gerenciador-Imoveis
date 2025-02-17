@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { api } from "../apis/api";
 
 
 type userProps = {
@@ -32,26 +33,26 @@ export function CriarAcontecimento () {
     };
 
     const submit = async (data: any) => 
-        {
-            // try {
-                const params = new URLSearchParams({
-                    id_imovel: id_imovel,
-                    nome_imovel: data.nome_imovel,
-                    status_acontecimento: data.status_acontecimento,
-                    descricao: data.descricao,
-                }).toString();
-        
-            //     const response = await api.get(`/v1/inicio/criacao-imoveis?${params}`);
-                
-            //     console.log(response.data.message);
+    {
+        try {
+            const params = new URLSearchParams({
+                id_imovel: id_imovel,
+                titulo: data.titulo,
+                status_acontecimento: String(status_acontecimento + 1),
+                descricao: data.descricao,
+            }).toString();
     
-            //     setCriacao(true);
-            //     setMensagem(response.data.message);
-                
-            // } catch (error) {
-            //     console.error(error);
-            // }
+            const response = await api.get(`/v1/inicio/criacao-acontecimento?${params}`);
+            
+            console.log(response.data.message);
+
+            setCriacao(true);
+            setMensagem(response.data.message);
+            
+        } catch (error) {
+            console.error(error);
         }
+    }
 
     return (
         <div className="h-screen w-full">
@@ -64,13 +65,13 @@ export function CriarAcontecimento () {
 
                     <div className="grid grid-cols-4 items-center gap-32">
                         <div className="col-span-2">
-                            <label htmlFor="nome_imovel" className="text-[18px] text-slate-700 font-outfit">Título do Acontecimento</label>
-                            <input {...register('nome_imovel')} type="text" name="nome_imovel" id="nome_imovel" required
+                            <label htmlFor="titulo" className="text-[18px] text-slate-700 font-outfit">Título do Acontecimento</label>
+                            <input {...register('titulo')} type="text" name="titulo" id="titulo" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o nome do corretor"/>
                         </div>
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do Acontecimento</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} {...register('status_acontecimento')} value={status_acontecimento} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_acontecimento + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{status_acontecimentos[status_acontecimento]}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>

@@ -5,6 +5,7 @@ import { api } from '../apis/api';
 import { twMerge } from "tailwind-merge";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 
+
 type userProps = {
     nome: string,
     foto: string,
@@ -28,7 +29,7 @@ export function CriarImoveis () {
     const user: userProps = {
         nome: localStorage.getItem("nome_usuario") ?? "",
         foto: localStorage.getItem("foto_usuario") ?? ""
-      };
+    };
 
     const submit = async (data: any) => 
     {
@@ -54,7 +55,8 @@ export function CriarImoveis () {
                 fracao_ideal: data.fracao_ideal,
                 area_total: data.area_total,
                 area_construida: data.area_construida,
-                tipo_status: data.tipo_status + 1
+                tipo_status: String(status_botao + 1),
+                descricao: data.descricao
             }).toString();
     
             const response = await api.get(`/v1/inicio/criacao-imoveis?${params}`);
@@ -70,22 +72,22 @@ export function CriarImoveis () {
     }
 
     return (
-        <div className="h-screen w-full">
+        <div className="h-full w-full">
             <NavBar user={user}>
             </NavBar>
-            <main className="w-full h-full pt-[115px] bg-[#FFFFFF] p-6">
-                <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5">
+            <main className="w-full h-full pt-[115px] bg-[#FFFFFF] px-6">
+                <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5 mb-12">
                     <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[2rem] font-medium text-[36px] uppercase')} >Cadastro de Imóveis</h1>
 
-                    <div className="grid grid-cols-4 items-center gap-32">
-                        <div className="col-span-2">
+                    <div className="grid grid-cols-4 gap-32">
+                        <div className="col-span-2 ">
                             <label htmlFor="nome_imovel" className="text-[18px] text-slate-700 font-outfit">Nome do imóvel</label>
                             <input {...register('nome_imovel')} type="text" name="nome_imovel" id="nome_imovel" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o nome do imóvel"/>
                         </div>
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do imóvel</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} {...register('tipo_status')} value={status_botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{status_imoveis[status_botao]}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -96,6 +98,7 @@ export function CriarImoveis () {
                                     )}
                                 </ul>}
                         </div>
+                        
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-6 mt-6">
@@ -137,7 +140,7 @@ export function CriarImoveis () {
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="complemento" className="text-[18px] text-slate-700 font-outfit">Complemento</label>
-                            <input {...register('complemento')} type="text" name="complemento" id="complemento" required
+                            <input {...register('complemento')} type="text" name="complemento" id="complemento"
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Bloco 1, Apto 2"/>
                         </div>
 
@@ -204,8 +207,13 @@ export function CriarImoveis () {
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="90"/>
                         </div>
                         
+                        <div className="col-span-1 sm:col-span-5">
+                                <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Descrição</label>
+                                <input {...register('descricao')} type="text" name="descricao" id="descricao" required
+                                className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
+                        </div>
                     </div>
-                    
+
                     <div className="text-center sm:text-right mt-12">
                         <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                     </div>

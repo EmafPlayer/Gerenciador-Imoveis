@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Despesas;
+use App\Models\DespesasAcontecimentos;
+use App\Models\TitulosDepesas;
+use Illuminate\Http\Request;
+
+class DespesaControllers extends Controller
+{
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(Request $request)
+    {
+
+        $request->validate([
+            "id_imovel" => 'required|numeric',
+            "titulo" => 'required|numeric',
+            "receita_despesa" => 'required|numeric',
+            "valor" => 'required|numeric',
+            "descricao" => 'required|string',
+            "tipo_despesa" => 'required|numeric',
+            "tipo_recorrencia" => 'required|numeric',
+            "vencimento" => 'required|date',
+            "id_acontecimento" => 'required|numeric',
+        ]);
+
+        Despesas::create([
+            "id_imovel" => $request->id_imovel,
+            "titulo" => $request->titulo,
+            "receita_despesa" => $request->receita_despesa,
+            "valor" => $request->valor,
+            "descricao" => $request->descricao,
+            "tipo_despesa" => $request->tipo_despesa,
+            "tipo_recorrencia" => $request->tipo_recorrencia,
+            "vencimento" => $request->vencimento,
+        ]);
+
+        $id_despesa = Despesas::select('id')->orderBy('id', 'desc')->first();
+        $id_despesa = $id_despesa->id;
+
+        if($request->id_acontecimento != 0){
+            DespesasAcontecimentos::create([
+                "id_despesa" => $id_despesa,
+                "id_acontecimento" => $request->id_acontecimento,
+            ]);
+        }
+
+        return response()->json(['message' => 'Corretor criado com sucesso'], 200);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show()
+    {  
+
+    }
+
+    public function verTitulos()
+    {
+        $titulos = TitulosDepesas::select('descricao')->orderBy('id','asc')->get()->toArray();
+
+        if (count($titulos) == 0)
+            return response()->json(['message' => 'Ainda não possui titulos cadastradas no banco de dados'], 404);
+
+        return response()->json(['message' => 'Titulos buscados com sucesso', 'titulos' => $titulos], 200);
+    }
+
+    public function criarTitulos(Request $request)
+    {
+        $request->validate([
+            "descricao" => 'required|string',
+        ]);
+
+        TitulosDepesas::create ([
+            "descricao" => $request->descricao
+        ]);
+
+        return response()->json(['message' => 'Título criado com sucesso'], 200);
+    }
+    
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update()
+    {
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy()
+    {
+        //
+    }
+}

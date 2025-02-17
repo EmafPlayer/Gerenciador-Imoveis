@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enderecos;
+use App\Models\FotosImoveis;
 use App\Models\HistoricoStatusImoveis;
 use App\Models\Imoveis;
 use App\Models\Localizacoes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImoveisController extends Controller
 {
@@ -37,32 +39,35 @@ class ImoveisController extends Controller
             'area_total' => 'required|numeric',
             'area_construida' => 'required|numeric',
             'tipo_status' => 'required|numeric',
+            'descricao' => 'required|string',
         ]);
 
+        
+        Localizacoes::create([
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+        
+        $id_localizacao = Localizacoes::select('id')->orderBy('id', 'desc')->first();
+        $id_localizacao = $id_localizacao->id;
+        
         Enderecos::create([
+            'id_localizacao' => $id_localizacao,
             'rua' => $request->rua,
             'bairro' => $request->bairro,
             'numero' => $request->numero,
             'cep' => $request->cep,
             'cidade' => $request->cidade,
             'estado' => $request->estado,
-            'complemento' => $request->complemento,
+            'complemento' => $request->complemento ? $request->complemento : '-',
         ]);
-
-        Localizacoes::create([
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-        ]);
-
+        
         $id_endereco = Enderecos::select('id')->orderBy('id', 'desc')->first();
         $id_endereco = $id_endereco->id;
-        $id_localizacao = Localizacoes::select('id')->orderBy('id', 'desc')->first();
-        $id_localizacao = $id_localizacao->id;
 
         Imoveis::create([
             'nome' => $request->nome_imovel,
             'id_endereco' => $id_endereco,
-            'id_localizacao' => $id_localizacao,
             'anunciado' => true,
             'fornecimento_agua' => $request->fornecimento_agua,
             'fornecimento_luz' => $request->fornecimento_luz,
@@ -74,6 +79,7 @@ class ImoveisController extends Controller
             'fracao_ideal' => $request->fracao_ideal,
             'area_total' => $request->area_total,
             'area_construida' => $request->area_construida,
+            'descricao' => $request->descricao,
         ]);
 
         $id_imovel = Imoveis::select('id')->orderBy('id', 'desc')->first();
@@ -87,6 +93,24 @@ class ImoveisController extends Controller
 
         return response()->json(['message' => 'Imóvel criado com sucesso'], 200);
     }
+
+    public function uploadFotos(Request $request)
+    {
+
+        if (!$request->hasFile('file')) {
+            return response()->json(['message' => 'Arquivo não encontrado.'], 400);
+        }
+
+        $path = $request->file('file')->storeAs('fotos', $request->file('file')->getClientOriginalName());
+
+        FotosImoveis::create([
+            'id_imovel' => $request->id_imovel,
+            'endereco' => $path, 
+        ]);
+
+        return response()->json(['message' => 'Foto armazenada com sucesso'], 200);
+    }
+
 
     /**
      * Display the specified resource.
