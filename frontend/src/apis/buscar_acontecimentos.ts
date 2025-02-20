@@ -1,8 +1,6 @@
 import { api } from './api';
 
 const buscarAcontecimentos = async () => {
-  console.log(api.defaults.baseURL); // Verifique se o baseURL está correto
-  
   try {
     const response = await api.get(`/v1/inicio/ver-acontecimentos`);
     console.error(response.data);

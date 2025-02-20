@@ -22,6 +22,11 @@ export function CriarImoveis () {
     const[status_botao, setStatus_botao] = useState(0);
     const[ativacao, setAtivacao] = useState(false);
 
+    const[botao, setBotao] = useState(0);
+    const[status, setStatus] = useState(false);
+
+    const tipo = ["Aluguel", "Venda"];
+
     //const location = useLocation();
     
     //let user = location.state.user;
@@ -56,7 +61,8 @@ export function CriarImoveis () {
                 area_total: data.area_total,
                 area_construida: data.area_construida,
                 tipo_status: String(status_botao + 1),
-                descricao: data.descricao
+                descricao: data.descricao,
+                tipo: String(botao),
             }).toString();
     
             const response = await api.get(`/v1/inicio/criacao-imoveis?${params}`);
@@ -98,6 +104,19 @@ export function CriarImoveis () {
                                     )}
                                 </ul>}
                         </div>
+                        <div className="col-span-1">
+                            <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo (Aluguel ou Venda)</h4>
+                            <button onClick={(e) => {e.preventDefault(); setStatus(!status)}} value={botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo[botao]}</h6>
+                                {status ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
+                            </button>
+                            {status &&
+                                <ul className="absolute translate-y-[6px]">
+                                    {tipo.map((tipo, index) => 
+                                        <li><button onClick={(e) => {e.preventDefault(); setBotao(index); setStatus(!status)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
+                                    )}
+                                </ul>}
+                        </div>
                         
                     </div>
 
@@ -134,7 +153,7 @@ export function CriarImoveis () {
                         </div>
 
                         <div className="col-span-1">
-                            <label htmlFor="estado" className="text-[18px] text-slate-700 font-outfit">Estado</label>
+                            <label htmlFor="estado" className="text-[18px] text-slate-700 font-outfit">UF</label>
                             <input {...register('estado')} type="text" name="estado" id="estado" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Pernambuco"/>
                         </div>

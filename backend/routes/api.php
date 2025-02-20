@@ -28,8 +28,17 @@ Route::prefix('v1')->group(function () {
         Route::get('/ver-corretores', [CorretorControllers::class, 'show']);
         Route::get('/ver-titulos', [DespesaControllers::class, 'verTitulos']);
         Route::get('/ver-acontecimentos', [AcontecimentoControllers::class, 'verAcontecimentos']);
-        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotos']);
+        Route::get('/ver-imovel/{id_imovel}', [ImoveisController::class, 'verImovel']);
         Route::get('/run-seeders', [SeedersControllers::class, 'run']);
+        Route::get('/carregar-imoveis', [ImoveisController::class, 'carregarImoveis']);
+
+
+        Route::get('/fotos/{filename}', function ($filename) {
+            $path = storage_path("app/public/fotos/{$filename}");
+            return response()->file($path);
+        });
+
+        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotos']);
     });
     
 });

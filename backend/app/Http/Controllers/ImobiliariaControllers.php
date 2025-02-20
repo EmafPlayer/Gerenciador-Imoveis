@@ -71,7 +71,7 @@ class ImobiliariaControllers extends Controller
      */
     public function show()
     {  
-        $imobiliarias = Imobiliarias::select('nome_oficial')->orderBy('id','asc')->get()->toArray();
+        $imobiliarias = Imobiliarias::select('nome_fantasia')->orderBy('id','asc')->get()->toArray();
 
         if (count($imobiliarias) == 0)
             return response()->json(['message' => 'Ainda não possui imobiliarias cadastradas no banco de dados'], 404);
