@@ -17,6 +17,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 
     Route::prefix('inicio')->group(function () {
+
         Route::get('/criacao-imoveis', [ImoveisController::class, 'create']);
         Route::get('/criacao-imobiliaria', [ImobiliariaControllers::class, 'create']);
         Route::get('/criacao-corretor', [CorretorControllers::class, 'create']);
@@ -24,13 +25,17 @@ Route::prefix('v1')->group(function () {
         Route::get('/criacao-acontecimento', [AcontecimentoControllers::class, 'create']);
         Route::get('/criacao-despesa', [DespesaControllers::class, 'create']);
         Route::get('/criacao-titulo', [DespesaControllers::class, 'criarTitulos']);
+
         Route::get('/ver-imobiliarias', [ImobiliariaControllers::class, 'show']);
         Route::get('/ver-corretores', [CorretorControllers::class, 'show']);
         Route::get('/ver-titulos', [DespesaControllers::class, 'verTitulos']);
         Route::get('/ver-acontecimentos', [AcontecimentoControllers::class, 'verAcontecimentos']);
         Route::get('/ver-imovel/{id_imovel}', [ImoveisController::class, 'verImovel']);
+
         Route::get('/run-seeders', [SeedersControllers::class, 'run']);
+
         Route::get('/carregar-imoveis', [ImoveisController::class, 'carregarImoveis']);
+        Route::get('/carregar-cotacoes/{id_imovel}', [CotacaoControllers::class, 'carregarCotacoes']);
 
 
         Route::get('/fotos/{filename}', function ($filename) {

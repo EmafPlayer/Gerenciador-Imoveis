@@ -126,10 +126,9 @@ export function Inicio() {
                       <div className="flex flex-col items-center justify-center gap-[70px]">
                         <div className="pt-">
                           <div className="flex items-end">
-                              <h1 className="text-[35px] text-zinc-700 font-medium">{casa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
+                              <h1 className="text-[30px] text-zinc-700 font-medium">{casa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                               <h4 className="text-[20px] pb-2">{casa.tipo == false ? "/mes" : ""}</h4>
                           </div>
-                          <h2 className="text-[15px]">{casa.tipo == false ? "Aluguel" : "Venda"}</h2>
                         </div>
                         <button onClick={() => redirectExibirImoveis()} className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
                       </div>

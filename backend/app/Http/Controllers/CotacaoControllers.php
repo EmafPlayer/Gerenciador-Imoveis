@@ -54,11 +54,30 @@ class CotacaoControllers extends Controller
         return response()->json(['message' => 'Cotação criada com sucesso'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {  
+    
+    public function carregarCotacoes ($id_imovel) {
+
+        $cotacoes = Cotacoes::join('corretores', 'cotacoes.id_corretor', '=', 'corretores.id')
+                            ->join('imobiliarias', 'corretores.id_imobiliaria', '=', 'imobiliarias.id')
+                            ->join('enderecos', 'imobiliarias.id_endereco', '=', 'enderecos.id')
+                            ->join('localizacoes', 'enderecos.id_localizacao', '=', 'localizacoes.id')
+                            ->select('imobiliarias.id as id_imobiliaria', 'corretores.nome as nome_corretor', 'corretores.telefone as contato_corretor', 'corretores.email as email_corretor',
+                                     'valor', 'valor_min', 'valor_max', 'data_cotacao', 'nome_fantasia', 'nome_oficial',
+                                     'imobiliarias.email as email_imobiliaria', 'imobiliarias.site as site_imobiliaria', 'imobiliarias.contato as contato_imobiliaria',
+                                     'rua', 'bairro', 'numero', 'cidade', 'estado', 'latitude', 'longitude')
+                            ->where('cotacoes.id_imovel', '=', $id_imovel)->get()->toArray();
+
+        $cotacoes = array_chunk($cotacoes, 4);
+
+        foreach ($cotacoes as &$grupo) {
+            foreach ($grupo as &$cotacao) {
+                $urlAnuncio = ImoveisImobiliarias::where('id_imovel', $id_imovel)->where('id_imobiliaria', $cotacao['id_imobiliaria'])->value('url_anuncio');
+
+                $cotacao['url_anuncio'] = $urlAnuncio ?? '';
+            }
+        }
+
+        return response()->json(['message' => 'Cotações carregados com sucesso', 'cotacoes' => $cotacoes], 200);
 
     }
     

@@ -18,8 +18,8 @@ type userProps = {
 
 export function ExibirImoveis ( { id_imovel }: TipoParametro ) {
     
-    const [stateImovel, setStateImovel] = useState(true);
-    const [stateCotacoes, setStateCotacoes] = useState(false);
+    const [stateImovel, setStateImovel] = useState(false);
+    const [stateCotacoes, setStateCotacoes] = useState(true);
     const [stateDespesas, setStateDespesas] = useState(false);
     const [stateAcontecimentos, setStateAcontecimentos] = useState(false);
 

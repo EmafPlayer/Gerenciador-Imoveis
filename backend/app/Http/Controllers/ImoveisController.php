@@ -128,19 +128,8 @@ class ImoveisController extends Controller
             $imovel['valor'] = Cotacoes::where('id_imovel', '=', $imovel['id'])->avg('valor') ? Cotacoes::where('id_imovel', '=', $imovel['id'])->avg('valor') : 0;
         }
         unset($imovel);
-
-        $count = 0;
-
-        for ($i = 0; $i < ceil(count($imoveis) / 3); $i++) { 
-            
-            for ($j = 0; $j < ((( count($imoveis) - (3 * ($i + 1)) ) == -2) ? 1 : ((( count($imoveis) - (3 * ($i + 1)) ) == -1) ? 2 : 3 )); $j++) { 
-            
-                $iimoveis[$i][$j] = $imoveis[$count];
-
-                $count++;
-            }    
-
-        }
+        
+        $iimoveis = array_chunk($imoveis, 3);
 
         return response()->json(['message' => 'Imoveis carregados com sucesso', 'imoveis' => $iimoveis], 200);
 
