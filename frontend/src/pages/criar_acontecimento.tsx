@@ -40,6 +40,7 @@ export function CriarAcontecimento () {
                 titulo: data.titulo,
                 status_acontecimento: String(status_acontecimento + 1),
                 descricao: data.descricao,
+                data_inicio: data.data_inicio,
             }).toString();
     
             const response = await api.get(`/v1/inicio/criacao-acontecimento?${params}`);
@@ -68,6 +69,11 @@ export function CriarAcontecimento () {
                             <label htmlFor="titulo" className="text-[18px] text-slate-700 font-outfit">Título do Acontecimento</label>
                             <input {...register('titulo')} type="text" name="titulo" id="titulo" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o nome do corretor"/>
+                        </div>
+                        <div className="col-span-1">
+                            <label htmlFor="data_inicio" className="text-[18px] text-slate-700 font-outfit">Data de inicio</label>
+                            <input {...register('data_inicio')} type="date" name="data_inicio" id="data_inicio" required
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 px-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')}/>
                         </div>
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do Acontecimento</h4>

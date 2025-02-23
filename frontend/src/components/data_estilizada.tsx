@@ -3,9 +3,9 @@ export function DataEstilizada({ data }: { data: Date }) {
     
     return (
         <div className="flex flex-col items-center justify-center">
-            <span className="text-[30px] italic font-montserrat">{meses[data.getMonth()]}</span>
-            <span className="text-[70px] font-bold font-montserrat">{data.getDate()}</span>
-            <span className="text-[26px] font-montserrat">{data.getFullYear()}</span>
+            <span className="text-[25px] lg:text-[30px] italic font-montserrat">{meses[data.getMonth()]}</span>
+            <span className="text-[60px] lg:text-[70px] font-bold font-montserrat">{data.getDate()}</span>
+            <span className="text-[20px] lg:text-[26px] font-montserrat">{data.getFullYear()}</span>
         </div>
     );
 }

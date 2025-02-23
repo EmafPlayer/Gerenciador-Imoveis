@@ -18,13 +18,14 @@ class AcontecimentoControllers extends Controller
             "titulo" => 'required|string',
             "status_acontecimento" => 'required|numeric',
             "descricao" => 'required|string',
+            "data_inicio" => 'required|date',
         ]);
 
         Acontecimentos::create([
             "id_imovel" => $request->id_imovel,
             "titulo" => $request->titulo,
             "descricao" => $request->descricao,
-            "data_hora_inicio" => now(),
+            "data_inicio" => $request->data_inicio,
             "ultima_alteracao" => now(),
             "status_acontecimento" => $request->status_acontecimento,
         ]);
@@ -50,6 +51,15 @@ class AcontecimentoControllers extends Controller
         return response()->json(['message' => 'acontecimentos buscados com sucesso', 'acontecimentos' => $acontecimentos], 200);
     }
     
+    public function carregarAcontecimentos ($id_imovel) 
+    {
+        $acontecimentos = Acontecimentos::select("titulo", "descricao", "data_hora_inicio", "ultima_alteracao", "status_acontecimento")
+                                        ->where('id_imovel', '=', $id_imovel)->get()->toArray();
+
+        $acontecimentos = array_chunk($acontecimentos, 4);
+
+        return response()->json(['message' => 'Receitas e Despesas carregadas com sucesso', 'acontecimentos' => $acontecimentos], 200);
+    }
 
     /**
      * Update the specified resource in storage.

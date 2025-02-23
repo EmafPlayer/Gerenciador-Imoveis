@@ -13,7 +13,7 @@ type userProps = {
 }
 
 type returnImobiliaria = {
-    nome_oficial: string,
+    nome_fantasia: string,
 }
 
 export function CriarCorretor () { 
@@ -48,7 +48,6 @@ export function CriarCorretor () {
         fetchData();
     }, []);
 
-    console.log(imobiliarias.length);
 
     const submit = async (data: any) => 
     {
@@ -90,13 +89,13 @@ export function CriarCorretor () {
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Imobiliárias</h4>
                             <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_imobiliaria + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
-                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{imobiliarias.length != 0 ? imobiliarias[status_imobiliaria].nome_oficial : 'Não há Imobiliárias cadastradas'}</h6>
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{imobiliarias.length != 0 ? imobiliarias[status_imobiliaria].nome_fantasia : 'Não há Imobiliárias cadastradas'}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao &&
                                 <ul className="absolute translate-y-[6px]">
                                     {imobiliarias.length != 0 && imobiliarias.map((imobiliaria, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setStatus_imobiliaria(index); setAtivacao(!ativacao)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{imobiliaria.nome_oficial}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setStatus_imobiliaria(index); setAtivacao(!ativacao)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{imobiliaria.nome_fantasia}</button></li>
                                     )}
                                 </ul>}
                         </div>

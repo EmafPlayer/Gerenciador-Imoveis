@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_imovel');
             $table->string('titulo', 50);
-            $table->string('descricao', 255);
-            $table->dateTime('data_hora_inicio', precision: 0);
+            $table->string('descricao');
+            $table->date('data_inicio');
             $table->dateTime('ultima_alteracao', precision: 0);
             $table->foreignId('status_acontecimento');
             $table->timestamps();

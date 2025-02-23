@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cotacoes;
 use App\Models\Enderecos;
 use App\Models\FotosImoveis;
 use App\Models\HistoricoStatusImoveis;
@@ -80,6 +81,7 @@ class ImoveisController extends Controller
             'area_total' => $request->area_total,
             'area_construida' => $request->area_construida,
             'descricao' => $request->descricao,
+            'tipo' => $request->tipo,
         ]);
 
         $id_imovel = Imoveis::select('id')->orderBy('id', 'desc')->first();
@@ -111,15 +113,49 @@ class ImoveisController extends Controller
         return response()->json(['message' => 'Foto armazenada com sucesso'], 200);
     }
 
+    public function carregarImoveis()
+    {
+        $imoveis = Imoveis::join("enderecos", "imoveis.id_endereco", "=", "enderecos.id")
+                            ->join("localizacoes", "enderecos.id_localizacao", "=", "localizacoes.id")
+                            ->select('imoveis.id as id', 'imoveis.nome as nome', 'imoveis.tipo as tipo', 'enderecos.rua as rua', 'enderecos.numero as numero',
+                                    'enderecos.bairro as bairro', 'localizacoes.latitude as latitude', 'localizacoes.longitude as longitude')
+                            ->get()->toArray();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {  
+        foreach ($imoveis as &$imovel) {
+            $imovel['foto'] = FotosImoveis::select('endereco')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first();
+            $imovel['foto'] = $imovel['foto'] ? $imovel['foto']->endereco : null;
+
+            $imovel['valor'] = Cotacoes::where('id_imovel', '=', $imovel['id'])->avg('valor') ? Cotacoes::where('id_imovel', '=', $imovel['id'])->avg('valor') : 0;
+        }
+        unset($imovel);
+        
+        $iimoveis = array_chunk($imoveis, 3);
+
+        return response()->json(['message' => 'Imoveis carregados com sucesso', 'imoveis' => $iimoveis], 200);
 
     }
     
+    public function verImovel($id_imovel) {
+
+        $imovel = Imoveis::join("enderecos", "imoveis.id_endereco", "=", "enderecos.id")
+                         ->join("localizacoes", "enderecos.id_localizacao", "=", "localizacoes.id")
+                         ->select("imoveis.id", "imoveis.tipo as tipo", "nome", "descricao", "fornecimento_agua", "fornecimento_luz", "cadastro_iptu", "matricula", "cartorio_registro", 
+                                  "area", "area_testada", "fracao_ideal", "area_total", "area_construida",
+                                  "rua", "numero", "bairro", "cidade","estado", "latitude", "longitude")->where("imoveis.id", "=", $id_imovel)->firstOrFail()->toArray();
+        
+                                  
+        $imovel['fotos'] = FotosImoveis::select('endereco')->where('id_imovel', '=', $id_imovel)->get()->toArray();
+
+        $imovel['valor'] = Cotacoes::where('id_imovel', '=', $id_imovel)->avg('valor') ? Cotacoes::where('id_imovel', '=', $id_imovel)->avg('valor') : 0;
+        
+        return response()->json(['message' => 'Imóvel carregado com sucesso', 'imovel' => $imovel], 200);
+        
+    }
+
+    public function runSeeders () 
+    {
+        
+    }
 
     /**
      * Update the specified resource in storage.
@@ -128,6 +164,8 @@ class ImoveisController extends Controller
     {
 
     }
+
+
 
     /**
      * Remove the specified resource from storage.

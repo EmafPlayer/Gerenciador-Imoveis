@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('proposta');
             $table->double('valor_proposta');
             $table->date('data_proposta');
-            $table->string('descricao', 255);
+            $table->string('descricao');
             $table->timestamps();
 
             $table->foreign('id_imovel')->references('id')->on('imoveis');

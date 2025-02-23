@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('fotos_imoveis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_imovel');
-            $table->string('endereco', 200);
+            $table->string('endereco', 255);
             $table->timestamps();
 
             $table->foreign('id_imovel')->references('id')->on('imoveis');

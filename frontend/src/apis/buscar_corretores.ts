@@ -1,8 +1,6 @@
 import { api } from './api';
 
 const buscarCorretores = async () => {
-  console.log(api.defaults.baseURL); // Verifique se o baseURL está correto
-  
   try {
     const response = await api.get(`/v1/inicio/ver-corretores`);
     console.error(response.data);

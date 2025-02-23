@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TipoRecorrencia;
 use Database\Seeders\StatusAcontecimentoSeeder;
 use Database\Seeders\TipoCotacaoSeeder;
 use Database\Seeders\TipoDespesaSeeder;
@@ -14,12 +15,19 @@ use Illuminate\Http\Request;
 class SeedersControllers extends Controller
 {
     public function run (){
-        app(StatusAcontecimentoSeeder::class)->run();
-        app(TipoCotacaoSeeder::class)->run();
-        app(TipoDespesaSeeder::class)->run();
-        app(TipoExpectativaStatusSeeder::class)->run();
-        app(TipoRecorrenciaSeeder::class)->run();
-        app(TipoStatusImoveisSeeder::class)->run();
-        app(TitulosDespesasSeeder::class)->run();
+
+        if(TipoRecorrencia::doesntExist()) {
+            app(StatusAcontecimentoSeeder::class)->run();
+            app(TipoCotacaoSeeder::class)->run();
+            app(TipoDespesaSeeder::class)->run();
+            app(TipoExpectativaStatusSeeder::class)->run();
+            app(TipoRecorrenciaSeeder::class)->run();
+            app(TipoStatusImoveisSeeder::class)->run();
+            app(TitulosDespesasSeeder::class)->run();
+
+            return response()->json(['message' => 'Seeders criadas com sucesso'], 200);
+        }
+
+        return response()->json(['message' => 'Seeders já foram criadas'], 200);
     }
 }

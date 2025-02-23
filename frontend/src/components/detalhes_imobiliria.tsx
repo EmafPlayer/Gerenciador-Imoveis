@@ -5,12 +5,16 @@ type propsDetalhesImobiliaria = {
     imobiliaria: {
         nome_fantasia: string,
         nome_oficial: string,
-        endereco: string,
+        email_imobiliaria: string,
+        site_imobiliaria: string,
+        contato_imobiliaria: string,
+        rua: string,
+        bairro: string,
+        numero: number,
+        cidade: string,
+        estado: string,
         latitude: number,
         longitude: number,
-        email: string,
-        site: string,
-        contato: string,
     },
     setModal: Function,
 }
@@ -24,7 +28,7 @@ export function DetalhesImobiliaria ( { imobiliaria, setModal }: propsDetalhesIm
 
     return (
         <div className="fixed z-10 inset-0 h-screen w-full items-center justify-center flex bg-gray-500 bg-opacity-75">
-            <div className="bg-white p-14 w-[40rem]">
+            <div className="bg-white p-14 w-[35rem] lg:w-[40rem]">
                 <div className="flex items-center justify-between mb-12">
                     <h1 className="text-4xl font-bold">Imobiliária</h1>
                     <button onClick={() => setModal(false)} className="text-white text-[20px] bg-red-900 p-2 rounded-md"><MdClose /></button>
@@ -41,19 +45,19 @@ export function DetalhesImobiliaria ( { imobiliaria, setModal }: propsDetalhesIm
                         </div>
                         <div className="mb-3">
                             <h4 className="text-[18px] font-semibold">Endereço:</h4>
-                            <h2 className="">{imobiliaria.endereco}</h2>
+                            <h2 className="">{imobiliaria.rua}, {imobiliaria.numero} - {imobiliaria.bairro} - {imobiliaria.cidade}, {imobiliaria.estado}</h2>
                         </div>
                         <div className="mb-3">
                             <h4 className="text-[18px] font-semibold">Email:</h4>
-                            <a href={`mailto:${imobiliaria.email}`} target="_blank" className="">{imobiliaria.email}</a>
+                            <a href={`mailto:${imobiliaria.email_imobiliaria}`} target="_blank" className="">{imobiliaria.email_imobiliaria}</a>
                         </div>
                         <div className="mb-3">
                             <h4 className="text-[18px] font-semibold">Site:</h4>
-                            <a href={`${imobiliaria.site}`} target="_blank" className="text-blue-700">{imobiliaria.site}</a>
+                            <a href={`${imobiliaria.site_imobiliaria}`} target="_blank" className="text-blue-700">{imobiliaria.site_imobiliaria}</a>
                         </div>
                         <div className="mb-20">
                             <h4 className="text-[18px] font-semibold">Contato:</h4>
-                            <h2 className="">{imobiliaria.contato}</h2>
+                            <h2 className="">{imobiliaria.contato_imobiliaria}</h2>
                         </div>
                     </div>
                     <div className="flex justify-center">

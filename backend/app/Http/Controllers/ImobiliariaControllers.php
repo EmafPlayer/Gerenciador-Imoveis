@@ -63,7 +63,7 @@ class ImobiliariaControllers extends Controller
             'contato' => $request->contato,
         ]);
 
-        return response()->json(['message' => 'Imobiliária criado com sucesso'], 200);
+        return response()->json(['message' => 'Imobiliária criada com sucesso'], 200);
     }
 
     /**
@@ -71,7 +71,7 @@ class ImobiliariaControllers extends Controller
      */
     public function show()
     {  
-        $imobiliarias = Imobiliarias::select('nome_oficial')->orderBy('id','asc')->get()->toArray();
+        $imobiliarias = Imobiliarias::select('nome_fantasia')->orderBy('id','asc')->get()->toArray();
 
         if (count($imobiliarias) == 0)
             return response()->json(['message' => 'Ainda não possui imobiliarias cadastradas no banco de dados'], 404);
@@ -79,14 +79,6 @@ class ImobiliariaControllers extends Controller
         return response()->json(['message' => 'Imobiliárias buscados com sucesso', 'imobiliarias' => $imobiliarias], 200);
     }
     
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update()
-    {
-
-    }
 
     /**
      * Remove the specified resource from storage.
