@@ -48,7 +48,7 @@ class DespesaControllers extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Corretor criado com sucesso'], 200);
+        return response()->json(['message' => 'Receita ou Despesa criada com sucesso'], 200);
     }
 
     /**
@@ -80,6 +80,24 @@ class DespesaControllers extends Controller
         ]);
 
         return response()->json(['message' => 'Título criado com sucesso'], 200);
+    }
+
+    public function carregarDespesas($id_imovel){
+         
+        $receitas = Despesas::join('titulos_despesas', 'despesas.titulo', '=', 'titulos_despesas.id')
+                            ->select('titulos_despesas.descricao as titulo', 'despesas.descricao as descricao',
+                                     'valor', 'tipo_despesa', 'tipo_recorrencia as recorrencia', 'receita_despesa', 'vencimento')
+                            ->where('receita_despesa', '=', 0)->where('id_imovel', '=', $id_imovel)->get()->toArray();
+        $despesas = Despesas::join('titulos_despesas', 'despesas.titulo', '=', 'titulos_despesas.id')
+                            ->select('titulos_despesas.descricao as titulo', 'despesas.descricao as descricao',
+                                     'valor', 'tipo_despesa', 'tipo_recorrencia as recorrencia', 'receita_despesa', 'vencimento')
+                            ->where('receita_despesa', '=', 1)->where('id_imovel', '=', $id_imovel)->get()->toArray();
+
+        $receitas = array_chunk($receitas, 8);
+        $despesas = array_chunk($despesas, 8);
+
+        return response()->json(['message' => 'Receitas e Despesas carregadas com sucesso', 'receitas' => $receitas, 'despesas' => $despesas], 200);
+
     }
     
 

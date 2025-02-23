@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('titulo');
             $table->boolean('receita_despesa');
             $table->double('valor');
-            $table->string('descricao', 255);
+            $table->string('descricao');
             $table->foreignId('tipo_despesa');
             $table->foreignId('tipo_recorrencia');
             $table->date('vencimento');

@@ -7,6 +7,8 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import CarregarCotacoes from "../apis/carregar_cotacoes";
 import { TfiAnnouncement } from "react-icons/tfi";
+import { twMerge } from "tailwind-merge";
+import { useMediaQuery } from "react-responsive";
 
 type propsCotacao = {
 
@@ -46,6 +48,9 @@ export function CompCotacoes ( { id_imovel }: TipoParametro ) {
     const [cotacoes, setCotacoes] = useState<propsCotacao[][]>([]); 
 
     const navigate = useNavigate();
+
+    const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
+    const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
     const redirectCriarImobiliaria = () => {
         navigate('/criar-imobiliaria');
@@ -92,37 +97,37 @@ export function CompCotacoes ( { id_imovel }: TipoParametro ) {
     console.log(cotacoes);
 
     return (
-        <div className="w-full flex flex-col items-center justify-center pt-8">
+        <div className="w-full flex flex-col items-center justify-center pt-[140px]">
 
-            <div className="flex items-center justify-between w-full pb-8 pt-4 px-20">
+            <div className="flex items-center justify-between w-full pb-8 pt-4 px-6 lg:px-20">
                 <h1 className="text-[35px] font-kanit">Cotações</h1>
-                <div className="flex items-center gap-32 pl-[330px]">
-                    <button onClick={lastPage}><BsArrowLeftCircle className="text-[45px]"/></button>
-                    <button onClick={nextPage}><BsArrowRightCircle className="text-[45px]"/></button>
+                <div className="flex items-center gap-12 lg:gap-32 lg:pl-[330px]">
+                    <button onClick={lastPage}><BsArrowLeftCircle className="text-[32px] lg:text-[45px]"/></button>
+                    <button onClick={nextPage}><BsArrowRightCircle className="text-[32px] lg:text-[45px]"/></button>
                 </div>
                 <ul className="flex items-center gap-4">
                     <li>
-                        <button onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
-                            <h1 className="font-outfit">Criar Imobiliária</h1>
+                        <button data-toggle="tooltip" data-placement="top" title="Criar Imobiliária" onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                            {isMidScreen && <h1 className="font-outfit">Criar Imobiliária</h1>}
                         </button> 
                     </li>
                     <li>
-                        <button onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
-                            <h1 className="font-outfit">Criar Corretor</h1>
+                        <button data-toggle="tooltip" data-placement="top" title="Criar Corretor" onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                            {isMidScreen && <h1 className="font-outfit">Criar Corretor</h1>}
                         </button> 
                     </li>
                     <li>
-                        <button onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
-                            <h1 className="font-outfit">Criar Cotação</h1>
+                        <button data-toggle="tooltip" data-placement="top" title="Criar Cotação" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                            {isMidScreen && <h1 className="font-outfit">Criar Cotação</h1>}
                         </button> 
                     </li>
                 </ul>
             </div>
             
-            <div className="w-full grid grid-cols-2 gap-10 px-14">
+            <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 px-6 lg:px-14 mb-4 lg:mb-0">
                 {cotacoes.length != 0 && cotacoes[contador].map((cotacao, index) => 
-                    <button onMouseOver={() => setEscolhida(index)}  className="bg-[#f0f0f0d3] h-[270px] rounded-xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
-                        <div className="w-full flex justify-between">
+                    <button onMouseOver={() => setEscolhida(index)}  className="bg-[#f0f0f0d3] h-[340px] xl:h-[270px] rounded-xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
+                        <div className={twMerge("w-full", isMidScreen ? 'flex justify-between' : 'flex flex-col')}>
                             <div className="flex flex-col">
                                 <div className="flex items-center gap-3">
                                     <h1 className="text-[40px] font-outfit">{cotacao.nome_corretor} </h1>
@@ -142,22 +147,22 @@ export function CompCotacoes ( { id_imovel }: TipoParametro ) {
                                 </div>
                             </div>
                             <div className="flex flex-col gap-1 pt-3">
-                                <h1 className="text-[20px] font-outfit">Contato: {cotacao.contato_corretor}</h1>
+                                <h1 className={"text-[20px] font-outfit text-end"}>Contato: {cotacao.contato_corretor}</h1>
                                 <h1 className="text-[17px] font-kanit text-end">{new Date(cotacao.data_cotacao).toLocaleDateString("pt-BR")}</h1>
                             </div>
                         </div>
                         <div className="flex items-center justify-around pb-3 w-full">
                             <div className="flex flex-col">
-                                <h1 className="text-[35px] font-serif" text->{cotacao.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                                <h1 className="text-[18px] text-slate-700">REAIS (BRL - R$)</h1>
+                                <h1 className="text-[28px] lg:text-[35px] font-serif" text->{cotacao.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
+                                <h1 className="text-[15px] lg:text-[18px] text-slate-700">REAIS (BRL - R$)</h1>
                             </div>
                             <div className="flex flex-col">
-                                <h1 className="text-[35px] font-serif" text->{cotacao.valor_min.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                                <h1 className="text-[18px] text-slate-700">Valor (min)</h1>
+                                <h1 className="text-[28px] lg:text-[35px] font-serif" text->{cotacao.valor_min.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
+                                <h1 className="text-[15px] lg:text-[18px] text-slate-700">Valor (min)</h1>
                             </div>
                             <div className="flex flex-col">
-                                <h1 className="text-[35px] font-serif" text->{cotacao.valor_max.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                                <h1 className="text-[18px] text-slate-700">Valor (max)</h1>
+                                <h1 className="text-[28px] lg:text-[35px] font-serif" text->{cotacao.valor_max.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
+                                <h1 className="text-[15px] lg:text-[18px] text-slate-700">Valor (max)</h1>
                             </div>
                         </div>
 

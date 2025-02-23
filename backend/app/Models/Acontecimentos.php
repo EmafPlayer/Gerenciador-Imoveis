@@ -12,7 +12,7 @@ class Acontecimentos extends Model
         'id_imovel',
         'titulo',
         'descricao',
-        'data_hora_inicio',
+        'data_inicio',
         'ultima_alteracao',
         'status_acontecimento',
     ];

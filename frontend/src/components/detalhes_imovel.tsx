@@ -20,7 +20,7 @@ export function DetalhesImovel ( { setModal, data }: propsDetalhesImovel)  {
 
     return (
         <div className="fixed inset-0 h-screen w-full z-10 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-            <div className="bg-white p-14 w-[40rem]">
+            <div className="bg-white p-14 w-[35rem] lg:w-[40rem]">
                 <div className="flex items-center justify-between mb-12">
                     <h1 className="text-4xl font-bold">Detalhes do Imóvel</h1>
                     <button onClick={() => setModal(false)} className="text-white text-[20px] bg-red-900 p-2 rounded-md"><MdClose /></button>

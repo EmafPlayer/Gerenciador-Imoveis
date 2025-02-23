@@ -32,14 +32,21 @@ Route::prefix('v1')->group(function () {
         Route::get('/ver-acontecimentos', [AcontecimentoControllers::class, 'verAcontecimentos']);
         Route::get('/ver-imovel/{id_imovel}', [ImoveisController::class, 'verImovel']);
 
-        Route::get('/run-seeders', [SeedersControllers::class, 'run']);
+        Route::post('/run-seeders', [SeedersControllers::class, 'run']);
 
         Route::get('/carregar-imoveis', [ImoveisController::class, 'carregarImoveis']);
         Route::get('/carregar-cotacoes/{id_imovel}', [CotacaoControllers::class, 'carregarCotacoes']);
+        Route::get('/carregar-despesas/{id_imovel}', [DespesaControllers::class, 'carregarDespesas']);
+        Route::get('/carregar-acontecimentos/{id_imovel}', [AcontecimentoControllers::class, 'carregarAcontecimentos']);
 
 
         Route::get('/fotos/{filename}', function ($filename) {
             $path = storage_path("app/public/fotos/{$filename}");
+        
+            if (!file_exists($path)) {
+                return response()->json(['error' => 'Arquivo não encontrado', 'path' => $path], 404);
+            }
+        
             return response()->file($path);
         });
 

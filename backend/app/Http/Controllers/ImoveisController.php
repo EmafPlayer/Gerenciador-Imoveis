@@ -152,6 +152,11 @@ class ImoveisController extends Controller
         
     }
 
+    public function runSeeders () 
+    {
+        
+    }
+
     /**
      * Update the specified resource in storage.
      */

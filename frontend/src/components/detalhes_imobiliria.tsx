@@ -28,7 +28,7 @@ export function DetalhesImobiliaria ( { imobiliaria, setModal }: propsDetalhesIm
 
     return (
         <div className="fixed z-10 inset-0 h-screen w-full items-center justify-center flex bg-gray-500 bg-opacity-75">
-            <div className="bg-white p-14 w-[40rem]">
+            <div className="bg-white p-14 w-[35rem] lg:w-[40rem]">
                 <div className="flex items-center justify-between mb-12">
                     <h1 className="text-4xl font-bold">Imobiliária</h1>
                     <button onClick={() => setModal(false)} className="text-white text-[20px] bg-red-900 p-2 rounded-md"><MdClose /></button>

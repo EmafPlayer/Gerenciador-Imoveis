@@ -6,6 +6,9 @@ import { FaClipboardList, FaFileImage } from "react-icons/fa";
 import { UploadFotos } from "./upload_fotos";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import carregarImovel from "../apis/carregar_imovel";
+import { IoKey } from "react-icons/io5";
+import { twMerge } from "tailwind-merge";
+import { useMediaQuery } from "react-responsive";
 
 type propsImovel = {
     id: number;
@@ -44,6 +47,9 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
     const [imovel, setImovel] = useState<propsImovel>();
 
     const[modal, setModal] = useState(false);
+
+    const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
+    const isHighScreen = useMediaQuery({ query: '(min-width: 1536px)' })
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -85,41 +91,46 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
     if(!imovel){
     } else {
         return (
-            <div className="flex items-center justify-center gap-16 pt-8">
+            <div className={twMerge("gap-16 pt-[140px]", isHighScreen ? 'flex items-center justify-center' : 'flex flex-col items-center')}>
                 {imovel.fotos.length == 0 ? 
                 
-                <div className="h-[700px] w-[1000px] rounded-3xl shadow-md bg-slate-300"></div>
+                <div className="h-[700px] w-full sm:w-[1000px] rounded-3xl shadow-md bg-slate-300"></div>
                 
                 :
                 
-                <div className="flex items-center gap-7">
-                    <button onClick={lastPage}><BsArrowLeftCircle className="text-[45px]"/></button>
-                    <img src={`http://127.0.0.1:8000/api/v1/inicio/${imovel.fotos[contador].endereco}`} alt="foto do imóvel" className="h-[700px] w-[1000px] rounded-3xl shadow-md"/>
-                    <button onClick={nextPage}><BsArrowRightCircle className="text-[45px]"/></button>
+                <div className="flex items-center gap-2 sm:gap-7">
+                    <button onClick={lastPage}><BsArrowLeftCircle className="text-[25px] sm:text-[45px]"/></button>
+                    <img src={`http://127.0.0.1:8000/api/v1/inicio/${imovel.fotos[contador].endereco}`} alt="foto do imóvel" className=" h-[300px] sm:h-[400px] md:h-[500px] xl:h-[700px] w-full sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[1000px] rounded-3xl shadow-md"/>
+                    <button onClick={nextPage}><BsArrowRightCircle className="text-[25px] sm:text-[45px]"/></button>
                 </div>
                 }
-                <div className=" bg-[#dededed3] h-[700px] w-[600px] rounded-3xl p-8 border-4 border-[#dbdbdb] shadow-md">
+                <div className=" bg-[#dededed3] h-[700px] w-[550px] lg:w-[600px] rounded-3xl p-8 border-4 border-[#dbdbdb] shadow-md mb-6 lg:mb-0">
                     <div className="h-full flex flex-col justify-between">
-                        <div>
-                            <h1 className="text-[50px] font-outfit">{imovel.nome}</h1>
+                        <div className="">
+                            <h1 className="text-[40px] lg:text-[50px] font-outfit">{imovel.nome}</h1>
                             <h3 className="pt-3 pb-5 text-[15px] font-outfit opacity-[70%]">{imovel.rua}, {imovel.numero} - {imovel.bairro} - {imovel.cidade}, {imovel.estado}</h3>
-                            <h2 className="text-[18px] font-outfit overflow-auto overscroll-contain h-36">{imovel.descricao}</h2>
-                            <h2 className="text-[15px]">{imovel.tipo == false ? "Aluguel" : "Venda"}</h2>
-                            <div className="flex items-end">
-                                <h1 className="text-[35px] text-zinc-700 font-bold">{imovel.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                                <h4 className="text-[20px] pb-2">{imovel.tipo == false ? "/mes" : ""}</h4>
-                            </div>
-                            <div className="pt-10 gap-3 flex items-center">
-                                <TbRulerMeasure className="text-[30px]"/>
-                                <h5>100 m²</h5>
+                            <h2 className="text-[15px] lg:text-[18px] font-outfit overflow-auto overscroll-contain h-28">{imovel.descricao}</h2>
+                            <div className="flex justify-around">
+                                <div>
+                                    <h2 className="text-[15px]">{imovel.tipo == false ? "Aluguel" : "Venda"}</h2>
+                                    <div className="flex items-end">
+                                        <h1 className="text-[35px] text-zinc-700 font-bold">{imovel.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
+                                        <h4 className="text-[20px] pb-2">{imovel.tipo == false ? "/mes" : ""}</h4>
+                                    </div>
+                                </div>
+                                <div className="gap-3 flex items-center">
+                                    <TbRulerMeasure className="text-[30px]"/>
+                                    <h5>100 m²</h5>
+                                </div>
                             </div>
                         </div>
-                        <div className="justify-around flex items-center">
-                            <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[30px]"><FaClipboardList/></button>
-                            <div className="flex items-end">
-                                <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[30px]"><FaFileImage/></button>
+                        <div className="flex flex-col gap-10">
+                            <div className="flex justify-around items-center">
+                                <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaClipboardList/></button>
+                                <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaFileImage/></button>
+                                <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoKey /></button>
                             </div>
-                            <div className="w-[200px] h-[160px] pt-1">
+                            <div className="w-full h-[160px]">
                                 {isLoaded ? (
                                 <GoogleMap mapContainerClassName="rounded-xl"
                                     mapContainerStyle={{width: '100%', height: '100%'}}

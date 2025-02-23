@@ -150,14 +150,14 @@ export function CriarCotacao () {
 
                         <div className="">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Corretores</h4>
-                            <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? corretores[status_corretor].nome_imobiliaria : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} value={status_corretor + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? `Imobiliária - ${corretores[status_corretor].nome_imobiliaria}` : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} value={status_corretor + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? corretores[status_corretor].nome_corretor : "Ainda não foi criado"}</h6>
                                 {ativacao_corretor ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao_corretor &&
                                 <ul className="absolute translate-y-[6px]">
                                     {corretores.length != 0 && corretores.map((corretor, index) => 
-                                        <li data-toggle="tooltip" data-placement="top" title={corretor.nome_imobiliaria}><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{corretor.nome_corretor}</button></li>
+                                        <li data-toggle="tooltip" data-placement="top" title={`Imobiliária - ${corretores[status_corretor].nome_imobiliaria}`}><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{corretor.nome_corretor}</button></li>
                                     )}
                                 </ul>}
                         </div>

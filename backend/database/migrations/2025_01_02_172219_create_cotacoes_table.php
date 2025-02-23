@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('valor_min');
             $table->double('valor_max');
             $table->date('data_cotacao');
-            $table->string('descricao', 255);
+            $table->string('descricao');
             $table->foreignId('tipo_cotacao');
             $table->timestamps();
 
