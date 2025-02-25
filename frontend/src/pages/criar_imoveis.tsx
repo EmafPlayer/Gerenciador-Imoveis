@@ -83,44 +83,44 @@ export function CriarImoveis () {
             </NavBar>
             <main className="w-full h-full pt-[115px] bg-[#FFFFFF] px-6">
                 <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5 mb-12">
-                    <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[2rem] font-medium text-[36px] uppercase')} >Cadastro de Imóveis</h1>
+                    <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[2rem] font-medium text-[32px] lg:text-[36px] uppercase')} >Cadastro de Imóveis</h1>
 
-                    <div className="grid grid-cols-4 gap-32">
-                        <div className="col-span-2 ">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-32">
+                        <div className="col-span-1 lg:col-span-2 ">
                             <label htmlFor="nome_imovel" className="text-[18px] text-slate-700 font-outfit">Nome do imóvel</label>
                             <input {...register('nome_imovel')} type="text" name="nome_imovel" id="nome_imovel" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o nome do imóvel"/>
                         </div>
-                        <div className="">
-                            <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do imóvel</h4>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                        <div className="col-span-1">
+                            <h4 className="text-[18px] text-slate-700 font-outfit mt-0 lg:mt-2 mb-[5px]">Status do imóvel</h4>
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_botao} className=" w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{status_imoveis[status_botao]}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao &&
-                                <ul className="absolute translate-y-[6px]">
+                                <ul className="relative lg:absolute translate-y-[6px] w-full">
                                     {status_imoveis.map((status, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setStatus_botao(index); setAtivacao(!ativacao)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{status}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setStatus_botao(index); setAtivacao(!ativacao)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{status}</button></li>
                                     )}
                                 </ul>}
                         </div>
                         <div className="col-span-1">
-                            <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo (Aluguel ou Venda)</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus(!status)}} value={botao} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <h4 className="text-[18px] text-slate-700 font-outfit mt-0 lg:mt-2 mb-[5px]">Tipo (Aluguel ou Venda)</h4>
+                            <button onClick={(e) => {e.preventDefault(); setStatus(!status)}} value={botao} className=" w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo[botao]}</h6>
                                 {status ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {status &&
-                                <ul className="absolute translate-y-[6px]">
+                                <ul className="relative lg:absolute translate-y-[6px]">
                                     {tipo.map((tipo, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setBotao(index); setStatus(!status)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setBotao(index); setStatus(!status)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
                                     )}
                                 </ul>}
                         </div>
                         
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-5 gap-6 mt-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-6">
                         
                         <div className="col-span-1 sm:col-span-2">
                             <label htmlFor="rua" className="text-[18px] text-slate-700 font-outfit">Rua</label>
@@ -226,7 +226,7 @@ export function CriarImoveis () {
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="90"/>
                         </div>
                         
-                        <div className="col-span-1 sm:col-span-5">
+                        <div className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5">
                                 <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Descrição</label>
                                 <input {...register('descricao')} type="text" name="descricao" id="descricao" required
                                 className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>

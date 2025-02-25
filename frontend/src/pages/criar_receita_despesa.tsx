@@ -115,51 +115,53 @@ export function CriarReceitaDespesa () {
         console.log(titulos_despesa);
 
     return (
-        <div className="h-screen w-full">
+        <div className="h-max w-full">
             <NavBar user={user}>
             </NavBar>
             <main className="w-full h-full pt-[115px] bg-[#FFFFFF] p-6">
-                <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5">
+                <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5 mb-7 lg:mb-0">
                     
-                    <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[3rem] font-medium text-[36px] uppercase')} >Cadastro de Receitas ou Despesas</h1>
+                    <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[3rem] font-medium text-[32px] lg:text-[36px] uppercase')} >Cadastro de Receitas ou Despesas</h1>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-5 gap-6 mt-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 mt-6">
                         
-                        <div className="col-span-3 mb-3 flex gap-2">
-                            <div>
+                        <div className="col-span-1 lg:col-span-3 mb-3 flex gap-2">
+                            <div className="w-full">
                                 <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Títulos das Receitas e Despesas</h4>
-                                <button onClick={(e) => {e.preventDefault(); setStatus_titulo(!status_titulo)}} value={titulo_despesa + 1} className="w-[600px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
-                                    <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{titulos_despesa.length != 0 ? titulos_despesa[titulo_despesa].descricao : "Ainda não foi criado"}</h6>
-                                    {status_titulo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
-                                </button>
+                                <div className="flex gap-3">
+                                    <button onClick={(e) => {e.preventDefault(); setStatus_titulo(!status_titulo)}} value={titulo_despesa + 1} className="w-full lg:w-[600px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                        <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{titulos_despesa.length != 0 ? titulos_despesa[titulo_despesa].descricao : "Ainda não foi criado"}</h6>
+                                        {status_titulo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
+                                    </button>
+                                    <div className="">
+                                        <button onClick={(e) => {e.preventDefault(); setModal(true)}} data-toggle="tooltip" data-placement="top" title="Criar Título" className="rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center p-3"><GrAdd className="text-white text-[25px]"/></button>
+                                    </div>
+                                </div>
                                 {status_titulo &&
-                                    <ul className="absolute translate-y-[6px]">
+                                    <ul className="relative lg:absolute translate-y-[6px]">
                                         {titulos_despesa.length != 0 && titulos_despesa.map((titulo, index) => 
-                                            <li><button onClick={(e) => {e.preventDefault(); setTitulo_despesa(index); setStatus_titulo(!status_titulo)}} className="w-[600px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{titulo.descricao}</button></li>
+                                            <li><button onClick={(e) => {e.preventDefault(); setTitulo_despesa(index); setStatus_titulo(!status_titulo)}} className="w-[88%] lg:w-[600px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{titulo.descricao}</button></li>
                                         )}
                                     </ul>}
-                            </div>
-                            <div className="flex items-end">
-                                <button onClick={(e) => {e.preventDefault(); setModal(true)}} data-toggle="tooltip" data-placement="top" title="Criar Título" className="rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center p-3"><GrAdd className="text-white text-[25px]"/></button>
                             </div>
                                     
                         </div>
 
-                        <div className="col-span-2 mb-3">
+                        <div className="col-span-1 lg:col-span-3 xl:col-span-2 mb-3">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo (Receita ou Despesa)</h4>
-                            <button onClick={(e) => {e.preventDefault(); setSreceita_despesa(!Sreceita_despesa)}} value={receita_despesa} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setSreceita_despesa(!Sreceita_despesa)}} value={receita_despesa} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo_dr[receita_despesa]}</h6>
                                 {Sreceita_despesa ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {Sreceita_despesa &&
-                                <ul className="absolute translate-y-[6px]">
+                                <ul className="relative lg:absolute translate-y-[6px]">
                                     {tipo_dr.map((tipo, index) => 
                                         <li><button onClick={(e) => {e.preventDefault(); setReceita_despesa(index); setSreceita_despesa(!Sreceita_despesa)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
                                     )}
                                 </ul>}
                         </div>
 
-                        <div className="col-span-2">
+                        <div className="col-span-1 lg:col-span-2">
                             <label htmlFor="valor" className="text-[18px] text-slate-700 font-outfit">Valor (R$)</label>
                             <input {...register('valor')} type="number" step='0.01' name="valor" id="valor" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="300000.00"/>
@@ -171,53 +173,53 @@ export function CriarReceitaDespesa () {
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 px-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')}/>
                         </div>
 
-                        <div className="col-span-1 sm:col-span-5 mt-3">
+                        <div className="col-span-1 lg:col-span-5 mt-0 lg:mt-3">
                             <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Descrição</label>
                             <input {...register('descricao')} type="text" name="descricao" id="descricao" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-32 mt-14">
+                    <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 items-center mt-6 lg:mt-14 gap-6 lg:gap-0">
                         
-                        <div className="">
+                        <div className="col-span-1 lg:col-span-2">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipos de Despesa e Receita</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_despesa(!status_despesa)}} value={tipo_despesa + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setStatus_despesa(!status_despesa)}} value={tipo_despesa + 1} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipos_despesa[tipo_despesa]}</h6>
                                 {status_despesa ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {status_despesa &&
-                                <ul className="absolute translate-y-[6px]">
+                                <ul className="relative lg:absolute translate-y-[6px]">
                                     {tipos_despesa.map((tipo, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setTipo_despesa(index); setStatus_despesa(!status_despesa)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setTipo_despesa(index); setStatus_despesa(!status_despesa)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
                                     )}
                                 </ul>}
                         </div>
 
-                        <div className="">
+                        <div className="col-span-1 lg:col-span-2">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipos de Recorrência</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_recorrencia(!status_recorrencia)}} value={tipo_recorrencia + 1} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setStatus_recorrencia(!status_recorrencia)}} value={tipo_recorrencia + 1} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipos_recorrencia[tipo_recorrencia]}</h6>
                                 {status_recorrencia ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {status_recorrencia &&
-                                <ul className="absolute translate-y-[6px]">
+                                <ul className="relative lg:absolute translate-y-[6px]">
                                     {tipos_recorrencia.map((tipo, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setTipo_recorrencia(index); setStatus_recorrencia(!status_recorrencia)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setTipo_recorrencia(index); setStatus_recorrencia(!status_recorrencia)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
                                     )}
                                 </ul>}
                         </div>
 
-                        <div className="">
+                        <div className="col-span-1 lg:col-span-2">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Acontecimentos</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_acontecimento(!status_acontecimento)}} value={acontecer} className="w-[350px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setStatus_acontecimento(!status_acontecimento)}} value={acontecer} className="w-full lg:w-[350px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{acontecimentos.length != 0 ? acontecimentos[acontecer].titulo : "Ainda não foi criado"}</h6>
                                 {status_acontecimento ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {status_acontecimento &&
-                                <ul className="absolute translate-y-[6px]">
+                                <ul className="relative lg:absolute translate-y-[6px]">
                                     {acontecimentos.length != 0 && acontecimentos.map((acontecimento, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setAcontecer(index); setStatus_acontecimento(!status_acontecimento)}} className="w-[350px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{acontecimento.titulo}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setAcontecer(index); setStatus_acontecimento(!status_acontecimento)}} className="w-full lg:w-[350px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{acontecimento.titulo}</button></li>
                                     )}
                                 </ul>}
                         </div>

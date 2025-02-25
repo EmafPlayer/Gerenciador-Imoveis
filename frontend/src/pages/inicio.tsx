@@ -45,7 +45,7 @@ export function Inicio() {
   })
 
   const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
-  const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
+  const isLowScreen = useMediaQuery({ query: '(min-width: 768px)' })
 
   localStorage.setItem("nome_usuario", "Emanuel");
   localStorage.setItem("foto_usuario", "Emanu.jpg");
@@ -112,12 +112,12 @@ export function Inicio() {
       <body className="h-full w-full p-6 lg:pl-16 pt-[95px]">
         <div className="bg-[#FFFFFF]"></div>
         <div className="flex">
-          <div className="w-full xl:w-[70%] 2xl:w-[50%]">
+          <div className={twMerge("", casas.length == 0 ? "w-full" : "w-full xl:w-[70%] 2xl:w-[50%]" )}>
             <div className="flex items-center justify-between w-full">
               <h1 className="text-[35px] pt-14 pb-10 font-serif">Imóveis</h1>
-              <div className="flex items-center gap-4 pr-7">
-                <button onClick={lastPage}><BsArrowLeftCircle className="text-[30px]"/></button>
-                <button onClick={nextPage}><BsArrowRightCircle className="text-[30px]"/></button>
+              <div className={twMerge("flex items-center pr-7", casas.length == 0 ? "gap-32" : "gap-4" )}>
+                <button onClick={lastPage}><BsArrowLeftCircle className={casas.length == 0 ? "text-[40px]" : "text-[30px]"}/></button>
+                <button onClick={nextPage}><BsArrowRightCircle className={casas.length == 0 ? "text-[40px]" : "text-[30px]"}/></button>
               </div>
               <div>
                 <button onClick={() => redirectCriarImoveis()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
@@ -126,7 +126,7 @@ export function Inicio() {
             <div className="grid grid-rows-3 gap-5 w-full mb-10 lg:mb-0">
               {casas[contador] ? (
                 casas[contador].map((casa, index) => 
-                  <button key={index} onClick={() => setImovel(index)} onMouseOver={() => setId_imovel(casa.id)} className="bg-[#DEDEDE] h-[18rem] sm:h-[13rem] w-full cursor-default px-5 py-2 hover:bg-slate-300 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3">
+                  <button key={index} onClick={() => setImovel(index)} onMouseOver={() => setId_imovel(casa.id)} className="bg-[#DEDEDE] h-[18rem] md:h-[13rem] w-full cursor-default px-5 py-2 hover:bg-slate-300 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3">
                     <div className={twMerge("w-full", !isLowScreen ? 'flex-col' : 'flex justify-between')}>
                       <div className={twMerge("flex", !isLowScreen? 'justify-around' : '' )}>
                         <img src={`http://127.0.0.1:8000/api/v1/inicio/${casa.foto}`} className="h-[165px] w-[250px] rounded-xl shadow-md"/>
@@ -135,7 +135,7 @@ export function Inicio() {
                           <h1 className="text-[18px] text-slate-600 font-sans">{!isMidScreen ? ( <>{casa.rua}, {casa.numero},<br/> {casa.bairro}</>) : (<> {casa.rua}, {casa.numero}, {casa.bairro}</>)}</h1>
                         </div>
                       </div>
-                      <div className={twMerge(" pt-5 sm:pt-0 ", isLowScreen ? 'flex flex-col items-center justify-between' : 'flex items-center justify-around')}>
+                      <div className={twMerge(" pt-5 lg:pt-0 ", isLowScreen ? 'flex flex-col items-center justify-between' : 'flex items-center justify-around')}>
                         <div className="flex items-end">
                             <h1 className="text-[30px] text-zinc-700 font-medium">{casa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                             <h4 className="text-[20px] pb-2">{casa.tipo == false ? "/mes" : ""}</h4>
@@ -151,7 +151,7 @@ export function Inicio() {
               )}
             </div>
           </div>
-          { isMidScreen &&
+          { (isMidScreen && casas.length != 0) &&
             <div className="w-[30%] xl:w-[30%] 2xl:w-[50%] px-9 pt-14">
               {isLoaded && casas[contador] && casas.length > 0 ? (
                 <GoogleMap mapContainerClassName="rounded-xl"

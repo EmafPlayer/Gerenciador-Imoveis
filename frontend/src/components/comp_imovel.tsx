@@ -6,7 +6,7 @@ import { FaClipboardList, FaFileImage } from "react-icons/fa";
 import { UploadFotos } from "./upload_fotos";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import carregarImovel from "../apis/carregar_imovel";
-import { IoKey } from "react-icons/io5";
+import { IoKey, IoPeopleSharp } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 import { useMediaQuery } from "react-responsive";
 
@@ -109,7 +109,7 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                         <div className="">
                             <h1 className="text-[40px] lg:text-[50px] font-outfit">{imovel.nome}</h1>
                             <h3 className="pt-3 pb-5 text-[15px] font-outfit opacity-[70%]">{imovel.rua}, {imovel.numero} - {imovel.bairro} - {imovel.cidade}, {imovel.estado}</h3>
-                            <h2 className="text-[15px] lg:text-[18px] font-outfit overflow-auto overscroll-contain h-28">{imovel.descricao}</h2>
+                            <h2 className="text-[15px] lg:text-[18px] font-outfit overflow-auto overscroll-contain h-32">{imovel.descricao}</h2>
                             <div className="flex justify-around">
                                 <div>
                                     <h2 className="text-[15px]">{imovel.tipo == false ? "Aluguel" : "Venda"}</h2>
@@ -129,8 +129,9 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                                 <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaClipboardList/></button>
                                 <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaFileImage/></button>
                                 <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoKey /></button>
+                                <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoPeopleSharp /></button>
                             </div>
-                            <div className="w-full h-[160px]">
+                            <div className="w-full h-[140px]">
                                 {isLoaded ? (
                                 <GoogleMap mapContainerClassName="rounded-xl"
                                     mapContainerStyle={{width: '100%', height: '100%'}}
