@@ -53,7 +53,7 @@ class AcontecimentoControllers extends Controller
     
     public function carregarAcontecimentos ($id_imovel) 
     {
-        $acontecimentos = Acontecimentos::select("titulo", "descricao", "data_hora_inicio", "ultima_alteracao", "status_acontecimento")
+        $acontecimentos = Acontecimentos::select("titulo", "descricao", "data_inicio", "ultima_alteracao", "status_acontecimento")
                                         ->where('id_imovel', '=', $id_imovel)->get()->toArray();
 
         $acontecimentos = array_chunk($acontecimentos, 4);

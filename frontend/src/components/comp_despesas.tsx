@@ -4,6 +4,8 @@ import { BsArrowLeftCircle, BsArrowRightCircle, BsCaretDownFill, BsCaretUpFill }
 import { useNavigate } from "react-router-dom";
 import carregarDespesas from "../apis/carregar_despesas";
 import { useMediaQuery } from "react-responsive";
+import { AiFillCheckSquare } from "react-icons/ai";
+
 
 type propsDespesa = {
     titulo: string,
@@ -125,6 +127,7 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                             <th className="px-2 py-4 w-[11%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Receita ou Despesa</th>
                             <th className="px-2 py-4 w-[12%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Data de Vencimento</th>
                             <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Valor (R$)</th>
+                            <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Pago/Recebido?</th>
                         </tr>
                     </thead>
                     <tbody className="bg-[#fefefe] divide-y divide-[#b9b8b8]">
@@ -139,7 +142,9 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                                                                                                                             item.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</td>
                                     <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Receita</td>
                                     <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-red-700">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+                                    <td className="px-2 text-[25px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><AiFillCheckSquare /></td>
+                                    
                                 </tr>  
                             ))        
                         )}
@@ -154,7 +159,8 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                                                                                                                             item.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</td>
                                     <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Despesa</td>
                                     <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-green-700">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><AiFillCheckSquare /></td>
                                 </tr>  
                             ))        
                         )}

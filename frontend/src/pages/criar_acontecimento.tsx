@@ -5,6 +5,7 @@ import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { api } from "../apis/api";
+import { Asteristico } from "../components/asteristico";
 
 
 type userProps = {
@@ -64,19 +65,28 @@ export function CriarAcontecimento () {
                     
                     <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[3rem] font-medium text-[32px] lg:text-[36px] uppercase')} >Cadastro de Acontecimento</h1>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 items-center gap-6 2xl:gap-32">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 items-center gap-8 2xl:gap-32">
                         <div className="col-span-1 lg:col-span-2">
-                            <label htmlFor="titulo" className="text-[18px] text-slate-700 font-outfit">Título do Acontecimento</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="titulo" className="text-[18px] text-slate-700 font-outfit">Título do Acontecimento</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('titulo')} type="text" name="titulo" id="titulo" required
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o nome do corretor"/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="Digite o título do acontecimento"/>
                         </div>
                         <div className="col-span-1">
-                            <label htmlFor="data_inicio" className="text-[18px] text-slate-700 font-outfit">Data de inicio</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="data_inicio" className="text-[18px] text-slate-700 font-outfit">Data de inicio</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('data_inicio')} type="date" name="data_inicio" id="data_inicio" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 px-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')}/>
                         </div>
                         <div className="">
-                            <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do Acontecimento</h4>
+                            <div className="flex items-center gap-2 mb-1">
+                                <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Status do Acontecimento</h4>
+                                <Asteristico/>
+                            </div>
                             <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_acontecimento + 1} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{status_acontecimentos[status_acontecimento]}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
@@ -90,10 +100,13 @@ export function CriarAcontecimento () {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-0 lg:mt-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-0 lg:mt-6">
                     
                         <div className="col-span-1 sm:col-span-5 mt-6">
-                            <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Descrição</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Descrição</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('descricao')} type="text" name="descricao" id="descricao" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
                         </div>

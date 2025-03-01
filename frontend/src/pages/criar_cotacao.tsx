@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import { api } from "../apis/api";
 import buscarCorretores from "../apis/buscar_corretores";
+import { Asteristico } from "../components/asteristico";
 
 type userProps = {
     nome: string,
@@ -96,31 +97,46 @@ export function CriarCotacao () {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mt-0 lg:mt-6">
                         
                         <div className="col-span-1">
-                            <label htmlFor="valor" className="text-[18px] text-slate-700 font-outfit">Valor (R$)</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="valor" className="text-[18px] text-slate-700 font-outfit">Valor (R$)</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('valor')} type="number" step='0.01' name="valor" id="valor" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="300000.00"/>
                         </div>
 
                         <div className="col-span-1">
-                            <label htmlFor="valor_min" className="text-[18px] text-slate-700 font-outfit">Valor Mínimo (R$)</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="valor_min" className="text-[18px] text-slate-700 font-outfit">Valor Mínimo (R$)</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('valor_min')} type="number" step='0.01' name="valor_min" id="valor_min" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="200000.00"/>
                         </div>
 
                         <div className="col-span-1">
-                            <label htmlFor="valor_max" className="text-[18px] text-slate-700 font-outfit">Valor Máximo (R$)</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="valor_max" className="text-[18px] text-slate-700 font-outfit">Valor Máximo (R$)</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('valor_max')} type="number" step='0.01' name="valor_max" id="valor_max" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')} placeholder="400000.00"/>
                         </div>
 
                         <div className="col-span-1 lg:col-span-2">
-                            <label htmlFor="data_cotacao" className="text-[18px] text-slate-700 font-outfit">Data da Cotação</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="data_cotacao" className="text-[18px] text-slate-700 font-outfit">Data da Cotação</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('data_cotacao')} type="date" name="data_cotacao" id="data_cotacao" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] py-[8px] font-normal rounded-xl border-2 px-3 transition duration-150 ease-in-out placeholder:italic placeholder:text-[17px] pb-[8px]')}/>
                         </div>
 
                         <div className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5 mt-0 lg:mt-6">
-                            <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Descrição</label>
+                            <div className="flex items-center gap-2 mb-1">
+                                <label htmlFor="descricao" className="text-[18px] text-slate-700 font-outfit">Descrição</label>
+                                <Asteristico/>
+                            </div>
                             <input {...register('descricao')} type="text" name="descricao" id="descricao" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
                         </div>
@@ -128,13 +144,16 @@ export function CriarCotacao () {
                         <div className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5  mt-0 lg:mt-6">
                             <label htmlFor="url_anuncio" className="text-[18px] text-slate-700 font-outfit">Site de anúncio</label>
                             <input {...register('url_anuncio')} type="text" name="url_anuncio" id="url_anuncio"
-                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="..."/>
+                            className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="exemplo@gmail.com"/>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-0 items-center mt-6 lg:mt-12">
                         <div className="">
-                            <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo da cotação</h4>
+                            <div className="flex items-center gap-2 mb-1">
+                                <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo da cotação</h4>
+                                <Asteristico/>
+                            </div>
                             <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} value={status_tipo + 1} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo_cotacao[status_tipo]}</h6>
                                 {ativacao_tipo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
@@ -149,7 +168,10 @@ export function CriarCotacao () {
 
 
                         <div className="">
-                            <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Corretores</h4>
+                            <div className="flex items-center gap-2 mb-1">
+                                <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Corretores</h4>
+                                <Asteristico/>
+                            </div>
                             <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? `Imobiliária - ${corretores[status_corretor].nome_imobiliaria}` : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} value={status_corretor + 1} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? corretores[status_corretor].nome_corretor : "Ainda não foi criado"}</h6>
                                 {ativacao_corretor ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }

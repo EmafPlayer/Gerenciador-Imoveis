@@ -105,20 +105,23 @@ export function CompCotacoes ( { id_imovel }: TipoParametro ) {
                     <button onClick={lastPage}><BsArrowLeftCircle className="text-[32px] lg:text-[45px]"/></button>
                     <button onClick={nextPage}><BsArrowRightCircle className="text-[32px] lg:text-[45px]"/></button>
                 </div>
-                <ul className="flex items-center gap-4">
+                <ul className={twMerge("gap-4", isMidScreen ? "flex items-center" : "flex flex-col" )}>
                     <li>
-                        <button data-toggle="tooltip" data-placement="top" title="Criar Imobiliária" onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
-                            {isMidScreen && <h1 className="font-outfit">Criar Imobiliária</h1>}
+                        <button data-toggle="tooltip" data-placement="top" title="Criar Imobiliária" onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3">
+                            <AiFillPlusCircle className="text-[20px]"/>
+                            <h1 className="font-outfit">Criar Imobiliária</h1>
                         </button> 
                     </li>
                     <li>
-                        <button data-toggle="tooltip" data-placement="top" title="Criar Corretor" onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
-                            {isMidScreen && <h1 className="font-outfit">Criar Corretor</h1>}
+                        <button data-toggle="tooltip" data-placement="top" title="Criar Corretor" onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3">
+                            <AiFillPlusCircle className="text-[20px]"/>
+                            <h1 className="font-outfit">Criar Corretor</h1>
                         </button> 
                     </li>
                     <li>
-                        <button data-toggle="tooltip" data-placement="top" title="Criar Cotação" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
-                            {isMidScreen && <h1 className="font-outfit">Criar Cotação</h1>}
+                        <button data-toggle="tooltip" data-placement="top" title="Criar Cotação" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3">
+                            <AiFillPlusCircle className="text-[20px]"/>
+                            <h1 className="font-outfit">Criar Cotação</h1>
                         </button> 
                     </li>
                 </ul>

@@ -16,7 +16,7 @@ dayjs.locale('pt-br')
 type propsAcontecimento = {
     titulo: string,
     descricao: string,
-    data_hora_inicio: Date,
+    data_inicio: Date,
     ultima_alteracao: Date,
     status_acontecimento: 0 | 1 | 2,
 }
@@ -88,13 +88,13 @@ export function CompAcontecimentos ( { id_imovel }: TipoParametro ) {
                     {acontecimentos.length != 0 && acontecimentos[contador].map((acontecimento, index) => 
                         <div className="bg-[#f0f0f0d3] h-[300px] rounded-xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex">
                             <div className="pl-4 lg:pl-8 pr-10 lg:pr-14 border-r-2 border-slate-700 flex items-center">
-                                <DataEstilizada data={new Date(acontecimento.data_hora_inicio)}/>
+                                <DataEstilizada data={new Date(acontecimento.data_inicio)}/>
                             </div>
                             <div className="h-full w-full pl-14 py-2">
                                 <div className="h-full flex flex-col justify-between">
                                     <div className="flex flex-col items-start">
                                         <h1 className="text-[30px] mb-3 font-semibold font-outfit">{acontecimento.titulo}</h1>
-                                        <div className="text-[20px] mb-6 overflow-auto overscroll-contain h-16">{acontecimento.descricao}</div>
+                                        <div className="text-[20px] text-wrap mb-6 overflow-y-auto overscroll-contain h-16 w-full">{acontecimento.descricao}</div>
                                         <div>
                                             <h1 className="text-[18px] font-semibold">Status do Acontecimento:</h1>
                                             <h1 className="text-[17px]">{acontecimento.status_acontecimento == 0 ? 'Planejamento' : 

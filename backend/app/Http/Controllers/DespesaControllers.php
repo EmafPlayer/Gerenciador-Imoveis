@@ -87,11 +87,11 @@ class DespesaControllers extends Controller
         $receitas = Despesas::join('titulos_despesas', 'despesas.titulo', '=', 'titulos_despesas.id')
                             ->select('titulos_despesas.descricao as titulo', 'despesas.descricao as descricao',
                                      'valor', 'tipo_despesa', 'tipo_recorrencia as recorrencia', 'receita_despesa', 'vencimento')
-                            ->where('receita_despesa', '=', 0)->where('id_imovel', '=', $id_imovel)->get()->toArray();
+                            ->orderBy('vencimento', 'desc')->where('receita_despesa', '=', 0)->where('id_imovel', '=', $id_imovel)->get()->toArray();
         $despesas = Despesas::join('titulos_despesas', 'despesas.titulo', '=', 'titulos_despesas.id')
                             ->select('titulos_despesas.descricao as titulo', 'despesas.descricao as descricao',
                                      'valor', 'tipo_despesa', 'tipo_recorrencia as recorrencia', 'receita_despesa', 'vencimento')
-                            ->where('receita_despesa', '=', 1)->where('id_imovel', '=', $id_imovel)->get()->toArray();
+                            ->orderBy('vencimento', 'desc')->where('receita_despesa', '=', 1)->where('id_imovel', '=', $id_imovel)->get()->toArray();
 
         $receitas = array_chunk($receitas, 8);
         $despesas = array_chunk($despesas, 8);
