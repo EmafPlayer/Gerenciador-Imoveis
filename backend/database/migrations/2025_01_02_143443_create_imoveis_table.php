@@ -27,7 +27,7 @@ return new class extends Migration
             $table->double('fracao_ideal');
             $table->double('area_total');
             $table->double('area_construida');
-            $table->boolean('tipo');
+            $table->boolean('tipo'); // aluguel ou venda
             $table->timestamps();
 
             $table->foreign('id_endereco')->references('id')->on('enderecos');

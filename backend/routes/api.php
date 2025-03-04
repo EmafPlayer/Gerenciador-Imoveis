@@ -33,6 +33,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/ver-imovel/{id_imovel}', [ImoveisController::class, 'verImovel']);
 
         Route::post('/run-seeders', [SeedersControllers::class, 'run']);
+        Route::post('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
 
         Route::get('/carregar-imoveis', [ImoveisController::class, 'carregarImoveis']);
         Route::get('/carregar-cotacoes/{id_imovel}', [CotacaoControllers::class, 'carregarCotacoes']);

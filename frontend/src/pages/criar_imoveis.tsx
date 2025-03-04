@@ -245,7 +245,7 @@ export function CriarImoveis () {
 
                         <div className="col-span-1">
                             <div className="flex items-center gap-2 mb-1">
-                                <label htmlFor="area" className="text-[18px] text-slate-700 font-outfit">Área Incorporada</label>
+                                <label htmlFor="area" className="text-[18px] text-slate-700 font-outfit">Área Incorporada (m²)</label>
                                 <Asteristico/>
                             </div>
                             <input {...register('area')} type="number" step='0.01' name="area" id="area" required
@@ -253,7 +253,7 @@ export function CriarImoveis () {
                         </div>
                         <div className="col-span-1">
                             <div className="flex items-center gap-2 mb-1">
-                                <label htmlFor="area_testada" className="text-[18px] text-slate-700 font-outfit">Área Testada</label>
+                                <label htmlFor="area_testada" className="text-[18px] text-slate-700 font-outfit">Área Testada (m²)</label>
                                 <Asteristico/>
                             </div>
                             <input {...register('area_testada')} type="number" step='0.01' name="area_testada" id="area_testada" required
@@ -269,7 +269,7 @@ export function CriarImoveis () {
                         </div>
                         <div className="col-span-1">
                             <div className="flex items-center gap-2 mb-1">
-                                <label htmlFor="area_total" className="text-[18px] text-slate-700 font-outfit">Área Total</label>
+                                <label htmlFor="area_total" className="text-[18px] text-slate-700 font-outfit">Área Total (m²)</label>
                                 <Asteristico/>
                             </div>
                             <input {...register('area_total')} type="number" step='0.01' name="area_total" id="area_total" required
@@ -277,7 +277,7 @@ export function CriarImoveis () {
                         </div>
                         <div className="col-span-1">
                             <div className="flex items-center gap-2 mb-1">
-                                <label htmlFor="area_construida" className="text-[18px] text-slate-700 font-outfit">Área Construída</label>
+                                <label htmlFor="area_construida" className="text-[18px] text-slate-700 font-outfit">Área Construída (m²)</label>
                                 <Asteristico/>
                             </div>
                             <input {...register('area_construida')} type="number" step='0.01' name="area_construida" id="area_construida" required

@@ -5,16 +5,21 @@ import { useNavigate } from "react-router-dom";
 import carregarDespesas from "../apis/carregar_despesas";
 import { useMediaQuery } from "react-responsive";
 import { AiFillCheckSquare } from "react-icons/ai";
+import { twMerge } from "tailwind-merge";
+import { api } from "../apis/api";
 
 
 type propsDespesa = {
-    titulo: string,
+    id: number,
+    titulo_despesa: string,
+    titulo_acontecimento: string,
     descricao: string,
     valor: number,
     tipo_despesa: 0 | 1,
     recorrencia: 0 | 1 | 2 | 3,
     receitas_despesas: 0 | 1,
     vencimento: Date,
+    pago: boolean,
 }
 
 type TipoParametro = {
@@ -27,8 +32,8 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
     const [contador_despesas, setContador_despesas] = useState(0);
     const [ativacao, setAtivacao] = useState(false);
     const [valorBotao, setValorBotao] = useState(0);
-    const [despesas, setDespesas] = useState<propsDespesa[][]>([]);
-    const [receitas, setReceitas] = useState<propsDespesa[][]>([]);
+    var [despesas, setDespesas] = useState<propsDespesa[][]>([]);
+    var [receitas, setReceitas] = useState<propsDespesa[][]>([]);
     
     const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
 
@@ -84,6 +89,22 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
         }    
     }
 
+    const modificarStatusDespesa = async (index1: number, index2: number) => {
+        const retorno = await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
+            pago: !despesas[index1][index2].pago
+        });
+
+        despesas[index1][index2].pago = !despesas[index1][index2].pago;
+    }
+
+    const modificarStatusReceita = async (index1: number, index2: number) => {
+        const retorno = await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
+            pago: !receitas[index1][index2].pago
+        });
+
+        receitas[index1][index2].pago = !receitas[index1][index2].pago;
+    }
+
     if(despesas && receitas){
         return (
             <div className="w-full flex flex-col items-center justify-center  pt-[120px]">
@@ -116,94 +137,100 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
             </div>
 
             {valorBotao == 0 ? 
-            <div className="w-full overflow-x-auto px-4 lg:px-36">
-                <table className="border-[0.2px] border-solid border-[#414040] rounded-md shadow-md table-auto divide-y divide-[#000000] w-full mb-10">
-                    <thead className="w-full ">
-                        <tr>
-                            <th className="px-2 py-4 w-[16%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Título</th>
-                            <th className="px-2 py-4 w-[26%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Descrição</th>
-                            <th className="px-2 py-4 w-[14%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Tipo da Despesa/Receita</th>
-                            <th className="px-2 py-4 w-[11%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Tipo da Recorrência</th>
-                            <th className="px-2 py-4 w-[11%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Receita ou Despesa</th>
-                            <th className="px-2 py-4 w-[12%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Data de Vencimento</th>
-                            <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Valor (R$)</th>
-                            <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Pago/Recebido?</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-[#fefefe] divide-y divide-[#b9b8b8]">
-                        {receitas.length != 0 && receitas.map((receita) => 
-                            receita.map((item) => (
-                                <tr>
-                                    <td className="px-2 py-[13px] font-medium text-center text-[18px] border-x-[0.4px] border-solid border-[#b9b8b8]">{item.titulo}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.descricao}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.recorrencia == 0 ? 'Anual' : 
-                                                                                                                            item.recorrencia == 1 ? 'Mensal' : 
-                                                                                                                            item.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Receita</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-red-700">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
-                                    <td className="px-2 text-[25px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><AiFillCheckSquare /></td>
-                                    
-                                </tr>  
-                            ))        
-                        )}
-                        {despesas.length != 0 && despesas.map((despesa) => 
-                            despesa.map((item) => (
-                                <tr>
-                                    <td className="px-2 py-[13px] font-medium text-center text-[18px] border-x-[0.4px] border-solid border-[#b9b8b8]">{item.titulo}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.descricao}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.recorrencia == 0 ? 'Anual' : 
-                                                                                                                            item.recorrencia == 1 ? 'Mensal' : 
-                                                                                                                            item.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Despesa</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-green-700">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
-                                    <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><AiFillCheckSquare /></td>
-                                </tr>  
-                            ))        
-                        )}
-                    </tbody>
-                </table>
-            </div>
+                <div className="w-full overflow-x-auto px-4 lg:px-10">
+                    <table className="border-[0.2px] border-solid border-[#414040] rounded-md shadow-md table-auto divide-y divide-[#000000] w-full mb-10">
+                        <thead className="w-full ">
+                            <tr>
+                                <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Título</th>
+                                <th className="px-2 py-4 w-[24%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Descrição</th>
+                                <th className="px-2 py-4 w-[12%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Acontecimento</th>
+                                <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Tipo da Despesa/Receita</th>
+                                <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Tipo da Recorrência</th>
+                                <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Receita ou Despesa</th>
+                                <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Data de Vencimento</th>
+                                <th className="px-2 py-4 w-[8%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Valor (R$)</th>
+                                <th className="px-2 py-4 w-[6%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Pago?</th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-[#fefefe] divide-y divide-[#b9b8b8]">
+                            {receitas.length != 0 && receitas.map((receita, index1) => 
+                                receita.map((item, index2) => (
+                                    <tr>
+                                        <td className="px-2 py-[13px] font-medium text-center text-[18px] border-x-[0.4px] border-solid border-[#b9b8b8]">{item.titulo_despesa}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.descricao}</td>
+                                        <td className="px-2 py-[13px] font-medium text-center text-[18px] border-x-[0.4px] border-solid border-[#b9b8b8]">{item.titulo_acontecimento ? item.titulo_acontecimento : 'Não vinculado'}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.recorrencia == 0 ? 'Anual' : 
+                                                                                                                                item.recorrencia == 1 ? 'Mensal' : 
+                                                                                                                                item.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Receita</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-sky-800">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+                                        <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={(e) => {e.preventDefault(); modificarStatusReceita(index1, index2)}}><AiFillCheckSquare className={twMerge("text-[30px]", item.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div></td>
+                                        
+                                    </tr>  
+                                ))        
+                            )}
+                            {despesas.length != 0 && despesas.map((despesa, index1) => 
+                                despesa.map((item, index2) => (
+                                    <tr>
+                                        <td className="px-2 py-[13px] font-medium text-center text-[18px] border-x-[0.4px] border-solid border-[#b9b8b8]">{item.titulo_despesa}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.descricao}</td>
+                                        <td className="px-2 py-[13px] font-medium text-center text-[18px] border-x-[0.4px] border-solid border-[#b9b8b8]">{item.titulo_acontecimento ? item.titulo_acontecimento : 'Não vinculado'}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{item.recorrencia == 0 ? 'Anual' : 
+                                                                                                                                item.recorrencia == 1 ? 'Mensal' : 
+                                                                                                                                item.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Despesa</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
+                                        <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-amber-700">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+                                        <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={(e) => {e.preventDefault(); modificarStatusDespesa(index1, index2)}}><AiFillCheckSquare className={twMerge("text-[30px]", item.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div></td>
+                                    </tr>  
+                                ))        
+                            )}
+                        </tbody>
+                    </table>
+                </div>
 
             : 
             
             valorBotao == 1 ? 
             
             <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-x-3 lg:gap-x-8 gap-y-4 px-3 lg:px-32 mb-5 lg:mb-0">
-                {receitas.length != 0 && receitas[contador_receitas].map((despesa, index) => 
+                {receitas.length != 0 && receitas[contador_receitas].map((receita, index) => 
                     <div className="bg-[#f0f0f0d3] h-[310px] rounded-xl px-1 lg:px-4 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
                         <div className="flex flex-col justify-between h-full">
-                            <h1 className="text-[30px] font-outfit font-medium text-center">{despesa.titulo}</h1>
+                            <h1 className="text-[30px] font-outfit font-medium text-center">{receita.titulo_despesa}</h1>
                             <div className="">
                                 <div className="flex justify-around items-center mb-5">
                                     <div className="">
                                         <h4 className="text-[14px] lg:text-[17px] font-semibold">Tipo da Receita:</h4>
-                                        <h1 className="text-[13px] lg:text-[16px]">{despesa.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</h1>
+                                        <h1 className="text-[13px] lg:text-[16px]">{receita.tipo_despesa == 0 ? 'Recorrente' : 'Pontual'}</h1>
                                     </div>
                                     <div className="">
                                         <h4 className="text-[14px] lg:text-[17px] font-semibold">Tipo de Recorrência:</h4>
-                                        <h1 className="text-[13px] lg:text-[16px]">{despesa.recorrencia == 0 ? 'Anual' : 
-                                            despesa.recorrencia == 1 ? 'Mensal' : 
-                                            despesa.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</h1>
+                                        <h1 className="text-[13px] lg:text-[16px]">{receita.recorrencia == 0 ? 'Anual' : 
+                                            receita.recorrencia == 1 ? 'Mensal' : 
+                                            receita.recorrencia == 2 ? 'Diária' : 'Não se aplica'}</h1>
                                     </div>
                                 </div>
                                 <div className=" flex justify-around items-center">
                                     <div className="">
                                         <h1 className="text-[14px] lg:text-[17px] font-semibold">Vencimento:</h1>
-                                        <h1 className="text-[13px] lg:text-[16px]">{new Date (despesa.vencimento).toLocaleDateString("pt-BR")}</h1>
+                                        <h1 className="text-[13px] lg:text-[16px]">{new Date (receita.vencimento).toLocaleDateString("pt-BR")}</h1>
                                     </div>
                                     <div>
                                         <h1 className="text-[14px] lg:text-[17px] font-semibold">Acontecimento:</h1>
-                                        <h1 className="text-[13px] lg:text-[16px]">Reforma</h1>
+                                        <h1 className="text-[13px] lg:text-[16px]">{receita.titulo_acontecimento ? receita.titulo_acontecimento : 'Não vinculado'}</h1>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col items-center">
-                                <h1 className="text-[28px] font-serif" text->{despesa.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
-                                <h1 className="text-[12px] text-slate-700">REAIS (BRL - R$)</h1>
+                            <div className="flex justify-center items-center gap-8">
+                                <div className="flex flex-col items-center">
+                                    <h1 className="text-[28px] font-serif text-sky-800" text->{receita.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
+                                    <h1 className="text-[12px] text-sky-800">REAIS (BRL - R$)</h1>
+                                </div>
+                                <div className="flex justify-center items-center"><button><AiFillCheckSquare className={twMerge("text-[30px]", receita.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div>
                             </div>
                         </div>
                     </div>
@@ -216,7 +243,7 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                 {despesas.length != 0 && despesas[contador_despesas].map((despesa, index) => 
                     <div className="bg-[#f0f0f0d3] h-[310px] rounded-xl px-1 lg:px-4 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
                         <div className="flex flex-col justify-between h-full">
-                            <h1 className="text-[30px] font-outfit font-medium text-center">{despesa.titulo}</h1>
+                            <h1 className="text-[30px] font-outfit font-medium text-center">{despesa.titulo_despesa}</h1>
                             <div className="">
                                 <div className="flex justify-around items-center mb-5">
                                     <div className="">
@@ -237,13 +264,16 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                                     </div>
                                     <div>
                                         <h1 className="text-[14px] lg:text-[17px] font-semibold">Acontecimento:</h1>
-                                        <h1 className="text-[13px] lg:text-[16px]">Reforma</h1>
+                                        <h1 className="text-[13px] lg:text-[16px]">{despesa.titulo_acontecimento ? despesa.titulo_acontecimento : 'Não vinculado'}</h1>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col items-center">
-                                <h1 className="text-[28px] font-serif" text->{despesa.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
-                                <h1 className="text-[12px] text-slate-700">REAIS (BRL - R$)</h1>
+                            <div className="flex justify-center items-center gap-8">
+                                <div className="flex flex-col items-center">
+                                    <h1 className="text-[28px] font-serif text-amber-700" text->{despesa.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
+                                    <h1 className="text-[12px] text-amber-700">REAIS (BRL - R$)</h1>
+                                </div>
+                                <div className="flex justify-center items-center"><button><AiFillCheckSquare className={twMerge("text-[30px]", despesa.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div>
                             </div>
                         </div>
                     </div>

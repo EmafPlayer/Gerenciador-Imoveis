@@ -17,5 +17,6 @@ class Despesas extends Model
         'vencimento',
         'receita_despesa',
         'valor',
+        'pago',
     ];
 }

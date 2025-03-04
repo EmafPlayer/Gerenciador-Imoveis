@@ -38,18 +38,21 @@ export function CriarReceitaDespesa () {
     const[tipo_recorrencia, setTipo_recorrencia] = useState(0);
     const[acontecer, setAcontecer] = useState(0);
     const[receita_despesa, setReceita_despesa] = useState(0);
+    const[pago, setPago] = useState(0);
     
     const[status_titulo, setStatus_titulo] = useState(false);
     const[status_despesa, setStatus_despesa] = useState(false);
     const[status_recorrencia, setStatus_recorrencia] = useState(false);
     const[status_acontecimento, setStatus_acontecimento] = useState(false);
     const[Sreceita_despesa, setSreceita_despesa] = useState(false);
+    const[Spago, setSpago] = useState(false);
     
     const [titulos_despesa, setTitulos_despesa] = useState<titulosProps[]>([]);
     const [acontecimentos, setAcontecimentos] = useState<acontecimentosProps[]>([]);
     const tipos_despesa = ["Recorrente", "Pontual"];
     const tipos_recorrencia = ["Anual", "Mensal", "Diária", "Não se aplica"];
     const tipo_dr = ["Receita", "Despesa"];
+    const pagar = ["Ainda não pago", "Pago"];
 
 
     const location = useLocation();
@@ -100,8 +103,10 @@ export function CriarReceitaDespesa () {
                 tipo_recorrencia: String(tipo_recorrencia + 1),
                 vencimento: data.vencimento,
                 id_acontecimento: String(acontecer),
+                pago: String(pago),
             }).toString();
     
+
             const response = await api.get(`/v1/inicio/criacao-despesa?${params}`);
             
             console.log(response.data.message);
@@ -113,7 +118,6 @@ export function CriarReceitaDespesa () {
             console.error(error);
         }
     }
-
         console.log(titulos_despesa);
 
     return (
@@ -127,7 +131,7 @@ export function CriarReceitaDespesa () {
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-8 mt-6">
                         
-                        <div className="col-span-1 lg:col-span-3 mb-3 flex gap-2">
+                        <div className="col-span-1 lg:col-span-3 mb-0 lg:mb-3 flex gap-2">
                             <div className="w-full">
                                 <div className="flex items-center gap-2 mb-1">
                                     <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Títulos das Receitas e Despesas</h4>
@@ -152,7 +156,7 @@ export function CriarReceitaDespesa () {
                                     
                         </div>
 
-                        <div className="col-span-1 lg:col-span-3 xl:col-span-2 mb-3">
+                        <div className="col-span-1 lg:col-span-3 xl:col-span-1 mb-0 lg:mb-3">
                             <div className="flex items-center gap-2 mb-1">
                                 <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo (Receita ou Despesa)</h4>
                                 <Asteristico/>
@@ -164,7 +168,24 @@ export function CriarReceitaDespesa () {
                             {Sreceita_despesa &&
                                 <ul className="relative lg:absolute translate-y-[6px]">
                                     {tipo_dr.map((tipo, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setReceita_despesa(index); setSreceita_despesa(!Sreceita_despesa)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setReceita_despesa(index); setSreceita_despesa(!Sreceita_despesa)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
+                                    )}
+                                </ul>}
+                        </div>
+
+                        <div className="col-span-1 lg:col-span-3 xl:col-span-1 mb-0 lg:mb-3">
+                            <div className="flex items-center gap-2 mb-1">
+                                <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Pago?</h4>
+                                <Asteristico/>
+                            </div>
+                            <button onClick={(e) => {e.preventDefault(); setSpago(!Spago)}} value={pago} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{pagar[pago]}</h6>
+                                {Spago ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
+                            </button>
+                            {Spago &&
+                                <ul className="relative lg:absolute translate-y-[6px]">
+                                    {pagar.map((tipo, index) => 
+                                        <li><button onClick={(e) => {e.preventDefault(); setPago(index); setSpago(!Sreceita_despesa)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
                                     )}
                                 </ul>}
                         </div>

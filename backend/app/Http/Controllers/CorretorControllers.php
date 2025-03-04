@@ -37,7 +37,9 @@ class CorretorControllers extends Controller
      */
     public function show()
     {  
-        $corretores_imobiliarias = DB::table('corretores')->join('imobiliarias', 'corretores.id_imobiliaria', '=','imobiliarias.id')->select('corretores.nome as nome_corretor', 'imobiliarias.nome_oficial as nome_imobiliaria')->orderBy('corretores.id','asc')->get()->toArray();
+        $corretores_imobiliarias = DB::table('corretores')->join('imobiliarias', 'corretores.id_imobiliaria', '=','imobiliarias.id')
+                                                          ->select('corretores.nome as nome_corretor', 'imobiliarias.nome_oficial as nome_imobiliaria', 'telefone')
+                                                          ->orderBy('corretores.id','asc')->get()->toArray();
 
         if (count($corretores_imobiliarias) == 0)
             return response()->json(['message' => 'Ainda não possui corretores cadastradas no banco de dados'], 404);
