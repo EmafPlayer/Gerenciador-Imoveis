@@ -180,7 +180,7 @@ export function CriarCotacao () {
                             {ativacao_corretor &&
                                 <ul className="relative lg:absolute translate-y-[6px]">
                                     {corretores.length != 0 && corretores.map((corretor, index) => 
-                                        <li data-toggle="tooltip" data-placement="top" title={`Imobiliária - ${corretores[status_corretor].nome_imobiliaria}`}><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-full lg:w-[400px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2 whitespace-pre">{` ${corretores[status_corretor].nome_corretor}     -     ${corretores[status_corretor].telefone}`}</button></li>
+                                        <li data-toggle="tooltip" data-placement="top" title={`Imobiliária - ${corretor.nome_imobiliaria}`}><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-full lg:w-[400px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2 whitespace-pre">{` ${corretor.nome_corretor}     -     ${corretor.telefone}`}</button></li>
                                     )}
                                 </ul>}
                         </div>

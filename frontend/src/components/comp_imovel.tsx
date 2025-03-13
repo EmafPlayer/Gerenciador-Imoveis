@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { TbRulerMeasure } from "react-icons/tb";
-import { DetalhesImovel } from "../components/detalhes_imovel";
+import { DetalhesImovel } from "./popup_detalhes_imovel";
 import { FaClipboardList, FaFileImage } from "react-icons/fa";
 import { UploadFotos } from "./upload_fotos";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
@@ -9,6 +9,8 @@ import carregarImovel from "../apis/carregar_imovel";
 import { IoKey, IoPeopleSharp } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 import { useMediaQuery } from "react-responsive";
+import { CompChaves } from "./popup_chaves";
+import { Visitas } from "./visitas";
 
 type propsImovel = {
     id: number;
@@ -45,6 +47,8 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
     const [detalhes, setDetalhes] = useState(false);
     const [contador, setContador] = useState(0);
     const [imovel, setImovel] = useState<propsImovel>();
+    const [chaves, setChaves] = useState(false);
+    const [visitas, setVisitas] = useState(false);
 
     const[modal, setModal] = useState(false);
 
@@ -128,8 +132,8 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                             <div className="flex justify-around items-center">
                                 <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaClipboardList/></button>
                                 <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaFileImage/></button>
-                                <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoKey /></button>
-                                <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoPeopleSharp /></button>
+                                <button onClick={() => setChaves(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoKey /></button>
+                                <button onClick={() => setVisitas(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoPeopleSharp /></button>
                             </div>
                             <div className="w-full h-[140px]">
                                 {isLoaded ? (
@@ -170,6 +174,8 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                 />}
     
                 {modal && <UploadFotos setModal={setModal} id_imovel={id_imovel}/>}
+                {chaves && <CompChaves setModal={setChaves} id_imovel={id_imovel}/>}
+                {visitas && <Visitas setModal={setVisitas} id_imovel={id_imovel}/>}
             </div>
         )
     }

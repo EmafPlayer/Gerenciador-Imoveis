@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 import { FcDepartment } from "react-icons/fc";
-import { DetalhesImobiliaria } from "./detalhes_imobiliria";
+import { DetalhesImobiliaria } from "./popup_detalhes_imobiliria";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import CarregarCotacoes from "../apis/carregar_cotacoes";

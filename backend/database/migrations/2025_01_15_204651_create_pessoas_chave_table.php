@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('pessoas_chave', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_endereco');
             $table->string('nome_completo', 100);
             $table->string('contato', 20);
             $table->timestamps();
-
-            $table->foreign('id_endereco')->references('id')->on('enderecos');
         });
     }
 
