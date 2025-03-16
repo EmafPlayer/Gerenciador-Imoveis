@@ -9,6 +9,7 @@ use App\Http\Controllers\ImobiliariaControllers;
 use App\Http\Controllers\ImoveisController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\SeedersControllers;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitasController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,9 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 
     Route::prefix('inicio')->group(function () {
+        
+        Route::get('/sign-in', [UserController::class, 'signIn']);
+        Route::post('/sign-up', [UserController::class, 'signUp']);
 
         Route::get('/criacao-imoveis', [ImoveisController::class, 'create']);
         Route::get('/criacao-imobiliaria', [ImobiliariaControllers::class, 'create']);

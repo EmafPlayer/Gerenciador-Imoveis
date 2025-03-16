@@ -9,8 +9,7 @@ import { Asteristico } from "../components/asteristico";
 
 
 type userProps = {
-    nome: string,
-    foto: string,
+    username: string,
 }
 
 export function CriarAcontecimento () {
@@ -29,8 +28,7 @@ export function CriarAcontecimento () {
     const status_acontecimentos = ["Planejamento", "Em andamento", "Finalizado"];
 
     const user: userProps = {
-        nome: localStorage.getItem("nome_usuario") ?? "",
-        foto: localStorage.getItem("foto_usuario") ?? ""
+        username: localStorage.getItem("nome_usuario") ?? "",
     };
 
     const submit = async (data: any) => 

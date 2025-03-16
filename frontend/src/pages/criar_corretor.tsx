@@ -9,8 +9,7 @@ import { api } from "../apis/api";
 import { Asteristico } from "../components/asteristico";
 
 type userProps = {
-    nome: string,
-    foto: string,
+    username: string,
 }
 
 type returnImobiliaria = {
@@ -29,8 +28,7 @@ export function CriarCorretor () {
     const { register, handleSubmit } = useForm();
 
     const user: userProps = {
-        nome: localStorage.getItem("nome_usuario") ?? "",
-        foto: localStorage.getItem("foto_usuario") ?? ""
+        username: localStorage.getItem("nome_usuario") ?? "",
     };
 
     useEffect(() => {

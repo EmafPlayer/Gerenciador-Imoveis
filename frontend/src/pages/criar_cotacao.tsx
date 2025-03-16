@@ -9,8 +9,7 @@ import buscarCorretores from "../apis/buscar_corretores";
 import { Asteristico } from "../components/asteristico";
 
 type userProps = {
-    nome: string,
-    foto: string,
+    username: string,
 }
 
 type returnImobiliaria = {
@@ -38,8 +37,7 @@ export function CriarCotacao () {
     let id_imovel = location.state.id_imovel;
 
     const user: userProps = {
-        nome: localStorage.getItem("nome_usuario") ?? "",
-        foto: localStorage.getItem("foto_usuario") ?? ""
+        username: localStorage.getItem("nome_usuario") ?? "",
     };
 
     useEffect(() => {

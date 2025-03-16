@@ -12,8 +12,7 @@ import { CriarTitulo } from "../components/criar_titulo";
 import { Asteristico } from "../components/asteristico";
 
 type userProps = {
-    nome: string,
-    foto: string,
+    username: string,
 };
 
 type titulosProps = {
@@ -59,8 +58,7 @@ export function CriarReceitaDespesa () {
     let id_imovel = location.state.id_imovel;
 
     const user: userProps = {
-        nome: localStorage.getItem("nome_usuario") ?? "",
-        foto: localStorage.getItem("foto_usuario") ?? ""
+        username: localStorage.getItem("nome_usuario") ?? "",
     };
 
     useEffect(() => {

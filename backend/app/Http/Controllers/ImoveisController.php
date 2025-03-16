@@ -98,16 +98,19 @@ class ImoveisController extends Controller
 
     public function uploadFotos(Request $request)
     {
-
         if (!$request->hasFile('file')) {
             return response()->json(['message' => 'Arquivo não encontrado.'], 400);
         }
 
-        $path = $request->file('file')->storeAs('fotos', $request->file('file')->getClientOriginalName());
+        $file = $request->file('file');
+        
+        $filename = $file->getClientOriginalName();
+
+        $file->move(storage_path("app/public/fotos"), $filename);
 
         FotosImoveis::create([
             'id_imovel' => $request->id_imovel,
-            'endereco' => $path, 
+            'endereco' => $filename, 
         ]);
 
         return response()->json(['message' => 'Foto armazenada com sucesso'], 200);

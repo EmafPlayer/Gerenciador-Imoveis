@@ -92,8 +92,7 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
             setContador(contador - 1);
     }
 
-    if(!imovel){
-    } else {
+    if(imovel){
         return (
             <div className={twMerge("gap-16 pt-[140px]", isHighScreen ? 'flex items-center justify-center' : 'flex flex-col items-center')}>
                 {imovel.fotos.length == 0 ? 
@@ -104,7 +103,7 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                 
                 <div className="flex items-center gap-2 sm:gap-7">
                     <button onClick={lastPage}><BsArrowLeftCircle className="text-[25px] sm:text-[45px]"/></button>
-                    <img src={`http://127.0.0.1:8000/api/v1/inicio/${imovel.fotos[contador].endereco}`} alt="foto do imóvel" className=" h-[300px] sm:h-[400px] md:h-[500px] xl:h-[700px] w-full sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[1000px] rounded-3xl shadow-md"/>
+                    <img src={`http://127.0.0.1:8000/api/v1/inicio/fotos/${imovel.fotos[contador].endereco}`} alt="foto do imóvel" className=" h-[300px] sm:h-[400px] md:h-[500px] xl:h-[700px] w-full sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[1000px] rounded-3xl shadow-md"/>
                     <button onClick={nextPage}><BsArrowRightCircle className="text-[25px] sm:text-[45px]"/></button>
                 </div>
                 }
@@ -135,7 +134,7 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                                 <button onClick={() => setChaves(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoKey /></button>
                                 <button onClick={() => setVisitas(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoPeopleSharp /></button>
                             </div>
-                            <div className="w-full h-[140px]">
+                            <div className="w-full h-[140px] bg-slate-300 rounded-lg">
                                 {isLoaded ? (
                                 <GoogleMap mapContainerClassName="rounded-xl"
                                     mapContainerStyle={{width: '100%', height: '100%'}}

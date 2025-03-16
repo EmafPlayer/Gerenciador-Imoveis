@@ -4,7 +4,9 @@ import { Pages } from "./src";
 export function Router() {
   return (
     <Routes>
-      <Route path="/" element={<Pages.Inicio/>} />
+      <Route path="/" element={<Pages.Login/>} />
+      <Route path="/sign-up" element={<Pages.SignUp/>} />
+      <Route path="/home" element={<Pages.Inicio/>} />
       <Route path="/criar-imoveis" element={<Pages.CriarImoveis/>} />
       <Route path="/criar-imobiliaria" element={<Pages.CriarImobiliaria/>} />
       <Route path="/criar-cotacao" element={<Pages.CriarCotacao/>} />

@@ -12,8 +12,7 @@ type TipoParametro = {
 };
 
 type userProps = {
-    nome: string,
-    foto: string,
+    username: string,
 }
 
 export function ExibirImoveis ( { id_imovel }: TipoParametro ) {
@@ -24,8 +23,7 @@ export function ExibirImoveis ( { id_imovel }: TipoParametro ) {
     const [stateAcontecimentos, setStateAcontecimentos] = useState(false);
 
     const user: userProps = {
-        nome: localStorage.getItem("nome_usuario") ?? "",
-        foto: localStorage.getItem("foto_usuario") ?? ""
+        username: localStorage.getItem("nome_usuario") ?? "",
     };
 
     function botaoImovel () {

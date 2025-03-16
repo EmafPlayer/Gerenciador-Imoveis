@@ -8,8 +8,7 @@ import { Asteristico } from "../components/asteristico";
 
 
 type userProps = {
-    nome: string,
-    foto: string,
+    username: string,
 }
 
 export function CriarImoveis () {
@@ -33,8 +32,7 @@ export function CriarImoveis () {
     //let user = location.state.user;
 
     const user: userProps = {
-        nome: localStorage.getItem("nome_usuario") ?? "",
-        foto: localStorage.getItem("foto_usuario") ?? ""
+        username: localStorage.getItem("nome_usuario") ?? "",
     };
 
     const submit = async (data: any) => 
