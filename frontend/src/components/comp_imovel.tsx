@@ -129,10 +129,10 @@ export function CompImovel ( { id_imovel }: TipoParametro ) {
                         </div>
                         <div className="flex flex-col gap-10">
                             <div className="flex justify-around items-center">
-                                <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaClipboardList/></button>
-                                <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><FaFileImage/></button>
-                                <button onClick={() => setChaves(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoKey /></button>
-                                <button onClick={() => setVisitas(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px]"><IoPeopleSharp /></button>
+                                <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><FaClipboardList/></button>
+                                <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><FaFileImage/></button>
+                                <button onClick={() => setChaves(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><IoKey /></button>
+                                <button onClick={() => setVisitas(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><IoPeopleSharp /></button>
                             </div>
                             <div className="w-full h-[140px] bg-slate-300 rounded-lg">
                                 {isLoaded ? (

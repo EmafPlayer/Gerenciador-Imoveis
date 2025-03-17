@@ -17,14 +17,14 @@ class UserController extends Controller
         ]);
 
         if(User::where("name", "=", $request->name)->exists())
-            return response()->json(["message" => "Já existe um usuário com esse nome", "status" => 0], 200);
+            return response()->json(["message" => "Já existe um usuário com esse username"], 200);
 
         User::create([
             "name" => $request->name,
             "password" => Hash::make($request->password)
         ]);
 
-        return response()->json(["message" => "Usuário criado com sucesso", "status" => 1], 201);
+        return response()->json(["message" => "Usuário criado com sucesso"], 201);
 
     }
 
@@ -36,9 +36,9 @@ class UserController extends Controller
         ]);
 
         if((User::where('name', '=', $request->name)->exists()) && (Hash::check($request->password, (User::select('password')->where('name', '=', $request->name)->first()->toArray())['password'])))
-            return response()->json(["message" => "Sign-in concluído com sucesso"], 200);
+            return response()->json(["message" => "Sign-in concluído com sucesso"], 202);
         
-        return response()->json(["message" => "Login ou senha inválidos."], 400);
+        return response()->json(["message" => "Login ou senha inválidos."], 200);
 
     }
 

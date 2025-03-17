@@ -90,19 +90,19 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
     }
 
     const modificarStatusDespesa = async (index1: number, index2: number) => {
-        const retorno = await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
+
+        await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
             pago: !despesas[index1][index2].pago
         });
 
-        despesas[index1][index2].pago = !despesas[index1][index2].pago;
     }
 
     const modificarStatusReceita = async (index1: number, index2: number) => {
-        const retorno = await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
+
+        await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
             pago: !receitas[index1][index2].pago
         });
 
-        receitas[index1][index2].pago = !receitas[index1][index2].pago;
     }
 
     if(despesas && receitas){
@@ -125,8 +125,8 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                 </div>
                 { valorBotao != 0 &&
                     <div className="flex items-center gap-8 lg:gap-32 lg:pr-20">
-                        <button onClick={lastPage}><BsArrowLeftCircle className="text-[35px]"/></button>
-                        <button onClick={nextPage}><BsArrowRightCircle className="text-[35px]"/></button>
+                        <button onClick={lastPage}><BsArrowLeftCircle className="text-[40px]"/></button>
+                        <button onClick={nextPage}><BsArrowRightCircle className="text-[40px]"/></button>
                     </div>
                 }
                 <div>
@@ -166,7 +166,7 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                                         <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Receita</td>
                                         <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
                                         <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-sky-800">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
-                                        <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={(e) => {e.preventDefault(); modificarStatusReceita(index1, index2)}}><AiFillCheckSquare className={twMerge("text-[30px]", item.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div></td>
+                                        <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceita(index1, index2)}} className="transition duration-100 hover:scale-110"><AiFillCheckSquare className={twMerge("text-[30px]", item.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div></td>
                                         
                                     </tr>  
                                 ))        
@@ -184,7 +184,7 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                                         <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">Despesa</td>
                                         <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (item.vencimento).toLocaleDateString("pt-BR")}</td>
                                         <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] text-amber-700">{item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
-                                        <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={(e) => {e.preventDefault(); modificarStatusDespesa(index1, index2)}}><AiFillCheckSquare className={twMerge("text-[30px]", item.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div></td>
+                                        <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={() => {modificarStatusDespesa(index1, index2)}} className="transition duration-100 hover:scale-110"><AiFillCheckSquare className={twMerge("text-[30px]", item.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div></td>
                                     </tr>  
                                 ))        
                             )}
@@ -230,7 +230,7 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                                     <h1 className="text-[28px] font-serif text-sky-800" text->{receita.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
                                     <h1 className="text-[12px] text-sky-800">REAIS (BRL - R$)</h1>
                                 </div>
-                                <div className="flex justify-center items-center"><button><AiFillCheckSquare className={twMerge("text-[30px]", receita.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div>
+                                <div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceita(contador_receitas, index)}} className="transition duration-100 hover:scale-110"><AiFillCheckSquare className={twMerge("text-[30px]", receita.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div>
                             </div>
                         </div>
                     </div>
@@ -273,7 +273,7 @@ export function CompDespesas ( { id_imovel }: TipoParametro ) {
                                     <h1 className="text-[28px] font-serif text-amber-700" text->{despesa.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
                                     <h1 className="text-[12px] text-amber-700">REAIS (BRL - R$)</h1>
                                 </div>
-                                <div className="flex justify-center items-center"><button><AiFillCheckSquare className={twMerge("text-[30px]", despesa.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div>
+                                <div className="flex justify-center items-center"><button onClick={() => {modificarStatusDespesa(contador_despesas, index)}} className="transition duration-100 hover:scale-110"><AiFillCheckSquare className={twMerge("text-[30px]", despesa.pago ? 'text-emerald-600' : 'text-red-600')}/></button></div>
                             </div>
                         </div>
                     </div>

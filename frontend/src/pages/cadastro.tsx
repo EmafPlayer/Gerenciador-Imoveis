@@ -19,7 +19,6 @@ export function SignUp(){
     const [aviso_3, setAviso_3] = useState(false);
     const [mensagem_3, setMensagem_3] = useState("");
 
-    const [user, setUser] = useState("");
     const [senha, setSenha] = useState("");
     const [senhaConfirmar, setSenhaConfirmar] = useState("");
 
@@ -38,13 +37,13 @@ export function SignUp(){
 
             const response = await api.post(`v1/inicio/sign-up`, params);
 
-            if(response.data.status == 0){
+            if(response.status == 200){
                 setAviso_3(true);
                 setMensagem_3(response.data.message)
             }
-            if(response.data.status == 1){
+            if(response.status == 201){
+                localStorage.setItem("nome_usuario", data.name);
                 navigate('/home');
-                localStorage.setItem("nome_usuario", user);
             }
 
         } catch(error) {
@@ -90,11 +89,12 @@ export function SignUp(){
                 <div className="w-full">
                     <div className="pb-6 flex flex-col gap-6">
                         <div>
-                            <input {...register('name')} onChange={(e) => setUser(e.target.value)} type="text" name="name" id="name" required
+                            {aviso_3 && <h1 className="text-blue-900 pl-2 pb-1 text-[14px]">* {mensagem_3} *</h1>}
+                            <input {...register('name')} type="text" name="name" id="name" required
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="Username"/>
-                            {aviso_3 && <h1 className="text-blue-900 pl-2 pt-1 text-[14px]">* {mensagem_3} *</h1>}
                         </div>
                         <div>
+                            {aviso_1 && <h1 className="text-blue-900 pl-2 pb-1 text-[14px]">* {mensagem_1} *</h1>}
                             <div className="flex items-center">
                                 <input {...register('password')} type={olho ? "text" : "password"} onChange={(e) => setSenha(e.target.value)} name="password" id="password" required
                                 className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="Senha"/>
@@ -104,9 +104,9 @@ export function SignUp(){
                                     <button onClick={(e) => {e.preventDefault(); setOlho(!olho)}}><FaEye className="opacity-80 absolute text-end -translate-x-9 -translate-y-[7px]"/></button>
                                 }
                             </div>
-                            {aviso_1 && <h1 className="text-blue-900 pl-2 pt-1 text-[14px]">* {mensagem_1} *</h1>}
                         </div>
                         <div>
+                            {aviso_2 && <h1 className="text-blue-900 pl-2 pb-1 text-[14px]">* {mensagem_2} *</h1>}
                             <div className="flex items-center">
                                 <input type={olhoConfirmar ? "text" : "password"} onChange={(e) => setSenhaConfirmar(e.target.value)} name="passwordConfim" id="passwordConfim" required
                                 className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="Confirmar senha"/>
@@ -116,7 +116,6 @@ export function SignUp(){
                                     <button onClick={(e) => {e.preventDefault(); setOlhoConfirmar(!olhoConfirmar)}}><FaEye className="opacity-80 absolute text-end -translate-x-9 -translate-y-[7px]"/></button>
                                 }
                             </div>
-                            {aviso_2 && <h1 className="text-blue-900 pl-2 pt-1 text-[14px]">* {mensagem_2} *</h1>}
                         </div>
                     </div>
                     <div className="mt-6 flex justify-center">
