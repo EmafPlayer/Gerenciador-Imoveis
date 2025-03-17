@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('inicio')->group(function () {
         
-        Route::get('/sign-in', [UserController::class, 'signIn']);
+        Route::post('/sign-in', [UserController::class, 'signIn']);
         Route::post('/sign-up', [UserController::class, 'signUp']);
 
         Route::get('/criacao-imoveis', [ImoveisController::class, 'create']);
