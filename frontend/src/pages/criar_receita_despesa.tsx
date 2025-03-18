@@ -66,10 +66,6 @@ export function CriarReceitaDespesa () {
             const dataTitulos = await buscarTitulos();
             const dataAcontecimentos = await buscarAcontecimentos();
     
-            console.log(dataTitulos?.titulos);
-            console.log(dataAcontecimentos?.acontecimentos);
-    
-            // Sempre mantém "Não possui vínculo a acontecimentos" como primeiro item
             const acontecimentos = [
                 { titulo: "Não possui vínculo a acontecimentos" }, 
                 ...(dataAcontecimentos?.acontecimentos || [])
@@ -90,33 +86,37 @@ export function CriarReceitaDespesa () {
 
     const submit = async (data: any) => 
     {
-        try {
-            const params = new URLSearchParams({
-                id_imovel: id_imovel,
-                titulo: String(titulo_despesa + 1),
-                receita_despesa: String(receita_despesa),
-                valor: data.valor,
-                descricao: data.descricao,
-                tipo_despesa: String(tipo_despesa + 1),
-                tipo_recorrencia: String(tipo_recorrencia + 1),
-                vencimento: data.vencimento,
-                id_acontecimento: String(acontecer),
-                pago: String(pago),
-            }).toString();
+        if(titulos_despesa.length != 0) {
+
+            try {
+                const params = new URLSearchParams({
+                    id_imovel: id_imovel,
+                    titulo: String(titulo_despesa + 1),
+                    receita_despesa: String(receita_despesa),
+                    valor: data.valor,
+                    descricao: data.descricao,
+                    tipo_despesa: String(tipo_despesa + 1),
+                    tipo_recorrencia: String(tipo_recorrencia + 1),
+                    vencimento: data.vencimento,
+                    id_acontecimento: String(acontecer),
+                    pago: String(pago),
+                }).toString();
+        
     
+                const response = await api.post(`/v1/inicio/criacao-despesa`, params);
+                
+                console.log(response.data.message);
+    
+                setCriacao(true);
+                setMensagem(response.data.message);
+                
+            } catch (error) {
+                console.error(error);
+            }
 
-            const response = await api.get(`/v1/inicio/criacao-despesa?${params}`);
-            
-            console.log(response.data.message);
-
-            setCriacao(true);
-            setMensagem(response.data.message);
-            
-        } catch (error) {
-            console.error(error);
         }
+
     }
-        console.log(titulos_despesa);
 
     return (
         <div className="h-max w-full">

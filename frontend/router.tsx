@@ -13,7 +13,10 @@ export function Router() {
       <Route path="/criar-corretor" element={<Pages.CriarCorretor/>} />
       <Route path="/criar-receita_despesa" element={<Pages.CriarReceitaDespesa/>} />
       <Route path="/criar-acontecimento" element={<Pages.CriarAcontecimento/>} />
-      <Route path="/exibir-imoveis/:id_imovel" element={<Pages.AcessarImovel/>} />
+      <Route path="/exibir-imovel" element={<Pages.CompImovel/>} />
+      <Route path="/exibir-imovel/cotacoes" element={<Pages.CompCotacoes/>}/>
+      <Route path="/exibir-imovel/receitas-despesas" element={<Pages.CompDespesas/>}/>
+      <Route path="/exibir-imovel/acontecimentos" element={<Pages.CompAcontecimentos/>}/>
     </Routes>
   );
 }

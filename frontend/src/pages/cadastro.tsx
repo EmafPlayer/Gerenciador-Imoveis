@@ -29,6 +29,8 @@ export function SignUp(){
     const criarUsuario = async ( data: any ) => {
 
         try{
+            setOlho(false);
+            setOlhoConfirmar(false);
 
             const params = new URLSearchParams({
                 name: data.name,
@@ -83,7 +85,7 @@ export function SignUp(){
             <form onSubmit={handleSubmit(submit)} className="w-[600px] h-[700px] bg-[#FF5500] py-8 px-24 rounded-lg shadow-xl shadow-slate-500 flex flex-col items-center justify-center">
                 <div className="flex items-center gap-5 pt-5 mb-12">
                     <div className='text-[60px] text-[#FFFFFF] '><AiOutlineHome/></div>
-                    <h1 className="text-[#FFFFFF] font-sans text-[20px] sm:text-[24px] pt-1 justify-center uppercase">Move-IN</h1>
+                    <h1 className="text-[#FFFFFF] font-sans text-[30px] sm:text-[35px] pt-1 justify-center uppercase">MGI</h1>
                 </div>
                 <h1 className="text-[40px] text-white font-outfit font-semibold mb-10">Sign Up</h1>
                 <div className="w-full">

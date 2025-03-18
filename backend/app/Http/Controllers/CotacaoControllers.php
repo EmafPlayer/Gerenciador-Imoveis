@@ -24,7 +24,6 @@ class CotacaoControllers extends Controller
             "valor_max" => 'required|numeric',
             "data_cotacao" => 'required|date',
             "descricao" => 'required|string',
-            "url_anuncio" => 'required|string',
             "tipo_cotacao" => 'required|numeric',
         ]);
 
@@ -43,7 +42,7 @@ class CotacaoControllers extends Controller
         $id_imobiliaria = Corretores::select('id_imobiliaria')->where('id', $request->id_corretor)->first();
         $id_imobiliaria = $id_imobiliaria->id_imobiliaria;
         
-        if(DB::table('imoveis_imobiliarias')->where('id_imovel', $request->id_imovel)->where('id_imobiliaria', $id_imobiliaria)->doesntExist()){
+        if(DB::table('imoveis_imobiliarias')->where('id_imovel', $request->id_imovel)->where('id_imobiliaria', $id_imobiliaria)->doesntExist() && $request->url_anuncio != "" ){
             ImoveisImobiliarias::create([
                 "id_imovel" => $request->id_imovel,
                 "id_imobiliaria" => $id_imobiliaria,

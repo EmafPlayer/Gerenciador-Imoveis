@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('corretores', function (Blueprint $table) {
+        Schema::create('tipo_imovel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_imobiliaria');
-            $table->string('nome');
-            $table->string('telefone');
-            $table->string('email')->nullable();
+            $table->string('descricao', 25); 
             $table->timestamps();
-
-            $table->foreign('id_imobiliaria')->references('id')->on('imobiliarias');
         });
     }
 
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('corretor');
+        Schema::dropIfExists('tipo_imovel');
     }
 };

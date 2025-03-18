@@ -61,7 +61,7 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
                 descricao: data.descricao
             }).toString();
 
-            const response = await api.post(`/v1/inicio/criacao-visita?${params}`);
+            const response = await api.post(`/v1/inicio/criacao-visita`, params);
 
             setMensagem(response.data?.message);
             setCriacao(true);

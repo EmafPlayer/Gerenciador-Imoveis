@@ -50,23 +50,27 @@ export function CriarCorretor () {
 
     const submit = async (data: any) => 
     {
-        try {
-            const params = new URLSearchParams({
-                id_imobiliaria: String(status_imobiliaria + 1),
-                nome: data.nome,
-                email: data.email,
-                telefone: data.telefone,
-            }).toString();
+        if(imobiliarias.length != 0) {
+            
+            try {
+                const params = new URLSearchParams({
+                    id_imobiliaria: String(status_imobiliaria + 1),
+                    nome: data.nome,
+                    email: data.email,
+                    telefone: data.telefone,
+                }).toString();
+        
+                const response = await api.post(`/v1/inicio/criacao-corretor`, params);
+                
+                console.log(response.data.message);
     
-            const response = await api.get(`/v1/inicio/criacao-corretor?${params}`);
+                setCriacao(true);
+                setMensagem(response.data.message);
+                
+            } catch (error) {
+                console.error(error);
+            }
             
-            console.log(response.data.message);
-
-            setCriacao(true);
-            setMensagem(response.data.message);
-            
-        } catch (error) {
-            console.error(error);
         }
     }
 
@@ -108,12 +112,11 @@ export function CriarCorretor () {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-6 lg:mt-6">
                     
-                        <div className="col-span-1 sm:col-span-1 mt-0 lg:mt-6">
+                        <div className="col-span-1 sm:col-span-1 mt-0 lg:mt-[25.3px]">
                             <div className="flex items-center gap-2 mb-1">
                                 <label htmlFor="email" className="text-[18px] text-slate-700 font-outfit">E-mail</label>
-                                <Asteristico/>
                             </div>
-                            <input {...register('email')} type="text" name="email" id="email" required
+                            <input {...register('email')} type="text" name="email" id="email"
                             className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="exemplo@gmail.com"/>
                         </div>
 

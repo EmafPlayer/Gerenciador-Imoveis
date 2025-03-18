@@ -41,7 +41,7 @@ export function CriarImobiliaria () {
                 longitude: data.longitude,
             }).toString();
     
-            const response = await api.get(`/v1/inicio/criacao-imobiliaria?${params}`);
+            const response = await api.post(`/v1/inicio/criacao-imobiliaria`, params);
             
             console.log(response.data.message);
 

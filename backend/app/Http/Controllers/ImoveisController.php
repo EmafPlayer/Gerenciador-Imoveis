@@ -120,7 +120,7 @@ class ImoveisController extends Controller
     {
         $imoveis = Imoveis::join("enderecos", "imoveis.id_endereco", "=", "enderecos.id")
                             ->join("localizacoes", "enderecos.id_localizacao", "=", "localizacoes.id")
-                            ->select('imoveis.id as id', 'imoveis.nome as nome', 'imoveis.tipo as tipo', 'enderecos.rua as rua', 'enderecos.numero as numero',
+                            ->select('imoveis.id as id', 'imoveis.nome as nome', 'enderecos.rua as rua', 'enderecos.numero as numero',
                                     'enderecos.bairro as bairro', 'localizacoes.latitude as latitude', 'localizacoes.longitude as longitude')
                             ->get()->toArray();
 
@@ -128,7 +128,8 @@ class ImoveisController extends Controller
             $imovel['foto'] = FotosImoveis::select('endereco')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first();
             $imovel['foto'] = $imovel['foto'] ? $imovel['foto']->endereco : null;
 
-            $imovel['valor'] = Cotacoes::where('id_imovel', '=', $imovel['id'])->avg('valor') ? Cotacoes::where('id_imovel', '=', $imovel['id'])->avg('valor') : 0;
+            $imovel['tipo_cotacao'] = (Cotacoes::select('tipo_cotacao')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())["tipo_cotacao"] ? (Cotacoes::select('tipo_cotacao')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())["tipo_cotacao"] : 0;
+            $imovel['valor'] = (Cotacoes::select('valor')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())['valor'] ? (Cotacoes::select('valor')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())['valor'] : 0;
         }
         unset($imovel);
         
@@ -142,21 +143,17 @@ class ImoveisController extends Controller
 
         $imovel = Imoveis::join("enderecos", "imoveis.id_endereco", "=", "enderecos.id")
                          ->join("localizacoes", "enderecos.id_localizacao", "=", "localizacoes.id")
-                         ->select("imoveis.id", "imoveis.tipo as tipo", "nome", "descricao", "fornecimento_agua", "fornecimento_luz", "cadastro_iptu", "matricula", "cartorio_registro", 
+                         ->select("imoveis.id", "imoveis.id_tipo_imovel as tipo_imovel", "nome", "descricao", "fornecimento_agua", "fornecimento_luz", "cadastro_iptu", "matricula", "cartorio_registro", 
                                   "area", "area_testada", "fracao_ideal", "area_total", "area_construida",
                                   "rua", "numero", "bairro", "cidade","estado", "latitude", "longitude")->where("imoveis.id", "=", $id_imovel)->firstOrFail()->toArray();
         
                                   
         $imovel['fotos'] = FotosImoveis::select('endereco')->where('id_imovel', '=', $id_imovel)->get()->toArray();
 
-        $imovel['valor'] = Cotacoes::where('id_imovel', '=', $id_imovel)->avg('valor') ? Cotacoes::where('id_imovel', '=', $id_imovel)->avg('valor') : 0;
+        $imovel['valor_aluguel'] = Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 1)->avg('valor') ? Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 1)->avg('valor') : 0;
+        $imovel['valor_venda'] = Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 2)->avg('valor') ? Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 2)->avg('valor') : 0;
         
         return response()->json(['message' => 'Imóvel carregado com sucesso', 'imovel' => $imovel], 200);
-        
-    }
-
-    public function runSeeders () 
-    {
         
     }
 

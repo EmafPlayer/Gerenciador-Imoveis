@@ -25,25 +25,25 @@ Route::prefix('v1')->group(function () {
         Route::post('/sign-in', [UserController::class, 'signIn']);
         Route::post('/sign-up', [UserController::class, 'signUp']);
 
-        Route::get('/criacao-imoveis', [ImoveisController::class, 'create']);
-        Route::get('/criacao-imobiliaria', [ImobiliariaControllers::class, 'create']);
-        Route::get('/criacao-corretor', [CorretorControllers::class, 'create']);
-        Route::get('/criacao-cotacao', [CotacaoControllers::class, 'create']);
-        Route::get('/criacao-acontecimento', [AcontecimentoControllers::class, 'create']);
-        Route::get('/criacao-despesa', [DespesaControllers::class, 'create']);
-        Route::get('/criacao-titulo', [DespesaControllers::class, 'criarTitulos']);
+        Route::post('/criacao-imoveis', [ImoveisController::class, 'create']);
+        Route::post('/criacao-imobiliaria', [ImobiliariaControllers::class, 'create']);
+        Route::post('/criacao-corretor', [CorretorControllers::class, 'create']);
+        Route::post('/criacao-cotacao', [CotacaoControllers::class, 'create']);
+        Route::post('/criacao-acontecimento', [AcontecimentoControllers::class, 'create']);
+        Route::post('/criacao-despesa', [DespesaControllers::class, 'create']);
+        Route::post('/criacao-titulo', [DespesaControllers::class, 'criarTitulos']);
         Route::post('/criacao-pessoa', [PessoaController::class, 'create']);
         Route::post('/criacao-chave', [ChavesController::class, 'create']);
         Route::post('/criacao-visita', [VisitasController::class, 'create']);
+        
+        Route::post('/run-seeders', [SeedersControllers::class, 'run']);
+        Route::post('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
 
         Route::get('/ver-imobiliarias', [ImobiliariaControllers::class, 'show']);
         Route::get('/ver-corretores', [CorretorControllers::class, 'show']);
         Route::get('/ver-titulos', [DespesaControllers::class, 'verTitulos']);
         Route::get('/ver-acontecimentos', [AcontecimentoControllers::class, 'verAcontecimentos']);
         Route::get('/ver-imovel/{id_imovel}', [ImoveisController::class, 'verImovel']);
-
-        Route::post('/run-seeders', [SeedersControllers::class, 'run']);
-        Route::post('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
 
         Route::get('/carregar-imoveis', [ImoveisController::class, 'carregarImoveis']);
         Route::get('/carregar-cotacoes/{id_imovel}', [CotacaoControllers::class, 'carregarCotacoes']);
@@ -64,6 +64,11 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotos']);
+
+        Route::delete('/deletar-chave/{id_chave}', [ChavesController::class, 'deletarChave']);
+
+        Route::put('/modificar-chave/{id_chave}/{id_pessoa}', [ChavesController::class, 'modificarChave']);
+
     });
     
 });

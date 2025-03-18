@@ -23,7 +23,7 @@ class PessoaController extends Controller
 
     public function carregarPessoas () {
 
-        $pessoas = PessoasChave::select('nome_completo', 'contato')->get()->toArray();
+        $pessoas = PessoasChave::select('id as id_pessoa', 'nome_completo', 'contato')->get()->toArray();
 
         return response()->json(['message' => 'Pessoas buscadas com sucesso', 'pessoas' => $pessoas], 200);
 

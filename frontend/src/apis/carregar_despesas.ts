@@ -9,7 +9,7 @@ const carregarDespesas = async ( id_imovel: number | null) => {
         console.error(response.data);
 
         if(response.status == 200){
-            return { receitas: response.data.receitas, despesas: response.data.despesas }
+            return { receitas: response.data.receitas, despesas: response.data.despesas, receitas_despesas: response.data.receitas_despesas }
         }
 
     } catch(error){

@@ -27,7 +27,6 @@ class SeedersControllers extends Controller
             app(TipoRecorrenciaSeeder::class)->run();
             app(TipoStatusImoveisSeeder::class)->run();
             app(TitulosDespesasSeeder::class)->run();
-            app(RoleSeeder::class)->run();
 
             return response()->json(['message' => 'Seeders criadas com sucesso'], 200);
         }

@@ -18,7 +18,6 @@ class CorretorControllers extends Controller
         $request->validate([
             'id_imobiliaria' => 'required|numeric',
             'nome' => 'required|string',
-            'email' => 'required|string',
             'telefone' => 'required|string',
         ]);
 

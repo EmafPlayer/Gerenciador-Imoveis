@@ -27,7 +27,7 @@ type imovelProps = {
   latitude: number,
   longitude: number,
   valor: number,
-  tipo: boolean;
+  tipo_cotacao: 1 | 2;
 }
 
 export function Inicio() {
@@ -83,7 +83,7 @@ export function Inicio() {
   };
 
   const redirectExibirImoveis = () => {
-    navigate(`/exibir-imoveis/${id_imovel}`);
+    navigate(`/exibir-imovel`, { state: {id_imovel: id_imovel} });
   };
 
   function nextPage () {
@@ -133,9 +133,9 @@ export function Inicio() {
                       <div className={twMerge(" pt-5 lg:pt-0 ", isLowScreen ? 'flex flex-col items-center justify-between' : 'flex items-center justify-around')}>
                         <div className="flex items-end">
                             <h1 className="text-[30px] text-zinc-700 font-medium">{casa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                            <h4 className="text-[20px] pb-2">{casa.tipo == false ? "/mes" : ""}</h4>
+                            <h4 className="text-[20px] pb-2">{casa.tipo_cotacao == 1 ? "/mes" : ""}</h4>
                         </div>
-                        <button onClick={() => redirectExibirImoveis()} className="text-[30px] font-extralight"><IoChevronForwardCircleOutline/></button>
+                        <button onClick={() => redirectExibirImoveis()} className="text-[45px] text-slate-600 font-extralight transition hover:scale-125"><IoChevronForwardCircleOutline/></button>
                       </div>
                     </div>
                   </button>
@@ -147,24 +147,26 @@ export function Inicio() {
             </div>
           </div>
           { (isMidScreen && casas.length != 0) &&
-            <div className="w-[30%] xl:w-[30%] 2xl:w-[50%] px-9 pt-14">
-              {isLoaded && casas[contador] && casas.length > 0 ? (
-                <GoogleMap mapContainerClassName="rounded-xl"
-                  mapContainerStyle={{width: '100%', height: '100%'}}
-                  center={{
-                    lat: casas[contador][imovel].latitude,
-                    lng: casas[contador][imovel].longitude
-                  }}
-                  zoom={16}
-                >
-                  <Marker position={{
-                    lat: casas[contador][imovel].latitude,
-                    lng: casas[contador][imovel].longitude
-                  }}/>
-                </GoogleMap>
-              ) : (
-                <></>
-              )}
+            <div className="w-[30%] xl:w-[30%] 2xl:w-[50%] px-9 pt-12">
+              <div className="bg-slate-300 w-full h-full rounded-lg">
+                {isLoaded && casas[contador] && casas.length > 0 ? (
+                  <GoogleMap mapContainerClassName="rounded-xl"
+                    mapContainerStyle={{width: '100%', height: '100%'}}
+                    center={{
+                      lat: casas[contador][imovel].latitude,
+                      lng: casas[contador][imovel].longitude
+                    }}
+                    zoom={16}
+                  >
+                    <Marker position={{
+                      lat: casas[contador][imovel].latitude,
+                      lng: casas[contador][imovel].longitude
+                    }}/>
+                  </GoogleMap>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           }
         </div>

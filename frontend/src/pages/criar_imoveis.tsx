@@ -25,7 +25,7 @@ export function CriarImoveis () {
     const[botao, setBotao] = useState(0);
     const[status, setStatus] = useState(false);
 
-    const tipo = ["Aluguel", "Venda"];
+    const tipo = ["Aluguel", "Venda", "Aluguel e Vendas"];
 
     //const location = useLocation();
     
@@ -64,7 +64,7 @@ export function CriarImoveis () {
                 tipo: String(botao),
             }).toString();
     
-            const response = await api.get(`/v1/inicio/criacao-imoveis?${params}`);
+            const response = await api.post(`/v1/inicio/criacao-imoveis`, params);
             
             console.log(response.data.message);
 

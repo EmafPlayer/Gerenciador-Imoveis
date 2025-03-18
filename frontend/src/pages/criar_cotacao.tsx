@@ -58,29 +58,33 @@ export function CriarCotacao () {
 
     const submit = async (data: any) => 
     {
-        try {
-            const params = new URLSearchParams({
-                id_imovel: id_imovel,
-                id_corretor: String(status_corretor + 1),
-                valor: data.valor,
-                valor_min: data.valor_min,
-                valor_max: data.valor_max,
-                data_cotacao: data.data_cotacao,
-                descricao: data.descricao,
-                tipo_cotacao: String(status_tipo + 1),
-                url_anuncio: data.url_anuncio
+        if(corretores.length != 0) {
 
-            }).toString();
+            try {
+                const params = new URLSearchParams({
+                    id_imovel: id_imovel,
+                    id_corretor: String(status_corretor + 1),
+                    valor: data.valor,
+                    valor_min: data.valor_min,
+                    valor_max: data.valor_max,
+                    data_cotacao: data.data_cotacao,
+                    descricao: data.descricao,
+                    tipo_cotacao: String(status_tipo + 1),
+                    url_anuncio: data.url_anuncio
     
-            const response = await api.get(`/v1/inicio/criacao-cotacao?${params}`);
-            
-            console.log(response.data.message);
+                }).toString();
+                
+                console.log(data.url_anuncio);
+                const response = await api.post(`/v1/inicio/criacao-cotacao`, params);
+                
+    
+                setCriacao(true);
+                setMensagem(response.data.message);
+                
+            } catch (error) {
+                console.error(error);
+            }
 
-            setCriacao(true);
-            setMensagem(response.data.message);
-            
-        } catch (error) {
-            console.error(error);
         }
     }
 

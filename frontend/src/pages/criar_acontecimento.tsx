@@ -23,7 +23,8 @@ export function CriarAcontecimento () {
     const[ativacao, setAtivacao] = useState(false);
 
     const location = useLocation();
-    let id_imovel = location.state.id_imovel;
+    
+    const id_imovel = location.state.id_imovel;
 
     const status_acontecimentos = ["Planejamento", "Em andamento", "Finalizado"];
 
@@ -42,7 +43,7 @@ export function CriarAcontecimento () {
                 data_inicio: data.data_inicio,
             }).toString();
     
-            const response = await api.get(`/v1/inicio/criacao-acontecimento?${params}`);
+            const response = await api.post(`/v1/inicio/criacao-acontecimento`, params);
             
             console.log(response.data.message);
 

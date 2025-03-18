@@ -22,7 +22,7 @@ export function CriarTitulo ( { setModal }: props) {
                 descricao: data.descricao,
             }).toString();
 
-            const response = await api.get(`/v1/inicio/criacao-titulo?${params}`);
+            const response = await api.post(`/v1/inicio/criacao-titulo`, params);
 
             console.log(response.data.message);
     

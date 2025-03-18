@@ -92,25 +92,28 @@ class DespesaControllers extends Controller
                             ->leftJoin('acontecimentos', 'despesas_acontecimentos.id_acontecimento', '=', 'acontecimentos.id')
                             ->select('despesas.id as id', 'titulos_despesas.descricao as titulo_despesa', 'acontecimentos.titulo as titulo_acontecimento', 'despesas.descricao as descricao',
                                      'valor', 'tipo_despesa', 'tipo_recorrencia as recorrencia', 'receita_despesa', 'vencimento', 'pago')
-                            ->orderBy('vencimento', 'asc')->where('receita_despesa', '=', 0)->where('despesas.id_imovel', '=', $id_imovel)->get()->toArray();
+                            ->orderBy('vencimento', 'desc')->where('receita_despesa', '=', 0)->where('despesas.id_imovel', '=', $id_imovel)->get()->toArray();
         $despesas = Despesas::join('titulos_despesas', 'despesas.titulo', '=', 'titulos_despesas.id')
                             ->leftJoin('despesas_acontecimentos', 'despesas.id', '=', 'despesas_acontecimentos.id_despesa')
                             ->leftJoin('acontecimentos', 'despesas_acontecimentos.id_acontecimento', '=', 'acontecimentos.id')
                             ->select('despesas.id as id', 'titulos_despesas.descricao as titulo_despesa', 'acontecimentos.titulo as titulo_acontecimento', 'despesas.descricao as descricao',
                                      'valor', 'tipo_despesa', 'tipo_recorrencia as recorrencia', 'receita_despesa', 'vencimento', 'pago')
-                            ->orderBy('vencimento', 'asc')->where('receita_despesa', '=', 1)->where('despesas.id_imovel', '=', $id_imovel)->get()->toArray();
+                            ->orderBy('vencimento', 'desc')->where('receita_despesa', '=', 1)->where('despesas.id_imovel', '=', $id_imovel)->get()->toArray();
+
+        $receitas_despesas = Despesas::join('titulos_despesas', 'despesas.titulo', '=', 'titulos_despesas.id')
+                                     ->leftJoin('despesas_acontecimentos', 'despesas.id', '=', 'despesas_acontecimentos.id_despesa')
+                                     ->leftJoin('acontecimentos', 'despesas_acontecimentos.id_acontecimento', '=', 'acontecimentos.id')
+                                     ->select('despesas.id as id', 'titulos_despesas.descricao as titulo_despesa', 'acontecimentos.titulo as titulo_acontecimento', 'despesas.descricao as descricao',
+                                             'valor', 'tipo_despesa', 'tipo_recorrencia as recorrencia', 'receita_despesa', 'vencimento', 'pago')
+                                     ->orderBy('vencimento', 'desc')->where('despesas.id_imovel', '=', $id_imovel)->get()->toArray();
 
         $receitas = array_chunk($receitas, 8);
         $despesas = array_chunk($despesas, 8);
 
-        return response()->json(['message' => 'Receitas e Despesas carregadas com sucesso', 'receitas' => $receitas, 'despesas' => $despesas], 200);
+        return response()->json(['message' => 'Receitas e Despesas carregadas com sucesso', 'receitas' => $receitas, 'despesas' => $despesas, "receitas_despesas" => $receitas_despesas], 200);
 
     }
     
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function updateStatusPago($id_despesa, Request $request)
     {
         $status = $request->pago ? 1 : 0;
@@ -120,11 +123,4 @@ class DespesaControllers extends Controller
         return response()->json(['message' => 'Update realizado com sucesso'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy()
-    {
-        //
-    }
 }
