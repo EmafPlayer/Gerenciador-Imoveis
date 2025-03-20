@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { DetalhesImovel } from "../components/popup_detalhes_imovel";
-import { FaClipboardList, FaFileImage, FaPencilAlt } from "react-icons/fa";
+import { FaClipboardList, FaFileImage } from "react-icons/fa";
 import { UploadFotos } from "../components/upload_fotos";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import carregarImovel from "../apis/carregar_imovel";
@@ -112,7 +112,7 @@ export function CompImovel ( ) {
                         <div className="h-full flex flex-col justify-between">
                             <div className="">
                                 <h1 data-toggle="tooltip" data-placement="top" title={imovel.nome} className="text-[40px] lg:text-[50px] font-outfit">{imovel.nome.length > 20 ? imovel.nome.slice(0,20) + '...'  : imovel.nome}</h1>
-                                <h3 className="pt-3 pb-5 text-[22px] font-outfit opacity-[70%]">{imovel.rua}, {imovel.numero} - {imovel.bairro} - {imovel.cidade}, {imovel.estado}</h3>
+                                <h3 className="pt-3 pb-5 text-[21px] font-outfit opacity-[70%]">{imovel.rua}, {imovel.numero} - {imovel.bairro} - {imovel.cidade}, {imovel.estado}</h3>
                                 <h2 className="text-[15px] lg:text-[18px] font-outfit overflow-auto overscroll-contain h-[80px] mb-10">{imovel.descricao}</h2>
                                 <div className="flex justify-around">
                                     <div>

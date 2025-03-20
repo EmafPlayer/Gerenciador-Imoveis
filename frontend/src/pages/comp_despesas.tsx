@@ -7,7 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { AiFillCheckSquare } from "react-icons/ai";
 import { twMerge } from "tailwind-merge";
 import { api } from "../apis/api";
-import { IoClose } from "react-icons/io5";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import { Opcoes } from "../components/opcoes";
 import { TbReload } from "react-icons/tb";
 
@@ -108,9 +108,23 @@ export function CompDespesas (  ) {
                 pago: !despesas[index1][index2].pago
             });
 
+            toast.success("Status modificado com sucesso", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+
         } catch(error){
             console.error(error);
         }    
+
+
 
     }
 
@@ -120,6 +134,18 @@ export function CompDespesas (  ) {
 
             await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
                 pago: !receitas[index1][index2].pago
+            });
+
+            toast.success("Status modificado com sucesso", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
             });
 
         } catch(error) {
@@ -134,6 +160,18 @@ export function CompDespesas (  ) {
 
             await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
                 pago: !receitas_despesas[index].pago
+            });
+
+            toast.success("Status modificado com sucesso", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
             });
 
         } catch(error) {
@@ -306,6 +344,7 @@ export function CompDespesas (  ) {
                     </div>}
 
                 </div>
+                <ToastContainer />
             </div>
 
         )

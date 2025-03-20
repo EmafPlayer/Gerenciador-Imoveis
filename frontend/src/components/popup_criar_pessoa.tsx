@@ -2,17 +2,14 @@ import { useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md"
 import { Asteristico } from "./asteristico";
 import { twMerge } from "tailwind-merge";
-import { useState } from "react";
 import { api } from "../apis/api";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type props = {
     setModal: Function
 }
 
 export function CriarPessoa ({ setModal }: props) {
-
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
 
     const { register, handleSubmit } = useForm();
 
@@ -26,8 +23,17 @@ export function CriarPessoa ({ setModal }: props) {
 
             const response = await api.post(`/v1/inicio/criacao-pessoa?${params}`);
 
-            setCriacao(true);
-            setMensagem(response.data.message);
+            toast.success(response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
 
         } catch (error) {
             console.error(error);
@@ -66,11 +72,9 @@ export function CriarPessoa ({ setModal }: props) {
                 <div className="text-center sm:text-right mt-12">
                     <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                 </div>
-                <div className="text-center sm:text-right pr-2">
-                    {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                </div>
 
             </form>
+            <ToastContainer />
         </div>
     )
 }

@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { api } from "../apis/api";
 import { Asteristico } from "./asteristico";
-import { twMerge } from "tailwind-merge";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import CarregarPessoas from "../apis/carregar_pessoas";
 import { MdClose } from "react-icons/md";
 import { Warning } from "./warning";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type props = {
     setModal: Function,
@@ -14,14 +14,12 @@ type props = {
 }
 
 type pessoasProps = {
+    id_pessoa: number;
     nome_completo: string,
     contato: string
 }
 
 export function CriarChaves ({ setModal, id_imovel }: props) {
-    
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
 
     const [warning, setWarning] = useState(false);
 
@@ -30,7 +28,7 @@ export function CriarChaves ({ setModal, id_imovel }: props) {
 
     const[pessoas, setPessoas] = useState<pessoasProps[]>([]);
 
-    const { register, handleSubmit } = useForm();
+    const { handleSubmit } = useForm();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,14 +52,24 @@ export function CriarChaves ({ setModal, id_imovel }: props) {
 
             try{
                 const params = new URLSearchParams({
-                    id_pessoa: String(id_pessoa + 1),
+                    id_pessoa: String(pessoas[id_pessoa].id_pessoa),
                     id_imovel: String(id_imovel),
                 }).toString();
     
                 const response = await api.post(`/v1/inicio/criacao-chave?${params}`);
     
-                setCriacao(true);
-                setMensagem(response.data.message);
+                toast.success(response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+
                 setWarning(true);
     
             } catch (error) {
@@ -87,7 +95,7 @@ export function CriarChaves ({ setModal, id_imovel }: props) {
                         <h4 className="text-[18px] text-slate-700 font-outfit mb-[5px]">Pessoas</h4>
                         <Asteristico/>
                     </div>
-                    <button onClick={(e) => {e.preventDefault(); setStatus_pessoa(!status_pessoa)}} value={id_pessoa + 1} className="w-full h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-end items-center px-5 whitespace-pre">
+                    <button onClick={(e) => {e.preventDefault(); setStatus_pessoa(!status_pessoa)}} className="w-full h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-end items-center px-5 whitespace-pre">
                         <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{pessoas.length != 0 ? `${pessoas[id_pessoa].nome_completo}     -     ${pessoas[id_pessoa].contato}` : 'Não há Imobiliárias cadastradas'}</h6>
                         {status_pessoa ? <BsCaretUpFill className="text-[#ffffff] ml-[45px]"/>  : <BsCaretDownFill className="text-[#ffffff] ml-[45px]"/> }
                     </button>
@@ -101,13 +109,11 @@ export function CriarChaves ({ setModal, id_imovel }: props) {
                     <div className="text-center sm:text-right mt-12">
                         <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                     </div>
-                    <div className="text-center sm:text-right pr-2">
-                        {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                    </div>
                     
                 </form>
             </div>
             {warning && <Warning setModal={setWarning}></Warning>}
+            <ToastContainer />
         </main>
         )
 }

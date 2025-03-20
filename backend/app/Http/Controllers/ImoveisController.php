@@ -9,7 +9,6 @@ use App\Models\HistoricoStatusImoveis;
 use App\Models\Imoveis;
 use App\Models\Localizacoes;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ImoveisController extends Controller
 {
@@ -96,26 +95,6 @@ class ImoveisController extends Controller
         return response()->json(['message' => 'Imóvel criado com sucesso'], 200);
     }
 
-    public function uploadFotos(Request $request)
-    {
-        if (!$request->hasFile('file')) {
-            return response()->json(['message' => 'Arquivo não encontrado.'], 400);
-        }
-
-        $file = $request->file('file');
-        
-        $filename = $file->getClientOriginalName();
-
-        $file->move(storage_path("app/public/fotos"), $filename);
-
-        FotosImoveis::create([
-            'id_imovel' => $request->id_imovel,
-            'endereco' => $filename, 
-        ]);
-
-        return response()->json(['message' => 'Foto armazenada com sucesso'], 200);
-    }
-
     public function carregarImoveis()
     {
         $imoveis = Imoveis::join("enderecos", "imoveis.id_endereco", "=", "enderecos.id")
@@ -176,6 +155,37 @@ class ImoveisController extends Controller
 
         return response()->json(["message" => "Status modificado com sucesso"], 200);
 
+    }
+
+    public function verFotoImovel ($filename) {
+            
+        $path = storage_path("app/public/fotos/{$filename}");
+    
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'Arquivo não encontrado', 'path' => $path], 404);
+        }
+    
+        return response()->file($path);
+    }
+
+    public function uploadFotoImovel(Request $request)
+    {
+        if (!$request->hasFile('file')) {
+            return response()->json(['message' => 'Arquivo não encontrado.'], 400);
+        }
+
+        $file = $request->file('file');
+        
+        $filename = $file->getClientOriginalName();
+
+        $file->move(storage_path("app/public/fotos"), $filename);
+
+        FotosImoveis::create([
+            'id_imovel' => $request->id_imovel,
+            'endereco' => $filename, 
+        ]);
+
+        return response()->json(['message' => 'Foto armazenada com sucesso'], 200);
     }
 
 }

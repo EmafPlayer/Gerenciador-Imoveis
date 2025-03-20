@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcontecimentoControllers;
+use App\Http\Controllers\ArquivosController;
 use App\Http\Controllers\ChavesController;
 use App\Http\Controllers\CorretorControllers;
 use App\Http\Controllers\CotacaoControllers;
@@ -53,17 +54,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/carregar-pessoas', [PessoaController::class, 'carregarPessoas']);
         Route::get('/carregar-visitas/{id_imovel}', [VisitasController::class, 'carregarVisitas']);
 
-        Route::get('/fotos/{filename}', function ($filename) {
-            $path = storage_path("app/public/fotos/{$filename}");
-        
-            if (!file_exists($path)) {
-                return response()->json(['error' => 'Arquivo não encontrado', 'path' => $path], 404);
-            }
-        
-            return response()->file($path);
-        });
+        Route::get('/fotos/{filename}', [ImoveisController::class, 'verFotoImovel']);
 
-        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotos']);
+        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotoImovel']);
 
         Route::delete('/deletar-chave/{id_chave}', [ChavesController::class, 'deletarChave']);
 

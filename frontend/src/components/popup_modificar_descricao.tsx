@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { Asteristico } from "./asteristico";
 import { MdClose } from "react-icons/md";
 import { Warning } from "./warning";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type props = {
     setModal: Function,
@@ -12,9 +13,6 @@ type props = {
 }
 
 export function ModificarDescricaoAcontecimento ( props: props ) {
-
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
 
     const [warning, setWarning] = useState(false);
 
@@ -30,10 +28,19 @@ export function ModificarDescricaoAcontecimento ( props: props ) {
 
             const response = await api.put(`v1/inicio/modificar-descricao-acontecimento/${props.id_acontecimento}`, params);
 
-            setMensagem(response.data?.message);
-            setCriacao(true);
             setWarning(true);
 
+            toast.success(response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
 
         } catch(error) {
 
@@ -65,13 +72,11 @@ export function ModificarDescricaoAcontecimento ( props: props ) {
                 <div className="text-center sm:text-right mt-12">
                     <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                 </div>
-                <div className="text-center sm:text-right pr-2">
-                    {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                </div>
 
             </form>
 
             {warning && <Warning setModal={setWarning}></Warning>}
+            <ToastContainer />
         </div>
     )
 

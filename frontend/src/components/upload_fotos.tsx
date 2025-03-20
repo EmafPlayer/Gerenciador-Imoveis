@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { api } from "../apis/api";
 import { useState } from "react";
 import { Warning } from "./warning";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type props = {
     setModal: Function,
@@ -22,10 +23,6 @@ export function UploadFotos ( { setModal, id_imovel }: props) {
     });
 
     const [warning, setWarning] = useState(false);
-
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
-
 
     const submit = async (e) => {
         
@@ -50,9 +47,18 @@ export function UploadFotos ( { setModal, id_imovel }: props) {
                 },
             });
     
-            console.log(response.data.message);
-            setCriacao(true);
-            setMensagem(response.data.message);
+            toast.success(response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+
             setWarning(true);
     
         } catch (error) {
@@ -76,19 +82,11 @@ export function UploadFotos ( { setModal, id_imovel }: props) {
                     className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px] mt-1')} placeholder="Conta de Luz"/>
                 </div>
 
-                <div className="flex flex-col gap-1">
-                    <div className="text-center">
-                        <button className="text-[16px] font-normal px-8 py-2 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Enviar</button>
-                    </div>
-
-                    <div className="text-center ">
-                        {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                    </div>
-
-                </div>
+                <button className="text-[16px] font-normal px-8 py-2 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Enviar</button>
 
             </form>
             {warning && <Warning setModal={setWarning}></Warning>}
+            <ToastContainer />
         </div>
     )
 }

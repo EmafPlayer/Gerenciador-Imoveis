@@ -5,6 +5,7 @@ import { Warning } from "./warning";
 import { api } from "../apis/api";
 import { MdClose } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type Props = {
     setModal: Function,
@@ -13,29 +14,32 @@ type Props = {
 
 export function ModificarStatusImovel ( props: Props ) {
 
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
-
     const[id_status, setIdStatus] = useState(0);
     const[status, setStatus] = useState(false);
 
     const [warning, setWarning] = useState(false);
 
     const { handleSubmit } = useForm();
-
     
     const status_imovel = ['Vago', 'Em uso', 'Alugado', 'Loteamento', 'Em reforma'];
 
-    console.log(props.id_imovel)
-    console.log(id_status)
     const submit = async () => {
 
         try{
 
             const response = await api.put(`v1/inicio/modificar-status-imovel/${props.id_imovel}/${id_status + 1}`);
 
-            setMensagem(response.data.message);
-            setCriacao(true);
+            toast.success(response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
             setWarning(true);
 
         } catch(error) {
@@ -74,13 +78,11 @@ export function ModificarStatusImovel ( props: Props ) {
                         <div className="text-center sm:text-right mt-12">
                             <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                         </div>
-                        <div className="text-center sm:text-right pr-2">
-                            {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                        </div>
                         
                     </form>
                 </div>
                 {warning && <Warning setModal={setWarning}></Warning>}
+                <ToastContainer />
             </main>
             )
 

@@ -64,7 +64,7 @@ class DespesaControllers extends Controller
 
     public function verTitulos()
     {
-        $titulos = TitulosDepesas::select('descricao')->orderBy('id','asc')->get()->toArray();
+        $titulos = TitulosDepesas::select('id', 'descricao')->orderBy('id','asc')->get()->toArray();
 
         if (count($titulos) == 0)
             return response()->json(['message' => 'Ainda não possui titulos cadastradas no banco de dados'], 404);

@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { api } from "../apis/api";
 import { Asteristico } from "./asteristico";
-import { twMerge } from "tailwind-merge";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import CarregarPessoas from "../apis/carregar_pessoas";
 import { MdClose } from "react-icons/md";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Warning } from "./warning";
 
 type props = {
     setModal: Function,
@@ -19,17 +20,14 @@ type pessoasProps = {
 }
 
 export function ModificarChave ( props: props) {
-    
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
 
-    const[id_pessoa, setIdPessoa] = useState(0);
     const[count_pessoa, setCountPessoa] = useState(0);
     const[status_pessoa, setStatus_pessoa] = useState(false);
+    const[warning, setWarning] = useState(false);
 
     const[pessoas, setPessoas] = useState<pessoasProps[]>([]);
 
-    const { register, handleSubmit } = useForm();
+    const { handleSubmit } = useForm();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,9 +37,6 @@ export function ModificarChave ( props: props) {
 
             if (dataPessoas?.pessoas) 
                 setPessoas(dataPessoas.pessoas);
-
-            if(pessoas.length != 0)
-                setIdPessoa(dataPessoas?.pessoas[0].id_pessoa);
 
             else {
                 console.warn("Tabela não encontrada ou dados inválidos:");
@@ -57,10 +52,21 @@ export function ModificarChave ( props: props) {
 
             try{
                 
-                const response = await api.put(`/v1/inicio/modificar-chave/${props.id_chave}/${id_pessoa}`);
+                const response = await api.put(`/v1/inicio/modificar-chave/${props.id_chave}/${pessoas[count_pessoa].id_pessoa}`);
     
-                setCriacao(true);
-                setMensagem(response.data.message);
+                toast.success(response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+
+                setWarning(true);
     
             } catch (error) {
                 console.error(error);
@@ -92,19 +98,18 @@ export function ModificarChave ( props: props) {
                         {status_pessoa &&
                             <ul className="relative translate-y-[6px]">
                                 {pessoas.length != 0 && pessoas.map((pessoa, index) => 
-                                    <li className="mb-1"><button onClick={(e) => {e.preventDefault(); setCountPessoa(index); setStatus_pessoa(!status_pessoa), setIdPessoa(pessoa.id_pessoa)}} className="w-full whitespace-pre h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{`${pessoa.nome_completo}          -           ${pessoa.contato}`}</button></li>
+                                    <li className="mb-1"><button onClick={(e) => {e.preventDefault(); setCountPessoa(index); setStatus_pessoa(!status_pessoa)}} className="w-full whitespace-pre h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{`${pessoa.nome_completo}          -           ${pessoa.contato}`}</button></li>
                                 )}
                             </ul>}
                                     
                         <div className="text-center sm:text-right mt-12">
                             <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Modificar</button>
                         </div>
-                        <div className="text-center sm:text-right pr-2">
-                            {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                        </div>
                         
                     </form>
                 </div>
+                {warning && <Warning setModal={setWarning}></Warning>}
+                <ToastContainer />
         </div>
         )
 }

@@ -10,16 +10,19 @@ import { api } from "../apis/api";
 import { GrAdd } from "react-icons/gr";
 import { CriarTitulo } from "../components/criar_titulo";
 import { Asteristico } from "../components/asteristico";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type userProps = {
     username: string,
 };
 
 type titulosProps = {
+    id: number;
     descricao: string,
 };
 
 type acontecimentosProps = {
+    id: number
     titulo: string,
 };
 
@@ -28,9 +31,6 @@ export function CriarReceitaDespesa () {
     const { register, handleSubmit } = useForm();
 
     const[modal, setModal] = useState(false);
-    
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
     
     const[titulo_despesa, setTitulo_despesa] = useState(0);
     const[tipo_despesa, setTipo_despesa] = useState(0);
@@ -91,33 +91,40 @@ export function CriarReceitaDespesa () {
             try {
                 const params = new URLSearchParams({
                     id_imovel: id_imovel,
-                    titulo: String(titulo_despesa + 1),
+                    titulo: String(titulos_despesa[titulo_despesa].id),
                     receita_despesa: String(receita_despesa),
                     valor: data.valor,
                     descricao: data.descricao,
                     tipo_despesa: String(tipo_despesa + 1),
                     tipo_recorrencia: String(tipo_recorrencia + 1),
                     vencimento: data.vencimento,
-                    id_acontecimento: String(acontecer),
+                    id_acontecimento: String(acontecer == 0 ? 0 : acontecimentos[acontecer].id),
                     pago: String(pago),
                 }).toString();
         
     
                 const response = await api.post(`/v1/inicio/criacao-despesa`, params);
-                
-                console.log(response.data.message);
-    
-                setCriacao(true);
-                setMensagem(response.data.message);
-                
+
+                toast.success(response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                    });
+
             } catch (error) {
                 console.error(error);
             }
-
+            
         }
-
+        
     }
-
+    
     return (
         <div className="h-max w-full">
             <NavBar user={user}>
@@ -136,7 +143,7 @@ export function CriarReceitaDespesa () {
                                     <Asteristico/>
                                 </div>
                                 <div className="flex gap-3">
-                                    <button onClick={(e) => {e.preventDefault(); setStatus_titulo(!status_titulo)}} value={titulo_despesa + 1} className="w-full lg:w-[600px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                                    <button onClick={(e) => {e.preventDefault(); setStatus_titulo(!status_titulo)}} className="w-full lg:w-[600px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                         <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{titulos_despesa.length != 0 ? titulos_despesa[titulo_despesa].descricao : "Ainda não foi criado"}</h6>
                                         {status_titulo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                                     </button>
@@ -254,7 +261,7 @@ export function CriarReceitaDespesa () {
 
                         <div className="col-span-1 lg:col-span-2">
                             <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Acontecimentos</h4>
-                            <button onClick={(e) => {e.preventDefault(); setStatus_acontecimento(!status_acontecimento)}} value={acontecer} className="w-full lg:w-[350px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setStatus_acontecimento(!status_acontecimento)}} className="w-full lg:w-[350px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{acontecimentos.length != 0 ? acontecimentos[acontecer].titulo : "Ainda não foi criado"}</h6>
                                 {status_acontecimento ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -270,13 +277,11 @@ export function CriarReceitaDespesa () {
                     <div className="text-center sm:text-right mt-16">
                         <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                     </div>
-                    <div className="text-center sm:text-right pr-2">
-                        {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                    </div>
 
                 </form>
             </main>
             {modal && <CriarTitulo setModal={setModal}/>}
+            <ToastContainer />
         </div>
     )
 }

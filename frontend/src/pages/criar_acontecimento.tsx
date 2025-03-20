@@ -6,6 +6,7 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { api } from "../apis/api";
 import { Asteristico } from "../components/asteristico";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 
 type userProps = {
@@ -15,9 +16,6 @@ type userProps = {
 export function CriarAcontecimento () {
 
     const { register, handleSubmit } = useForm();
-
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
 
     const[status_acontecimento, setStatus_acontecimento] = useState(0);
     const[ativacao, setAtivacao] = useState(false);
@@ -45,10 +43,17 @@ export function CriarAcontecimento () {
     
             const response = await api.post(`/v1/inicio/criacao-acontecimento`, params);
             
-            console.log(response.data.message);
-
-            setCriacao(true);
-            setMensagem(response.data.message);
+            toast.success(response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });            
             
         } catch (error) {
             console.error(error);
@@ -115,12 +120,10 @@ export function CriarAcontecimento () {
                     <div className="text-center sm:text-right mt-12 lg:mt-24">
                         <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                     </div>
-                    <div className="text-center sm:text-right pr-2">
-                        {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                    </div>
 
                 </form>
             </main>
+            <ToastContainer />
         </div>
     )
 }

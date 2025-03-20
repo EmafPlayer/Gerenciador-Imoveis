@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
 import { NavBar } from "../components/nav_bar";
 import { twMerge } from "tailwind-merge";
 import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
@@ -7,19 +6,20 @@ import { useEffect, useState } from "react";
 import buscarImobiliarias from "../apis/buscar_imobiliarias";
 import { api } from "../apis/api";
 import { Asteristico } from "../components/asteristico";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type userProps = {
     username: string,
 }
 
 type returnImobiliaria = {
+    id: number,
     nome_fantasia: string,
+    nome_oficial: string,
 }
 
 export function CriarCorretor () { 
-    
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
+
     const[status_imobiliaria, setStatus_imobiliaria] = useState(0);
     const[ativacao, setAtivacao] = useState(false);
 
@@ -34,8 +34,6 @@ export function CriarCorretor () {
     useEffect(() => {
         const fetchData = async () => {
             const dataImobiliarias = await buscarImobiliarias();
-
-            console.log(dataImobiliarias?.imobiliarias)
 
             if (dataImobiliarias?.imobiliarias) {
                 setImobiliarias(dataImobiliarias.imobiliarias);
@@ -54,7 +52,7 @@ export function CriarCorretor () {
             
             try {
                 const params = new URLSearchParams({
-                    id_imobiliaria: String(status_imobiliaria + 1),
+                    id_imobiliaria: String(imobiliarias[status_imobiliaria].id),
                     nome: data.nome,
                     email: data.email,
                     telefone: data.telefone,
@@ -62,10 +60,17 @@ export function CriarCorretor () {
         
                 const response = await api.post(`/v1/inicio/criacao-corretor`, params);
                 
-                console.log(response.data.message);
-    
-                setCriacao(true);
-                setMensagem(response.data.message);
+                toast.success(response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
                 
             } catch (error) {
                 console.error(error);
@@ -97,14 +102,14 @@ export function CriarCorretor () {
                                 <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Imobiliárias</h4>
                                 <Asteristico/>
                             </div>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} value={status_imobiliaria + 1} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button data-toggle="tooltip" data-placement="top" title={imobiliarias.length != 0 ? imobiliarias[status_imobiliaria].nome_oficial : 'Não há Imobiliárias cadastradas'} onClick={(e) => {e.preventDefault(); setAtivacao(!ativacao)}} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{imobiliarias.length != 0 ? imobiliarias[status_imobiliaria].nome_fantasia : 'Não há Imobiliárias cadastradas'}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao &&
                                 <ul className="relative lg:absolute translate-y-[6px]">
                                     {imobiliarias.length != 0 && imobiliarias.map((imobiliaria, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setStatus_imobiliaria(index); setAtivacao(!ativacao)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{imobiliaria.nome_fantasia}</button></li>
+                                        <li><button data-toggle="tooltip" data-placement="top" title={imobiliaria.nome_oficial} onClick={(e) => {e.preventDefault(); setStatus_imobiliaria(index); setAtivacao(!ativacao)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{imobiliaria.nome_fantasia}</button></li>
                                     )}
                                 </ul>}
                         </div>
@@ -134,12 +139,10 @@ export function CriarCorretor () {
                     <div className="text-center sm:text-right mt-12 lg:mt-24">
                         <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                     </div>
-                    <div className="text-center sm:text-right pr-2">
-                        {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                    </div>
 
                 </form>
             </main>
+            <ToastContainer />
         </div>
     )
 }

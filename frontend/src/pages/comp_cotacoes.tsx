@@ -36,10 +36,6 @@ type propsCotacao = {
 
 }
 
-type TipoParametro = {
-    id_imovel: number | null;
-};
-
 
 export function CompCotacoes (  ) {
 

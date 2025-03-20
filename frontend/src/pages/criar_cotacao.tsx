@@ -7,12 +7,14 @@ import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import { api } from "../apis/api";
 import buscarCorretores from "../apis/buscar_corretores";
 import { Asteristico } from "../components/asteristico";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type userProps = {
     username: string,
 }
 
 type returnImobiliaria = {
+    id_corretor: number;
     nome_corretor: string,
     nome_imobiliaria: string,
     telefone: string,
@@ -20,9 +22,6 @@ type returnImobiliaria = {
 
 export function CriarCotacao () {
 
-
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
     const[status_tipo, setStatus_tipo] = useState(0);
     const[ativacao_tipo, setAtivacao_tipo] = useState(false);
     const[status_corretor, setStatus_corretor] = useState(0);
@@ -44,8 +43,6 @@ export function CriarCotacao () {
         const fetchData = async () => {
             const dataCorretores = await buscarCorretores();
 
-            console.log(dataCorretores?.corretores_imobiliarias);
-
             if (dataCorretores?.corretores_imobiliarias) {
                 setCorretores(dataCorretores.corretores_imobiliarias);
             } else {
@@ -63,7 +60,7 @@ export function CriarCotacao () {
             try {
                 const params = new URLSearchParams({
                     id_imovel: id_imovel,
-                    id_corretor: String(status_corretor + 1),
+                    id_corretor: String(corretores[status_corretor].id_corretor),
                     valor: data.valor,
                     valor_min: data.valor_min,
                     valor_max: data.valor_max,
@@ -74,12 +71,19 @@ export function CriarCotacao () {
     
                 }).toString();
                 
-                console.log(data.url_anuncio);
                 const response = await api.post(`/v1/inicio/criacao-cotacao`, params);
                 
-    
-                setCriacao(true);
-                setMensagem(response.data.message);
+                toast.success(response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
                 
             } catch (error) {
                 console.error(error);
@@ -157,7 +161,7 @@ export function CriarCotacao () {
                                 <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Tipo da cotação</h4>
                                 <Asteristico/>
                             </div>
-                            <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} value={status_tipo + 1} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={(e) => {e.preventDefault(); setAtivacao_tipo(!ativacao_tipo)}} value={status_tipo} className="w-full lg:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{tipo_cotacao[status_tipo]}</h6>
                                 {ativacao_tipo ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -191,12 +195,10 @@ export function CriarCotacao () {
                     <div className="text-center sm:text-right mt-16">
                         <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                     </div>
-                    <div className="text-center sm:text-right pr-2">
-                        {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                    </div>
 
                 </form>
             </main>
+            <ToastContainer />
         </div>
     )
 }

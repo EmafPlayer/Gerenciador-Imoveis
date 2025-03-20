@@ -5,9 +5,9 @@ import { BsCaretDownFill, BsCaretUpFill } from "react-icons/bs";
 import { Asteristico } from "./asteristico";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { useSearchParams } from "react-router-dom";
 import { api } from "../apis/api";
 import { Warning } from "./warning";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type props = {
     setModal: Function,
@@ -15,6 +15,7 @@ type props = {
 }
 
 type returnImobiliaria = {
+    id_corretor: number,
     nome_corretor: string,
     nome_imobiliaria: string,
     telefone: string,
@@ -27,8 +28,6 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
     const[ativacao_corretor, setAtivacao_corretor] = useState(false);  
     const[checked, setChecked] = useState(false);
 
-    const[criacao, setCriacao] = useState(false);
-    const[mensagem, setMensagem] = useState("");
     const[warning, setWarning] = useState(false);
 
     const { register, handleSubmit } = useForm();
@@ -55,7 +54,7 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
 
             const params = new URLSearchParams({
                 id_imovel: String(id_imovel),
-                id_corretor: String(status_corretor + 1),
+                id_corretor: String(corretores[status_corretor].id_corretor),
                 data_visita: data.data_visita,
                 proposta: checked ? String(1) : String(0),
                 valor_proposta: checked ? data.valor_proposta : "",
@@ -65,8 +64,18 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
 
             const response = await api.post(`/v1/inicio/criacao-visita`, params);
 
-            setMensagem(response.data?.message);
-            setCriacao(true);
+            toast.success(response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+
             setWarning(true);
 
         }catch (error){
@@ -89,7 +98,7 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
                                 <h4 className="text-[18px] text-slate-700 font-outfit mt-2 mb-[5px]">Corretor Responsável</h4>
                                 <Asteristico/>
                             </div>
-                            <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? `Imobiliária - ${corretores[status_corretor].nome_imobiliaria}` : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} value={status_corretor + 1} className="w-full lg:w-[400px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5 whitespace-pre">
+                            <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? `Imobiliária - ${corretores[status_corretor].nome_imobiliaria}` : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} className="w-full lg:w-[400px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5 whitespace-pre">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? `${corretores[status_corretor].nome_corretor}     -     ${corretores[status_corretor].telefone}` : "Ainda não foi criado"}</h6>
                                 {ativacao_corretor ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
@@ -146,12 +155,10 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
                         <div className="text-center sm:text-right mt-24">
                             <button className="text-[16px] font-normal px-16 py-3 rounded-md text-slate-100 hover:text-[#ffffff] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6]">Cadastrar</button>
                         </div>
-                        <div className="text-center sm:text-right pr-2">
-                            {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
-                        </div>
                 </form>
 
                 {warning && <Warning setModal={setWarning}></Warning>}
+                <ToastContainer />
             </div>
         )
 

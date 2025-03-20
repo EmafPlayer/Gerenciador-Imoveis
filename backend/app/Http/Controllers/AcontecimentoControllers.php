@@ -35,7 +35,7 @@ class AcontecimentoControllers extends Controller
 
     public function verAcontecimentos()
     {
-        $acontecimentos = Acontecimentos::select('titulo')->orderBy('id','asc')->get()->toArray();
+        $acontecimentos = Acontecimentos::select('id', 'titulo')->orderBy('id','asc')->get()->toArray();
 
         if (count($acontecimentos) == 0)
             return response()->json(['message' => 'Ainda não possui acontecimentos cadastradas no banco de dados'], 404);
