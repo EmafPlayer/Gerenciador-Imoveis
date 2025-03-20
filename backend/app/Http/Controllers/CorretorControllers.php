@@ -19,6 +19,7 @@ class CorretorControllers extends Controller
             'id_imobiliaria' => 'required|numeric',
             'nome' => 'required|string',
             'telefone' => 'required|string',
+            'email' => 'string|nullable'
         ]);
 
         Corretores::create([

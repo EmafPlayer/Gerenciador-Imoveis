@@ -1,7 +1,7 @@
-import { CompAcontecimentos } from "./components/comp_acontecimentos";
-import { CompCotacoes } from "./components/comp_cotacoes";
-import { CompDespesas } from "./components/comp_despesas";
-import { CompImovel } from "./components/comp_imovel";
+import { CompAcontecimentos } from "./pages/comp_acontecimentos";
+import { CompCotacoes } from "./pages/comp_cotacoes";
+import { CompDespesas } from "./pages/comp_despesas";
+import { CompImovel } from "./pages/comp_imovel";
 import { SignUp } from "./pages/cadastro";
 import { CriarAcontecimento } from "./pages/criar_acontecimento";
 import { CriarCorretor } from "./pages/criar_corretor";

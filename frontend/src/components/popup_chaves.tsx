@@ -9,6 +9,7 @@ import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPencilAlt } from "react-icons/fa"
 import { api } from "../apis/api"
 import { ModificarChave } from "./popup_modificar_chave"
+import { Warning } from "./warning"
 
 type props = {
     setModal: Function,
@@ -26,6 +27,7 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
     const [bChaves, setBChaves] = useState(false);
     const [bPessoas, setBPessoas] = useState(false);
     const [modificar_chave, setModificarChave] = useState(false);
+    const [warning, setWarning] = useState(false);
 
     const [id_chave, setIdChave] = useState(0);
 
@@ -57,6 +59,8 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
 
         } catch (error) {
             
+            console.error(error);
+
         }
 
     }
@@ -76,7 +80,7 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
                 <div className="h-[600px] w-full gap-5 grid grid-cols-2 overflow-y-auto p-2">
                     {pessoas.length != 0 && pessoas.map((pessoa) =>
                         <div className="flex items-center col-span-1 gap-1">
-                            <div className="bg-[#DB6900] h-[82px] flex justify-center items-center py-2 gap-x-4 w-[80%] rounded-lg shadow-md">
+                            <div className="bg-[#DB6900] h-[82px] flex justify-center items-center py-2 gap-x-4 w-[90%] rounded-lg shadow-md">
                                 <div className="border-r-2 h-full flex items-center pr-5">
                                     <FcKey className="text-[40px]"/>
                                 </div>
@@ -86,8 +90,8 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
                                 </div>
                             </div> 
                             <div className="flex flex-col gap-y-1">
-                                <button onClick={() => {setIdChave(pessoa.id_chave); setModificarChave(true)}} className="rounded-lg bg-[#0258d9ee] flex justify-center items-center h-[38px] w-[38px]"><FaPencilAlt className="text-[18px] text-slate-100"/></button>
-                                <button onClick={() => {deletarChave(pessoa.id_chave)}} className="rounded-lg bg-[#db001de5] flex justify-center items-center h-[38px] w-[38px]"><RiDeleteBin2Fill className="text-[20px] text-slate-100"/></button>
+                                <button onClick={() => {setIdChave(pessoa.id_chave); setModificarChave(true)}} className="rounded-lg bg-[#0258d9ee] flex justify-center items-center h-[38px] w-[38px] transition ease-in-out delay-100 hover:scale-125"><FaPencilAlt className="text-[18px] text-slate-100"/></button>
+                                <button onClick={() => {deletarChave(pessoa.id_chave); setWarning(true)}} className="rounded-lg bg-[#db001de5] flex justify-center items-center h-[38px] w-[38px] transition ease-in-out delay-100 hover:scale-125"><RiDeleteBin2Fill className="text-[20px] text-slate-100"/></button>
                             </div>
                             
                         </div>
@@ -95,6 +99,7 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
                 </div>
                 
             </div>
+            {warning && <Warning setModal={setWarning}></Warning>}
             {modificar_chave && <ModificarChave setModal={setModificarChave} id_chave={id_chave}/>}
             {bChaves && <CriarChaves setModal={setBChaves} id_imovel={id_imovel}/>}
             {bPessoas && <CriarPessoa setModal={setBPessoas}/>}

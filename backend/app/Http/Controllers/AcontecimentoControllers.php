@@ -33,14 +33,6 @@ class AcontecimentoControllers extends Controller
         return response()->json(['message' => 'Acontecimento criado com sucesso'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {  
-
-    }
-
     public function verAcontecimentos()
     {
         $acontecimentos = Acontecimentos::select('titulo')->orderBy('id','asc')->get()->toArray();
@@ -53,7 +45,7 @@ class AcontecimentoControllers extends Controller
     
     public function carregarAcontecimentos ($id_imovel) 
     {
-        $acontecimentos = Acontecimentos::select("titulo", "descricao", "data_inicio", "ultima_alteracao", "status_acontecimento")
+        $acontecimentos = Acontecimentos::select("id as id_acontecimento", "titulo", "descricao", "data_inicio", "ultima_alteracao", "status_acontecimento")
                                         ->where('id_imovel', '=', $id_imovel)->get()->toArray();
 
         $acontecimentos = array_chunk($acontecimentos, 4);
@@ -61,19 +53,16 @@ class AcontecimentoControllers extends Controller
         return response()->json(['message' => 'Receitas e Despesas carregadas com sucesso', 'acontecimentos' => $acontecimentos], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update()
+    public function modificarDescricao($id_acontecimento, Request $request)
     {
+        $request->validate([
+            "descricao" => "required|string"
+        ]);
+
+        Acontecimentos::where('id', '=', $id_acontecimento)->update(["descricao" => $request->descricao]);
+
+        return response()->json(["message" => "Descrição de acontecimento modificado com sucesso"], 200);
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy()
-    {
-        //
-    }
 }

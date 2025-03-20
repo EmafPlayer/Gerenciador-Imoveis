@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
-import { TbRulerMeasure } from "react-icons/tb";
-import { DetalhesImovel } from "./popup_detalhes_imovel";
-import { FaClipboardList, FaFileImage } from "react-icons/fa";
-import { UploadFotos } from "./upload_fotos";
+import { DetalhesImovel } from "../components/popup_detalhes_imovel";
+import { FaClipboardList, FaFileImage, FaPencilAlt } from "react-icons/fa";
+import { UploadFotos } from "../components/upload_fotos";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import carregarImovel from "../apis/carregar_imovel";
 import { IoKey, IoPeopleSharp } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 import { useMediaQuery } from "react-responsive";
-import { CompChaves } from "./popup_chaves";
-import { Visitas } from "./visitas";
-import { Opcoes } from "./opcoes";
+import { CompChaves } from "../components/popup_chaves";
+import { Visitas } from "../components/visitas";
+import { Opcoes } from "../components/opcoes";
 import { useLocation } from "react-router-dom";
 
 type propsImovel = {
@@ -39,11 +38,8 @@ type propsImovel = {
     tipo_imovel: 1 | 2 | 3;
     valor_aluguel: number;
     valor_venda: number;
-}
 
-type TipoParametro = {
-    id_imovel: number | null;
-};
+}
 
 export function CompImovel ( ) {
 
@@ -102,22 +98,22 @@ export function CompImovel ( ) {
                 <div className={twMerge("gap-16 pt-[140px]", isHighScreen ? 'flex items-center justify-center' : 'flex flex-col items-center')}>
                     {imovel.fotos.length == 0 ? 
                     
-                    <div className="h-[700px] w-full sm:w-[1000px] rounded-3xl shadow-md bg-slate-300"></div>
+                    <div className="h-[700px] w-full sm:w-[950px] rounded-3xl shadow-md bg-slate-300"></div>
                     
                     :
                     
                     <div className="flex items-center gap-2 sm:gap-7">
-                        <button onClick={lastPage}><BsArrowLeftCircle className="text-[25px] sm:text-[45px]"/></button>
-                        <img src={`http://127.0.0.1:8000/api/v1/inicio/fotos/${imovel.fotos[contador].endereco}`} alt="foto do imóvel" className=" h-[300px] sm:h-[400px] md:h-[500px] xl:h-[700px] w-full sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[1000px] rounded-3xl shadow-md"/>
-                        <button onClick={nextPage}><BsArrowRightCircle className="text-[25px] sm:text-[45px]"/></button>
+                        <button onClick={lastPage}><BsArrowLeftCircle className="text-[25px] sm:text-[45px] transition ease-in-out delay-100 hover:scale-110"/></button>
+                        <img src={`http://127.0.0.1:8000/api/v1/inicio/fotos/${imovel.fotos[contador].endereco}`} alt="foto do imóvel" className=" h-[300px] sm:h-[400px] md:h-[500px] xl:h-[700px] w-full sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[950px] rounded-3xl shadow-md"/>
+                        <button onClick={nextPage}><BsArrowRightCircle className="text-[25px] sm:text-[45px] transition ease-in-out delay-100 hover:scale-110"/></button>
                     </div>
                     }
-                    <div className=" bg-[#dededed3] h-[700px] w-[550px] lg:w-[600px] rounded-3xl p-8 border-4 border-[#dbdbdb] shadow-md mb-6 lg:mb-0">
+                    <div className=" bg-[#dededed3] h-[700px] w-[550px] lg:w-[650px] rounded-3xl p-8 border-4 border-[#dbdbdb] shadow-md mb-6 lg:mb-0">
                         <div className="h-full flex flex-col justify-between">
                             <div className="">
-                                <h1 className="text-[40px] lg:text-[50px] font-outfit">{imovel.nome}</h1>
+                                <h1 data-toggle="tooltip" data-placement="top" title={imovel.nome} className="text-[40px] lg:text-[50px] font-outfit">{imovel.nome.length > 20 ? imovel.nome.slice(0,20) + '...'  : imovel.nome}</h1>
                                 <h3 className="pt-3 pb-5 text-[22px] font-outfit opacity-[70%]">{imovel.rua}, {imovel.numero} - {imovel.bairro} - {imovel.cidade}, {imovel.estado}</h3>
-                                <h2 className="text-[15px] lg:text-[18px] font-outfit overflow-auto overscroll-contain h-32">{imovel.descricao}</h2>
+                                <h2 className="text-[15px] lg:text-[18px] font-outfit overflow-auto overscroll-contain h-[80px] mb-10">{imovel.descricao}</h2>
                                 <div className="flex justify-around">
                                     <div>
                                         <h2 className="text-[18px]">Aluguel</h2>
@@ -136,8 +132,8 @@ export function CompImovel ( ) {
                                 <div className="flex justify-around items-center">
                                     <button onClick={() => setDetalhes(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><FaClipboardList/></button>
                                     <button onClick={(e) => {setModal(true); e.preventDefault();}} data-toggle="tooltip" data-placement="top" title="Upload Fotos" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><FaFileImage/></button>
-                                    <button onClick={() => setChaves(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><IoKey /></button>
-                                    <button onClick={() => setVisitas(true)} data-toggle="tooltip" data-placement="top" title="Destalhes do imóvel" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><IoPeopleSharp /></button>
+                                    <button onClick={() => setChaves(true)} data-toggle="tooltip" data-placement="top" title="Chaves" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><IoKey /></button>
+                                    <button onClick={() => setVisitas(true)} data-toggle="tooltip" data-placement="top" title="Visitas" className="bg-[#3A0C3D] rounded-lg  p-3 text-white text-[23px] lg:text-[30px] transition duration-100 hover:scale-110"><IoPeopleSharp /></button>
                                 </div>
                                 <div className="w-full h-[140px] bg-slate-300 rounded-lg">
                                     {isLoaded ? (

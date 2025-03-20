@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-import { DataEstilizada } from "./data_estilizada";
+import { DataEstilizada } from "../components/data_estilizada";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/pt-br';
@@ -8,13 +8,17 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
 import carregarAcontecimentos from "../apis/carregar_acontecimentos";
 import { useMediaQuery } from "react-responsive";
-import { Opcoes } from "./opcoes";
+import { Opcoes } from "../components/opcoes";
+import { FaPencilAlt } from "react-icons/fa";
+import { ModificarDescricaoAcontecimento } from "../components/popup_modificar_descricao";
+import { Warning } from "../components/warning";
 
 dayjs.extend(relativeTime);
 dayjs.locale('pt-br')
 
 
 type propsAcontecimento = {
+    id_acontecimento: number,
     titulo: string,
     descricao: string,
     data_inicio: Date,
@@ -22,14 +26,13 @@ type propsAcontecimento = {
     status_acontecimento: 0 | 1 | 2,
 }
 
-type TipoParametro = {
-    id_imovel: number | null;
-};
-
 export function CompAcontecimentos (  ) {
 
     const [contador, setContador] = useState(0);
     const [acontecimentos, setAcontecimentos] = useState<propsAcontecimento[][]>([]);
+    const [id_acontecimento, setIdAcontecimento] = useState(0);
+
+    const [modificar_descricao, setModificarDescricao] = useState(false);
 
     const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
 
@@ -70,6 +73,8 @@ export function CompAcontecimentos (  ) {
             setContador(contador - 1);
     }
 
+    
+
     if(acontecimentos){
 
         return (
@@ -84,7 +89,7 @@ export function CompAcontecimentos (  ) {
                             <button onClick={nextPage}><BsArrowRightCircle className="text-[32px] lg:text-[45px]"/></button>
                         </div>
                         <div>
-                        <button data-toggle="tooltip" data-placement="top" title="Criar Acontecimento" onClick={() => redirectCriarAcontecimento()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[20px]"/>
+                        <button data-toggle="tooltip" data-placement="top" title="Criar Acontecimento" onClick={() => redirectCriarAcontecimento()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3 transition ease-in-out delay-100 hover:scale-110"><AiFillPlusCircle className="text-[20px]"/>
                             {isMidScreen && <h1 className="font-outfit font-semibold">Criar Acontecimento</h1>}
                         </button> 
                         </div>
@@ -101,7 +106,10 @@ export function CompAcontecimentos (  ) {
                                     <div className="h-full flex flex-col justify-between">
                                         <div className="flex flex-col items-start">
                                             <h1 className="text-[30px] mb-3 font-semibold font-outfit">{acontecimento.titulo}</h1>
-                                            <div className="text-[20px] text-wrap mb-6 overflow-y-auto overscroll-contain h-16 w-full">{acontecimento.descricao}</div>
+                                            <div className="flex gap-3 w-full">
+                                                <div className="text-[20px] text-wrap mb-6 overflow-y-auto overscroll-contain h-16 w-[95%]">{acontecimento.descricao}</div>
+                                                <button onClick={() => {setIdAcontecimento(acontecimento.id_acontecimento); setModificarDescricao(true)}} className="rounded-lg bg-[#0258d9ee] flex justify-center items-center h-[37px] w-[37px] transition ease-in-out delay-100 hover:scale-125"><FaPencilAlt className="text-[18px] text-slate-100"/></button>
+                                            </div>
                                             <div>
                                                 <h1 className="text-[18px] font-semibold">Status do Acontecimento:</h1>
                                                 <h1 className="text-[17px]">{acontecimento.status_acontecimento == 0 ? 'Planejamento' : 
@@ -122,6 +130,9 @@ export function CompAcontecimentos (  ) {
                     </div>
 
                 </div>
+
+                
+                {modificar_descricao && <ModificarDescricaoAcontecimento setModal={setModificarDescricao} id_acontecimento={id_acontecimento}/>}
             </div>
 
         )

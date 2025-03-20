@@ -2,6 +2,7 @@ import { MdClose } from "react-icons/md"
 import { twMerge } from "tailwind-merge";
 import { api } from "../apis/api";
 import { useState } from "react";
+import { Warning } from "./warning";
 
 type props = {
     setModal: Function,
@@ -19,6 +20,8 @@ export function UploadFotos ( { setModal, id_imovel }: props) {
         title: "",
         file: null
     });
+
+    const [warning, setWarning] = useState(false);
 
     const[criacao, setCriacao] = useState(false);
     const[mensagem, setMensagem] = useState("");
@@ -50,6 +53,7 @@ export function UploadFotos ( { setModal, id_imovel }: props) {
             console.log(response.data.message);
             setCriacao(true);
             setMensagem(response.data.message);
+            setWarning(true);
     
         } catch (error) {
             console.error(error);
@@ -84,8 +88,7 @@ export function UploadFotos ( { setModal, id_imovel }: props) {
                 </div>
 
             </form>
+            {warning && <Warning setModal={setWarning}></Warning>}
         </div>
-
-        
     )
 }

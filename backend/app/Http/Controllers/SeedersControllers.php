@@ -8,6 +8,7 @@ use Database\Seeders\StatusAcontecimentoSeeder;
 use Database\Seeders\TipoCotacaoSeeder;
 use Database\Seeders\TipoDespesaSeeder;
 use Database\Seeders\TipoExpectativaStatusSeeder;
+use Database\Seeders\TipoImovelSeeder;
 use Database\Seeders\TipoRecorrenciaSeeder;
 use Database\Seeders\TipoStatusImoveisSeeder;
 use Database\Seeders\TitulosDespesasSeeder;
@@ -27,6 +28,7 @@ class SeedersControllers extends Controller
             app(TipoRecorrenciaSeeder::class)->run();
             app(TipoStatusImoveisSeeder::class)->run();
             app(TitulosDespesasSeeder::class)->run();
+            app(TipoImovelSeeder::class)->run();
 
             return response()->json(['message' => 'Seeders criadas com sucesso'], 200);
         }

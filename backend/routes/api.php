@@ -68,6 +68,8 @@ Route::prefix('v1')->group(function () {
         Route::delete('/deletar-chave/{id_chave}', [ChavesController::class, 'deletarChave']);
 
         Route::put('/modificar-chave/{id_chave}/{id_pessoa}', [ChavesController::class, 'modificarChave']);
+        Route::put('/modificar-descricao-acontecimento/{id_acontecimento}', [AcontecimentoControllers::class, 'modificarDescricao']);
+        Route::put('/modificar-status-imovel/{id_imovel}/{id_status}', [ImoveisController::class, 'modificarStatusImovel']);
 
     });
     

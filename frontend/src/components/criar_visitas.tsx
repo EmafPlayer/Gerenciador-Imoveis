@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../apis/api";
+import { Warning } from "./warning";
 
 type props = {
     setModal: Function,
@@ -28,6 +29,7 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
 
     const[criacao, setCriacao] = useState(false);
     const[mensagem, setMensagem] = useState("");
+    const[warning, setWarning] = useState(false);
 
     const { register, handleSubmit } = useForm();
 
@@ -65,6 +67,7 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
 
             setMensagem(response.data?.message);
             setCriacao(true);
+            setWarning(true);
 
         }catch (error){
             console.error(error);
@@ -108,8 +111,8 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
                         </div>
 
                         <div className="col-span-1 flex items-center gap-3 ">
-                            <input type="checkbox" name="proposta" id="proposta" onChange={(e) => setChecked(e.target.checked)} className="accent-[#353941] w-6 h-6 rounded-lg transition duration-300 delay-300 ease-in-out"/>
                             <label htmlFor="proposta" className="text-[18px] text-slate-700 font-outfit">Houve proposta?</label>
+                            <input type="checkbox" name="proposta" id="proposta" onChange={(e) => setChecked(e.target.checked)} className="accent-[#353941] w-6 h-6 rounded-lg transition duration-300 delay-300 ease-in-out"/>
                         </div>
 
                         <div className={twMerge("col-span-1 flex flex-col justify-end", !checked && " pointer-events-none opacity-60")}>
@@ -147,6 +150,8 @@ export function CriarVisitas ( {setModal, id_imovel}: props ) {
                             {criacao && <h1 className="text-[#2369c5] pl-1 pt-2 text-[14px]">*{mensagem}</h1>}
                         </div>
                 </form>
+
+                {warning && <Warning setModal={setWarning}></Warning>}
             </div>
         )
 

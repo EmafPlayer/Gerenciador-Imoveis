@@ -8,7 +8,8 @@ import { AiFillCheckSquare } from "react-icons/ai";
 import { twMerge } from "tailwind-merge";
 import { api } from "../apis/api";
 import { IoClose } from "react-icons/io5";
-import { Opcoes } from "./opcoes";
+import { Opcoes } from "../components/opcoes";
+import { TbReload } from "react-icons/tb";
 
 
 type propsReceitaDespesa = {
@@ -39,8 +40,6 @@ export function CompDespesas (  ) {
     const location = useLocation();
 
     const id_imovel = location.state.id_imovel;
-
-    console.log(id_imovel);
 
     const navigate = useNavigate();
 
@@ -74,6 +73,11 @@ export function CompDespesas (  ) {
 
     const statusBotao = ['Receitas e Despesas', 'Receitas', 'Despesas'];
 
+
+    const recarregarPagina = () => {
+        window.location.reload();
+    };
+
     function nextPage () {
         if(valorBotao == 1){ 
             if (contador_receitas < receitas.length - 1)
@@ -98,25 +102,46 @@ export function CompDespesas (  ) {
 
     const modificarStatusDespesa = async (index1: number, index2: number) => {
 
-        await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
-            pago: !despesas[index1][index2].pago
-        });
+        try {
+
+            await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
+                pago: !despesas[index1][index2].pago
+            });
+
+        } catch(error){
+            console.error(error);
+        }    
 
     }
 
     const modificarStatusReceita = async (index1: number, index2: number) => {
 
-        await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
-            pago: !receitas[index1][index2].pago
-        });
+        try{
+
+            await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
+                pago: !receitas[index1][index2].pago
+            });
+
+        } catch(error) {
+            console.error(error);
+        }   
 
     }
 
     const modificarStatusReceitaDespesa = async (index: number) => {
 
-        await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
-            pago: !receitas_despesas[index].pago
-        });
+        try{
+
+            await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
+                pago: !receitas_despesas[index].pago
+            });
+
+        } catch(error) {
+
+            console.error(error);
+
+        }
+
 
     }
 
@@ -127,7 +152,7 @@ export function CompDespesas (  ) {
                 <Opcoes stateImovel={false} stateCotacoes={false} stateDespesas={true} stateAcontecimentos={false} id_imovel={id_imovel}/>
                 <div className="w-full flex flex-col items-center justify-center  pt-[120px]">
 
-                    <div className="flex items-center justify-between w-full pb-6 pt-4 px-3 lg:px-36">
+                    <div className="flex items-center justify-between w-full pb-6 pt-4 px-3 lg:px-16">
                         <div>
                             <button onClick={() => {setAtivacao(!ativacao)}} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{statusBotao[valorBotao]}</h6>
@@ -147,10 +172,11 @@ export function CompDespesas (  ) {
                                 <button onClick={nextPage}><BsArrowRightCircle className="text-[40px]"/></button>
                             </div>
                         }
-                        <div>
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Receita ou Despesa" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3"><AiFillPlusCircle className="text-[30px] lg:text-[20px]"/>
+                        <div className="flex items-center gap-3">
+                            <button data-toggle="tooltip" data-placement="top" title="Criar Receita ou Despesa" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3 transition ease-in-out delay-100 hover:scale-110"><AiFillPlusCircle className="text-[30px] lg:text-[20px]"/>
                             { ((valorBotao == 0 && !isMidScreen) || (isMidScreen)) && <h1 className="font-outfit font-semibold">Criar Receita ou Despesa</h1>}
                             </button> 
+                            <button className="bg-yellow-500 p-2 rounded-md hover:bg-blue-200 transition ease-in-out delay-100 hover:scale-125" onClick={recarregarPagina}><TbReload className="text-[23px] text-white hover:text-slate-500"/></button>
                         </div>
                     </div>
 
@@ -183,7 +209,7 @@ export function CompDespesas (  ) {
                                             <td className="px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]">{new Date (receita_despesa.vencimento).toLocaleDateString("pt-BR")}</td>
                                             <td className={twMerge("px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] font-bold", receita_despesa.receita_despesa ? 'text-amber-700' : 'text-sky-800')}>{receita_despesa.receita_despesa ? 'Despesa' : 'Receita'}</td>
                                             <td className={twMerge("px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]", receita_despesa.receita_despesa ? 'text-amber-700' : 'text-sky-800')}>{receita_despesa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
-                                            <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceitaDespesa(index)}} className="transition duration-100 hover:scale-110">{receita_despesa.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div></td>
+                                            <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceitaDespesa(index)}} className="transition duration-100 hover:scale-125">{receita_despesa.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div></td>
                                             
                                         </tr>     
                                     )}
@@ -229,7 +255,7 @@ export function CompDespesas (  ) {
                                             <h1 className="text-[28px] font-serif text-sky-800" text->{receita.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
                                             <h1 className="text-[12px] text-sky-800">REAIS (BRL - R$)</h1>
                                         </div>
-                                        <div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceita(contador_receitas, index)}} className="transition duration-100 hover:scale-110">{receita.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div>
+                                        <div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceita(contador_receitas, index)}} className="transition duration-100 hover:scale-125">{receita.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +298,7 @@ export function CompDespesas (  ) {
                                             <h1 className="text-[28px] font-serif text-amber-700" text->{despesa.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h1>
                                             <h1 className="text-[12px] text-amber-700">REAIS (BRL - R$)</h1>
                                         </div>
-                                        <div className="flex justify-center items-center"><button onClick={() => {modificarStatusDespesa(contador_despesas, index)}} className="transition duration-100 hover:scale-110">{despesa.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div>
+                                        <div className="flex justify-center items-center"><button onClick={() => {modificarStatusDespesa(contador_despesas, index)}} className="transition duration-100 hover:scale-125">{despesa.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div>
                                     </div>
                                 </div>
                             </div>

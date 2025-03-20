@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ImoveisController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create(Request $request)
     {
 
@@ -41,6 +39,8 @@ class ImoveisController extends Controller
             'area_construida' => 'required|numeric',
             'tipo_status' => 'required|numeric',
             'descricao' => 'required|string',
+            'id_tipo_imovel' => 'required|numeric',
+            'anunciado' => 'required'
         ]);
 
         
@@ -69,7 +69,7 @@ class ImoveisController extends Controller
         Imoveis::create([
             'nome' => $request->nome_imovel,
             'id_endereco' => $id_endereco,
-            'anunciado' => true,
+            'anunciado' => $request->anunciado ? 1 : 0,
             'fornecimento_agua' => $request->fornecimento_agua,
             'fornecimento_luz' => $request->fornecimento_luz,
             'cadastro_iptu' => $request->cadastro_iptu,
@@ -81,7 +81,7 @@ class ImoveisController extends Controller
             'area_total' => $request->area_total,
             'area_construida' => $request->area_construida,
             'descricao' => $request->descricao,
-            'tipo' => $request->tipo,
+            'id_tipo_imovel' => $request->id_tipo_imovel
         ]);
 
         $id_imovel = Imoveis::select('id')->orderBy('id', 'desc')->first();
@@ -128,8 +128,11 @@ class ImoveisController extends Controller
             $imovel['foto'] = FotosImoveis::select('endereco')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first();
             $imovel['foto'] = $imovel['foto'] ? $imovel['foto']->endereco : null;
 
-            $imovel['tipo_cotacao'] = (Cotacoes::select('tipo_cotacao')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())["tipo_cotacao"] ? (Cotacoes::select('tipo_cotacao')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())["tipo_cotacao"] : 0;
-            $imovel['valor'] = (Cotacoes::select('valor')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())['valor'] ? (Cotacoes::select('valor')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())['valor'] : 0;
+            $imovel['status_imovel'] = (HistoricoStatusImoveis::join('tipo_status_imoveis', 'tipo_status_imoveis.id', '=', 'historico_status_imoveis.tipo_status')
+                                                              ->select('descricao')->where('historico_status_imoveis.id_imovel', '=', $imovel['id'])->orderBy('ultima_alteracao', 'desc')->first()->toArray())['descricao'];
+
+            $imovel['tipo_cotacao'] = Cotacoes::where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->exists() ? (Cotacoes::select('tipo_cotacao')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())["tipo_cotacao"] : 0;
+            $imovel['valor'] = Cotacoes::where('id_imovel', '=', $imovel['id'])->exists() ? (Cotacoes::select('valor')->where('id_imovel', '=', $imovel['id'])->orderBy('id', 'asc')->first()->toArray())['valor'] : 0;
         }
         unset($imovel);
         
@@ -146,32 +149,33 @@ class ImoveisController extends Controller
                          ->select("imoveis.id", "imoveis.id_tipo_imovel as tipo_imovel", "nome", "descricao", "fornecimento_agua", "fornecimento_luz", "cadastro_iptu", "matricula", "cartorio_registro", 
                                   "area", "area_testada", "fracao_ideal", "area_total", "area_construida",
                                   "rua", "numero", "bairro", "cidade","estado", "latitude", "longitude")->where("imoveis.id", "=", $id_imovel)->firstOrFail()->toArray();
-        
-                                  
+
         $imovel['fotos'] = FotosImoveis::select('endereco')->where('id_imovel', '=', $id_imovel)->get()->toArray();
 
         $imovel['valor_aluguel'] = Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 1)->avg('valor') ? Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 1)->avg('valor') : 0;
         $imovel['valor_venda'] = Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 2)->avg('valor') ? Cotacoes::where('id_imovel', '=', $id_imovel)->where('tipo_cotacao', '=', 2)->avg('valor') : 0;
+
         
         return response()->json(['message' => 'Imóvel carregado com sucesso', 'imovel' => $imovel], 200);
         
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update()
-    {
+    public function modificarStatusImovel ($id_imovel, $id_status) {
+
+        $ultimo_status = (HistoricoStatusImoveis::select('tipo_status')->where('historico_status_imoveis.id_imovel', '=', $id_imovel)->orderBy('ultima_alteracao', 'desc')->first()->toArray())['tipo_status'];
+
+        if($ultimo_status != $id_status) {
+            
+            HistoricoStatusImoveis::create([
+                "id_imovel" => $id_imovel,
+                "ultima_alteracao" => now(),
+                "tipo_status" => $id_status,
+            ]);
+
+        }
+
+        return response()->json(["message" => "Status modificado com sucesso"], 200);
 
     }
 
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy()
-    {
-        //
-    }
 }

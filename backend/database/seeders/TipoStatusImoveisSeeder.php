@@ -16,7 +16,7 @@ class TipoStatusImoveisSeeder extends Seeder
             'descricao' => 'Vago'
         ]);
         DB::table('tipo_status_imoveis')->insert([
-            'descricao' => 'Em uso interno'
+            'descricao' => 'Em uso'
         ]);
         DB::table('tipo_status_imoveis')->insert([
             'descricao' => 'Alugado'

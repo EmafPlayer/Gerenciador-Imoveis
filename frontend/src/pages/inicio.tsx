@@ -6,10 +6,11 @@ import { GrAdd } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import CarregarImoveis from "../apis/carregar_imoveis";
-import foto from "../../../backend/public/storage/fotos/Casa2.jpg"
 import { api } from "../apis/api";
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from "tailwind-merge";
+import { FaPencilAlt } from "react-icons/fa";
+import { ModificarStatusImovel } from "../components/modificar_status_imovel";
 
 //
 
@@ -27,7 +28,8 @@ type imovelProps = {
   latitude: number,
   longitude: number,
   valor: number,
-  tipo_cotacao: 1 | 2;
+  tipo_cotacao: 0 | 1 | 2 ;
+  status_imovel: string;
 }
 
 export function Inicio() {
@@ -37,6 +39,8 @@ export function Inicio() {
   const [id_imovel, setId_imovel] = useState(0);
   const [casas, setCasas] = useState<imovelProps[][]>([]);
   const seedersChamado = useRef(false);
+
+  const [modificar_status, setModificarStatus] = useState(false);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -115,7 +119,7 @@ export function Inicio() {
                 <button onClick={nextPage}><BsArrowRightCircle className={casas.length == 0 ? "text-[40px]" : "text-[30px]"}/></button>
               </div>
               <div>
-                <button onClick={() => redirectCriarImoveis()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF]"><GrAdd/></button>
+                <button data-toggle="tooltip" data-placement="top" title="Cadastrar imóvel" onClick={() => redirectCriarImoveis()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-3 rounded-md text-[#FFFFFF] transition ease-in-out delay-100 hover:scale-110"><GrAdd/></button>
               </div>
             </div>
             <div className="grid grid-rows-3 gap-5 w-full mb-10 lg:mb-0">
@@ -125,15 +129,19 @@ export function Inicio() {
                     <div className={twMerge("w-full", !isLowScreen ? 'flex-col' : 'flex justify-between')}>
                       <div className={twMerge("flex", !isLowScreen? 'justify-around' : '' )}>
                         <img src={`http://127.0.0.1:8000/api/v1/inicio/fotos/${casa.foto}`} className="h-[165px] w-[250px] rounded-xl shadow-md"/>
-                        <div className="pl-8 pt-4">
+                        <div className="pl-8 pt-1">
                           <h1 className="text-[25px] text-slate-800 text-left pb-2 font-serif">{casa.nome}</h1>
-                          <h1 className="text-[18px] text-slate-600 font-sans">{!isMidScreen ? ( <>{casa.rua}, {casa.numero},<br/> {casa.bairro}</>) : (<> {casa.rua}, {casa.numero}, {casa.bairro}</>)}</h1>
+                          <h1 className="text-[18px] text-slate-600 font-sans pb-8">{!isMidScreen ? ( <>{casa.rua}, {casa.numero},<br/> {casa.bairro}</>) : (<> {casa.rua}, {casa.numero}, {casa.bairro}</>)}</h1>
+                          <div className="flex items-center gap-2">
+                            <h1 className="bg-slate-500 py-2 px-3 text-[15px] text-center font-medium text-white rounded-md">{casa.status_imovel}</h1>
+                            <button onClick={() => {setModificarStatus(true);}} className="rounded-lg bg-[#0258d9b4] flex justify-center items-center h-[37px] w-[37px] transition ease-in-out delay-100 hover:scale-125"><FaPencilAlt className="text-[18px] text-slate-100"/></button>
+                          </div>
                         </div>
                       </div>
-                      <div className={twMerge(" pt-5 lg:pt-0 ", isLowScreen ? 'flex flex-col items-center justify-between' : 'flex items-center justify-around')}>
+                      <div className={twMerge(" pt-5 lg:pt-3 ", isLowScreen ? 'flex flex-col items-center justify-between' : 'flex items-center justify-around')}>
                         <div className="flex items-end">
                             <h1 className="text-[30px] text-zinc-700 font-medium">{casa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                            <h4 className="text-[20px] pb-2">{casa.tipo_cotacao == 1 ? "/mes" : ""}</h4>
+                            <h4 className="text-[18px] pb-2">{casa.tipo_cotacao == 1 ? "/mês" : ""}</h4>
                         </div>
                         <button onClick={() => redirectExibirImoveis()} className="text-[45px] text-slate-600 font-extralight transition hover:scale-125"><IoChevronForwardCircleOutline/></button>
                       </div>
@@ -172,6 +180,8 @@ export function Inicio() {
         </div>
         
       </body>
+
+      {modificar_status && <ModificarStatusImovel setModal={setModificarStatus} id_imovel={id_imovel} />}
     </div>
 
   )

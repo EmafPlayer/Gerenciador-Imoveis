@@ -19,8 +19,5 @@ class TipoCotacaoSeeder extends Seeder
         DB::table('tipo_cotacao')->insert([
             'descricao' => 'Venda'
         ]);
-        DB::table('tipo_cotacao')->insert([
-            'descricao' => 'Aluguel e Venda'
-        ]);
     }
 }

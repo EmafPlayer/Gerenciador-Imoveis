@@ -25,6 +25,7 @@ class CotacaoControllers extends Controller
             "data_cotacao" => 'required|date',
             "descricao" => 'required|string',
             "tipo_cotacao" => 'required|numeric',
+            "url_anuncio" => 'string|nullable',
         ]);
 
         
@@ -42,7 +43,7 @@ class CotacaoControllers extends Controller
         $id_imobiliaria = Corretores::select('id_imobiliaria')->where('id', $request->id_corretor)->first();
         $id_imobiliaria = $id_imobiliaria->id_imobiliaria;
         
-        if(DB::table('imoveis_imobiliarias')->where('id_imovel', $request->id_imovel)->where('id_imobiliaria', $id_imobiliaria)->doesntExist() && $request->url_anuncio != "" ){
+        if(DB::table('imoveis_imobiliarias')->where('id_imovel', $request->id_imovel)->where('id_imobiliaria', $id_imobiliaria)->doesntExist() && $request->url_anuncio != null ){
             ImoveisImobiliarias::create([
                 "id_imovel" => $request->id_imovel,
                 "id_imobiliaria" => $id_imobiliaria,
@@ -66,15 +67,16 @@ class CotacaoControllers extends Controller
                                      'rua', 'bairro', 'numero', 'cidade', 'estado', 'latitude', 'longitude')
                             ->where('cotacoes.id_imovel', '=', $id_imovel)->get()->toArray();
 
-        $cotacoes = array_chunk($cotacoes, 4);
-
-        foreach ($cotacoes as &$grupo) {
-            foreach ($grupo as &$cotacao) {
-                $urlAnuncio = ImoveisImobiliarias::where('id_imovel', $id_imovel)->where('id_imobiliaria', $cotacao['id_imobiliaria'])->value('url_anuncio');
-
-                $cotacao['url_anuncio'] = $urlAnuncio ?? '';
-            }
+        
+        foreach ($cotacoes as &$cotacao) {
+            
+            $urlAnuncio = ImoveisImobiliarias::where('id_imovel', $id_imovel)->where('id_imobiliaria', $cotacao['id_imobiliaria'])->value('url_anuncio');
+                
+            $cotacao['url_anuncio'] = $urlAnuncio ?? '';
+        
         }
+        
+        $cotacoes = array_chunk($cotacoes, 4);
 
         return response()->json(['message' => 'Cotações carregados com sucesso', 'cotacoes' => $cotacoes], 200);
 

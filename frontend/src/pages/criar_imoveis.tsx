@@ -25,6 +25,8 @@ export function CriarImoveis () {
     const[botao, setBotao] = useState(0);
     const[status, setStatus] = useState(false);
 
+    const[anunciado, setAnunciado] = useState(false);
+
     const tipo = ["Aluguel", "Venda", "Aluguel e Vendas"];
 
     //const location = useLocation();
@@ -61,7 +63,8 @@ export function CriarImoveis () {
                 area_construida: data.area_construida,
                 tipo_status: String(status_botao + 1),
                 descricao: data.descricao,
-                tipo: String(botao),
+                id_tipo_imovel: String(botao + 1),
+                anunciado: String(anunciado),
             }).toString();
     
             const response = await api.post(`/v1/inicio/criacao-imoveis`, params);
@@ -84,7 +87,7 @@ export function CriarImoveis () {
                 <form onSubmit={handleSubmit(submit)} className="bg-[#DEDEDE] font-bold text-[28px] shadow-md rounded-md p-8 mt-5 mb-12">
                     <h1 className={twMerge('text-center font-kanit sm:text-left text-slate-800 mb-[2rem] font-medium text-[32px] lg:text-[36px] uppercase')} >Cadastro de Imóveis</h1>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-32 items-end">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-32 items-end">
                         <div className="col-span-1 lg:col-span-2">
                             <div className="flex items-center gap-2">
                                 <label htmlFor="nome_imovel" className="text-[18px] text-slate-700 font-outfit mb-1">Nome do imóvel</label>
@@ -118,6 +121,11 @@ export function CriarImoveis () {
                                         <li><button onClick={(e) => {e.preventDefault(); setBotao(index); setStatus(!status)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
                                     )}
                                 </ul>}
+                        </div>
+
+                        <div className="col-span-1 flex items-center gap-3 pb-5">
+                            <label htmlFor="proposta" className="text-[18px] text-slate-700 font-outfit">Foi anunciado?</label>
+                            <input type="checkbox" name="proposta" id="proposta" onChange={(e) => setAnunciado(e.target.checked)} className="accent-[#353941] w-6 h-6 rounded-lg transition duration-300 delay-300 ease-in-out"/>
                         </div>
                         
                     </div>
