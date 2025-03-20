@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_imobiliaria');
             $table->string('nome');
             $table->string('telefone');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->timestamps();
 
             $table->foreign('id_imobiliaria')->references('id')->on('imobiliarias');

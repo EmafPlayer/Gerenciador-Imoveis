@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_imovel');
             $table->foreignId('titulo');
-            $table->boolean('receita_despesa');
-            $table->double('valor');
-            $table->string('descricao');
             $table->foreignId('tipo_despesa');
             $table->foreignId('tipo_recorrencia');
+            $table->boolean('receita_despesa');
+            $table->boolean('pago');
+            $table->double('valor');
+            $table->string('descricao');
             $table->date('vencimento');
             $table->timestamps();
 

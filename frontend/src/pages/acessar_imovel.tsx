@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom";
-import { ExibirImoveis } from "./exibir_imoveis";
+// import { useParams } from "react-router-dom";
+// import { CompImovel } from "../components/comp_imovel";
 
-export function AcessarImovel() {
+// export function AcessarImovel() {
 
-    const { id_imovel } = useParams();
+//     const { id_imovel } = useParams();
 
-    return (
-        <ExibirImoveis id_imovel={id_imovel ? Number.parseInt(id_imovel,10) : null}/>
-    )
-}
+//     return (
+//         <CompImovel id_imovel={id_imovel ? Number.parseInt(id_imovel,10) : null}/>
+//     )
+// }

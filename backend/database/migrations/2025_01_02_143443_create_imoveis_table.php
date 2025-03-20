@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 50);
             $table->foreignId('id_endereco');
+            $table->foreignId('id_tipo_imovel'); // aluguel ou venda
             $table->string('descricao');
             $table->boolean('anunciado');
             $table->string('fornecimento_agua', 30);
@@ -27,10 +28,10 @@ return new class extends Migration
             $table->double('fracao_ideal');
             $table->double('area_total');
             $table->double('area_construida');
-            $table->boolean('tipo');
             $table->timestamps();
 
             $table->foreign('id_endereco')->references('id')->on('enderecos');
+            $table->foreign('id_tipo_imovel')->references('id')->on('tipo_imovel');
         });
     }
 

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('id_corretor');
             $table->date('data_visita');
             $table->boolean('proposta');
-            $table->double('valor_proposta');
-            $table->date('data_proposta');
+            $table->double('valor_proposta')->nullable();
+            $table->date('data_proposta')->nullable();
             $table->string('descricao');
             $table->timestamps();
 

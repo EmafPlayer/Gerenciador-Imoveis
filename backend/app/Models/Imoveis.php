@@ -23,6 +23,6 @@ class Imoveis extends Model
         'fracao_ideal',
         'area_total',
         'area_construida',
-        'tipo',
+        'id_tipo_imovel',
     ];
 }
