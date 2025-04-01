@@ -25,6 +25,8 @@ export function Visitas ( {setModal, id_imovel}: props ) {
 
     const [visitas, setVisitas] = useState<returnVisitas[]>([]);
 
+    const rule = localStorage.getItem("rule_user")
+
     useEffect(() => {
         const fetchData = async () => {
             const dataPessoas = await CarregarVisitas(id_imovel);
@@ -47,7 +49,7 @@ export function Visitas ( {setModal, id_imovel}: props ) {
                 <div className="flex items-center justify-between mb-12">
                     <h1 className="text-[45px] font-bold">Visitas</h1>
                     <div className="flex items-center gap-3">
-                        <button onClick={() => setBVisitas(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-4 py-[8px] rounded-md flex items-center gap-3"><AiFillPlusCircle /><h1 className="text-[18px]">Visitas</h1></button>
+                        { rule == "admin" && <button onClick={() => setBVisitas(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-4 py-[8px] rounded-md flex items-center gap-3"><AiFillPlusCircle /><h1 className="text-[18px]">Visitas</h1></button>}
                         <button onClick={() => setModal(false)} className="text-white text-[20px] bg-red-900 p-3 rounded-md ml-6"><MdClose /></button>
                     </div>
                 </div>

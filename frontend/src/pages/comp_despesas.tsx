@@ -35,6 +35,8 @@ export function CompDespesas (  ) {
     const [receitas, setReceitas] = useState<propsReceitaDespesa[][]>([]);
     const [receitas_despesas, setReceitasDespesas] = useState<propsReceitaDespesa[]>([]);
     
+    const rule = localStorage.getItem("rule_user");
+
     const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
 
     const location = useLocation();
@@ -102,84 +104,92 @@ export function CompDespesas (  ) {
 
     const modificarStatusDespesa = async (index1: number, index2: number) => {
 
-        try {
+        if(rule == "admin") {
 
-            await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
-                pago: !despesas[index1][index2].pago
-            });
-
-            toast.success("Status modificado com sucesso", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            });
-
-        } catch(error){
-            console.error(error);
-        }    
-
-
+            try {
+    
+                await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
+                    pago: !despesas[index1][index2].pago
+                });
+    
+                toast.success("Status modificado com sucesso", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+    
+            } catch(error){
+                console.error(error);
+            }    
+        }
 
     }
 
     const modificarStatusReceita = async (index1: number, index2: number) => {
 
-        try{
+        if(rule == "admin") {
+            
+            try{
+    
+                await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
+                    pago: !receitas[index1][index2].pago
+                });
+    
+                toast.success("Status modificado com sucesso", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+    
+            } catch(error) {
+                console.error(error);
+            }   
 
-            await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
-                pago: !receitas[index1][index2].pago
-            });
-
-            toast.success("Status modificado com sucesso", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            });
-
-        } catch(error) {
-            console.error(error);
-        }   
+        }
 
     }
 
     const modificarStatusReceitaDespesa = async (index: number) => {
 
-        try{
+        if(rule == "admin") {
+            
+            try{
+    
+                await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
+                    pago: !receitas_despesas[index].pago
+                });
+    
+                toast.success("Status modificado com sucesso", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+    
+            } catch(error) {
+    
+                console.error(error);
+    
+            }
 
-            await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
-                pago: !receitas_despesas[index].pago
-            });
-
-            toast.success("Status modificado com sucesso", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            });
-
-        } catch(error) {
-
-            console.error(error);
-
-        }
-
+        }            
 
     }
 
@@ -211,9 +221,11 @@ export function CompDespesas (  ) {
                             </div>
                         }
                         <div className="flex items-center gap-3">
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Receita ou Despesa" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3 transition ease-in-out delay-100 hover:scale-110"><AiFillPlusCircle className="text-[30px] lg:text-[20px]"/>
-                            { ((valorBotao == 0 && !isMidScreen) || (isMidScreen)) && <h1 className="font-outfit font-semibold">Criar Receita ou Despesa</h1>}
-                            </button> 
+                            { rule == "admin" &&
+                                <button data-toggle="tooltip" data-placement="top" title="Criar Receita ou Despesa" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3 transition ease-in-out delay-100 hover:scale-110"><AiFillPlusCircle className="text-[30px] lg:text-[20px]"/>
+                                { ((valorBotao == 0 && !isMidScreen) || (isMidScreen)) && <h1 className="font-outfit font-semibold">Criar Receita ou Despesa</h1>}
+                                </button> 
+                            }
                             <button className="bg-yellow-500 p-2 rounded-md hover:bg-blue-200 transition ease-in-out delay-100 hover:scale-125" onClick={recarregarPagina}><TbReload className="text-[23px] text-white hover:text-slate-500"/></button>
                         </div>
                     </div>

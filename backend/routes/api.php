@@ -15,10 +15,6 @@ use App\Http\Controllers\VisitasController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 Route::prefix('v1')->group(function () {
 
     Route::prefix('inicio')->group(function () {
@@ -38,7 +34,13 @@ Route::prefix('v1')->group(function () {
         Route::post('/criacao-visita', [VisitasController::class, 'create']);
         
         Route::post('/run-seeders', [SeedersControllers::class, 'run']);
+        Route::post('/run-seeder-role', [SeedersControllers::class, 'roleSeeder']);
         Route::post('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
+
+        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotoImovel']);
+        Route::post('/upload-arquivos', [AcontecimentoControllers::class, 'uploadFile']);
+
+        Route::get('/return-rule/{username}', [UserController::class, 'returnRule']);
 
         Route::get('/ver-imobiliarias', [ImobiliariaControllers::class, 'show']);
         Route::get('/ver-corretores', [CorretorControllers::class, 'show']);
@@ -55,8 +57,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/carregar-visitas/{id_imovel}', [VisitasController::class, 'carregarVisitas']);
 
         Route::get('/fotos/{filename}', [ImoveisController::class, 'verFotoImovel']);
-
-        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotoImovel']);
+        Route::get('/download-arquivo/{filename}', [AcontecimentoControllers::class, 'downloadArquivoAcontecimento']);
 
         Route::delete('/deletar-chave/{id_chave}', [ChavesController::class, 'deletarChave']);
 

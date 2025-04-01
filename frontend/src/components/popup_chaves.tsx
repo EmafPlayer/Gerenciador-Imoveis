@@ -32,6 +32,8 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
 
     const [id_chave, setIdChave] = useState(0);
 
+    const rule = localStorage.getItem("rule_user")
+
     const[pessoas, setPessoas] = useState<chavesProps[]>([]);
 
     useEffect(() => {
@@ -81,8 +83,9 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
                 <div className="flex items-center justify-between mb-12">
                     <h1 className="text-[45px] font-bold">Chaves</h1>
                     <div className="flex items-center gap-3">
-                        <button onClick={() => setBChaves(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-3 py-[5px] rounded-md flex items-center gap-3"><AiFillPlusCircle /> <h1 className="text-[18px]">Chaves</h1></button>
-                        <button onClick={() => setBPessoas(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-2 py-[5px] rounded-md flex items-center gap-3"><AiFillPlusCircle /><h1 className="text-[18px]">Pessoas</h1></button>
+                        { rule == "admin" && <button onClick={() => setBChaves(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-3 py-[5px] rounded-md flex items-center gap-3"><AiFillPlusCircle /> <h1 className="text-[18px]">Chaves</h1></button> }
+                        { rule == "admin" && <button onClick={() => setBPessoas(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-2 py-[5px] rounded-md flex items-center gap-3"><AiFillPlusCircle /><h1 className="text-[18px]">Pessoas</h1></button>}
+                        
                         <button onClick={() => setModal(false)} className="text-white text-[20px] bg-red-900 p-3 rounded-md ml-6"><MdClose /></button>
                     </div>
                 </div>

@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+src/apis/api.ts
+route_fotos_backend.tsx

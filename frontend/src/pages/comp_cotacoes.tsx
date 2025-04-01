@@ -43,6 +43,8 @@ export function CompCotacoes (  ) {
     const [statusImobiliaria, setStatusImobiliaria] = useState(false);
     const [escolhida, setEscolhida] = useState(0);
     const [cotacoes, setCotacoes] = useState<propsCotacao[][]>([]); 
+    
+    const rule = localStorage.getItem("rule_user");
 
     const navigate = useNavigate();
 
@@ -71,8 +73,6 @@ export function CompCotacoes (  ) {
           
           const dataImoveis = await CarregarCotacoes(id_imovel);
     
-          console.log(dataImoveis?.cotacoes);
-    
           if(dataImoveis?.cotacoes){
             setCotacoes(dataImoveis.cotacoes);
           } else {
@@ -95,8 +95,6 @@ export function CompCotacoes (  ) {
             setContador(contador - 1);
     }
 
-    console.log(cotacoes);
-
     return (
 
         <div className="h-screen w-full">
@@ -109,26 +107,28 @@ export function CompCotacoes (  ) {
                         <button onClick={lastPage}><BsArrowLeftCircle className="text-[32px] lg:text-[45px]"/></button>
                         <button onClick={nextPage}><BsArrowRightCircle className="text-[32px] lg:text-[45px]"/></button>
                     </div>
-                    <ul className={twMerge("gap-4", isMidScreen ? "flex items-center" : "flex flex-col" )}>
-                        <li>
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Imobiliária" onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
-                                <AiFillPlusCircle className="text-[20px]"/>
-                                <h1 className="font-outfit">Criar Imobiliária</h1>
-                            </button> 
-                        </li>
-                        <li>
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Corretor" onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
-                                <AiFillPlusCircle className="text-[20px]"/>
-                                <h1 className="font-outfit">Criar Corretor</h1>
-                            </button> 
-                        </li>
-                        <li>
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Cotação" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
-                                <AiFillPlusCircle className="text-[20px]"/>
-                                <h1 className="font-outfit">Criar Cotação</h1>
-                            </button> 
-                        </li>
-                    </ul>
+                    { rule == "admin" &&
+                        <ul className={twMerge("gap-4", isMidScreen ? "flex items-center" : "flex flex-col" )}>
+                            <li>
+                                <button data-toggle="tooltip" data-placement="top" title="Criar Imobiliária" onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
+                                    <AiFillPlusCircle className="text-[20px]"/>
+                                    <h1 className="font-outfit">Criar Imobiliária</h1>
+                                </button> 
+                            </li>
+                            <li>
+                                <button data-toggle="tooltip" data-placement="top" title="Criar Corretor" onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
+                                    <AiFillPlusCircle className="text-[20px]"/>
+                                    <h1 className="font-outfit">Criar Corretor</h1>
+                                </button> 
+                            </li>
+                            <li>
+                                <button data-toggle="tooltip" data-placement="top" title="Criar Cotação" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
+                                    <AiFillPlusCircle className="text-[20px]"/>
+                                    <h1 className="font-outfit">Criar Cotação</h1>
+                                </button> 
+                            </li>
+                        </ul>
+                    }
                 </div>
                 
                 <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 px-6 lg:px-14 mb-4 lg:mb-0">

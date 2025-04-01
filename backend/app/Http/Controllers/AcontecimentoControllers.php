@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acontecimentos;
+use App\Models\ArquivosAcontecimentos;
 use Illuminate\Http\Request;
 
 class AcontecimentoControllers extends Controller
@@ -48,6 +49,9 @@ class AcontecimentoControllers extends Controller
         $acontecimentos = Acontecimentos::select("id as id_acontecimento", "titulo", "descricao", "data_inicio", "ultima_alteracao", "status_acontecimento")
                                         ->where('id_imovel', '=', $id_imovel)->get()->toArray();
 
+        foreach ($acontecimentos as &$acontecimento) 
+            $acontecimento['arquivos'] = ArquivosAcontecimentos::select('endereco', 'descricao')->where('id_acontecimento', '=', $acontecimento['id_acontecimento'])->get()->toArray();
+        
         $acontecimentos = array_chunk($acontecimentos, 4);
 
         return response()->json(['message' => 'Receitas e Despesas carregadas com sucesso', 'acontecimentos' => $acontecimentos], 200);
@@ -63,6 +67,39 @@ class AcontecimentoControllers extends Controller
 
         return response()->json(["message" => "Descrição de acontecimento modificado com sucesso"], 200);
 
+    }
+
+    public function downloadArquivoAcontecimento ($filename) {
+            
+        $path = storage_path("app/public/arquivos/{$filename}");
+    
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'Arquivo não encontrado', 'path' => $path], 404);
+        }
+    
+        return response()->file($path);
+
+    }
+
+    public function uploadFile (Request $request) {
+
+        if (!$request->hasFile('file')) {
+            return response()->json(['message' => 'Arquivo não encontrado.'], 400);
+        }
+
+        $file = $request->file('file');
+        
+        $filename = $file->getClientOriginalName();
+
+        $file->move(storage_path("app/public/arquivos"), $filename);
+
+        ArquivosAcontecimentos::create([
+            'id_acontecimento' => $request->id_acontecimento,
+            'endereco' => $filename, 
+            'descricao' => $request->descricao
+        ]);
+
+        return response()->json(['message' => 'Arquivo armazenada com sucesso'], 200);
     }
 
 }
