@@ -51,17 +51,17 @@ export function ModificarStatusImovel ( props: Props ) {
 
     return (
             <main>
-                <div className="fixed inset-0 z-10 flex justify-center items-center bg-gray-500 bg-opacity-75 h-screen w-full">
-                    <form onSubmit={handleSubmit(submit)} className="bg-white p-12 w-[35rem] lg:w-[500px]">
+                <div className="fixed inset-0 z-30 flex justify-center items-center bg-gray-500 bg-opacity-75 h-screen w-full px-4 sm:px-0">
+                    <form onSubmit={handleSubmit(submit)} className="bg-white px-10 sm:px-12 py-8 sm:py-12 w-full lg:w-[500px] rounded-lg">
                         <div className="flex items-center justify-between mb-12">
-                            <h1 className="text-[45px] font-bold">Criar Chaves</h1>
+                            <h1 className="text-[35px] sm:text-[45px] font-bold">Alterar Status</h1>
                             <div className="flex items-center gap-3">
                                 <button onClick={(e) => {props.setModal(false); e.preventDefault()}} className="text-white text-[20px] bg-red-900 p-3 rounded-md ml-6"><MdClose /></button>
                             </div>
                         </div>
     
                         <div className="flex items-center gap-2 mb-1">
-                            <h4 className="text-[18px] text-slate-700 font-outfit mb-[5px]">Pessoas</h4>
+                            <h4 className="text-[18px] text-slate-700 font-outfit mb-[5px]">Status do Imóvel</h4>
                             <Asteristico/>
                         </div>
                         <button onClick={(e) => {e.preventDefault(); setStatus(!status)}} className="w-full h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-end items-center px-5 whitespace-pre">

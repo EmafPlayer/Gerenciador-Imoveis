@@ -72,10 +72,10 @@ export function UploadArquivos ( { setModal, id_acontecimento }: props) {
     };
 
     return (
-        <div className="h-screen w-full fixed bg-gray-500 inset-0 z-10 bg-opacity-75 flex items-center justify-center">
-            <form onSubmit={handleSubmit(submit)} className="bg-white p-14 w-[30rem] flex flex-col justify-between gap-12"> {/* onSubmit={handleSubmit(submit)}  */}
+        <div className="h-screen w-full fixed bg-gray-500 inset-0 z-30 bg-opacity-75 flex items-center justify-center px-2 lg:px-0">
+            <form onSubmit={handleSubmit(submit)} className="bg-white px-6 lg:px-14 py-14 lg:py-14 w-full lg:w-[30rem] flex flex-col justify-between gap-12 rounded-lg"> {/* onSubmit={handleSubmit(submit)}  */}
                 <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold">Upload Fotos</h1>
+                    <h1 className="text-3xl font-bold">Upload Arquivos</h1>
                     <button onClick={(e) => {setModal(false); e.preventDefault()}} className="text-white text-[20px] bg-red-900 p-2 rounded-md"><MdClose /></button>
                 </div>
 

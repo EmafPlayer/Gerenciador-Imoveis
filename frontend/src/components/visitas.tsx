@@ -3,6 +3,7 @@ import { AiFillPlusCircle } from "react-icons/ai"
 import { MdClose } from "react-icons/md"
 import { CriarVisitas } from "./criar_visitas"
 import CarregarVisitas from "../apis/carregar_visitas"
+import { useMediaQuery } from "react-responsive"
 
 type props = {
     setModal: Function,
@@ -27,6 +28,8 @@ export function Visitas ( {setModal, id_imovel}: props ) {
 
     const rule = localStorage.getItem("rule_user")
 
+    const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
+    
     useEffect(() => {
         const fetchData = async () => {
             const dataPessoas = await CarregarVisitas(id_imovel);
@@ -44,18 +47,18 @@ export function Visitas ( {setModal, id_imovel}: props ) {
     }, []);
 
     return (
-        <div className="bg-gray-500 fixed inset-0 z-10 flex items-center justify-center bg-opacity-75">
-            <div className="bg-white w-[1235px] h-[700px] p-12">
+        <div className="bg-gray-500 w-full h-screen fixed inset-0 z-30 flex items-center justify-center bg-opacity-75 px-6 sm:px-0 py-6 sm:py-0">
+            <div className="bg-white w-full sm:w-[1235px] h-[700px] px-6 sm:px-12 py-6 sm:py-12 rounded-lg">
                 <div className="flex items-center justify-between mb-12">
                     <h1 className="text-[45px] font-bold">Visitas</h1>
                     <div className="flex items-center gap-3">
-                        { rule == "admin" && <button onClick={() => setBVisitas(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-4 py-[8px] rounded-md flex items-center gap-3"><AiFillPlusCircle /><h1 className="text-[18px]">Visitas</h1></button>}
+                        { rule == "admin" && <button onClick={() => setBVisitas(true)} className="text-white text-[20px] bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] px-3 sm:px-4 py-2 sm:py-[8px] rounded-md flex items-center sm:gap-3"><AiFillPlusCircle /><h1 className="text-[18px]">{isLowScreen && "Visitas"}</h1></button>}
                         <button onClick={() => setModal(false)} className="text-white text-[20px] bg-red-900 p-3 rounded-md ml-6"><MdClose /></button>
                     </div>
                 </div>
                 {visitas.length != 0 && 
                     <div className="w-full h-[500px] overflow-x-auto overflow-y-auto">
-                        <table className="border-[0.2px] border-solid border-[#414040] rounded-md shadow-md table-auto divide-y divide-[#000000] w-[1800px] mb-4 mr-4">
+                        <table className="border-[0.2px] border-solid border-[#414040] rounded-md shadow-md table-auto divide-y divide-[#000000] w-[1200px] sm:w-[1800px] mb-4 mr-4">
                             
                             <tr>
                                 <th className="px-2 py-4 w-[15%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Nome do Imóvel</th>

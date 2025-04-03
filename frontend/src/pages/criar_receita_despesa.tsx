@@ -190,7 +190,7 @@ export function CriarReceitaDespesa () {
                             {Spago &&
                                 <ul className="relative lg:absolute translate-y-[6px]">
                                     {pagar.map((tipo, index) => 
-                                        <li><button onClick={(e) => {e.preventDefault(); setPago(index); setSpago(!Sreceita_despesa)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
+                                        <li><button onClick={(e) => {e.preventDefault(); setPago(index); setSpago(!Spago)}} className="w-full lg:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{tipo}</button></li>
                                     )}
                                 </ul>}
                         </div>

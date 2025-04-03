@@ -7,6 +7,7 @@ import CarregarPessoas from "../apis/carregar_pessoas";
 import { MdClose } from "react-icons/md";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { Warning } from "./warning";
+import { useMediaQuery } from "react-responsive";
 
 type props = {
     setModal: Function,
@@ -28,6 +29,8 @@ export function ModificarChave ( props: props) {
     const[pessoas, setPessoas] = useState<pessoasProps[]>([]);
 
     const { handleSubmit } = useForm();
+    
+    const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
     useEffect(() => {
         const fetchData = async () => {
@@ -78,27 +81,25 @@ export function ModificarChave ( props: props) {
     
     return (
         <div>
-                <div className="fixed inset-0 z-10 flex justify-center items-center bg-gray-500 bg-opacity-75 h-screen w-full">
-                    <form onSubmit={handleSubmit(submit)} className="bg-white p-12 w-[560px] lg:w-[600px]">
-                        <div className="flex items-center justify-between mb-12">
-                            <h1 className="text-[45px] font-bold">Modificar Chave</h1>
-                            <div className="flex items-center gap-3">
-                                <button onClick={(e) => { props.setModal(false); e.preventDefault()}} className="text-white text-[20px] bg-red-900 p-3 rounded-md ml-6"><MdClose /></button>
-                            </div>
+                <div className="fixed inset-0 z-30 flex justify-center items-center bg-gray-500 bg-opacity-75 h-screen w-full px-4 sm:px-0">
+                    <form onSubmit={handleSubmit(submit)} className="bg-white px-5 sm:px-14 py-6 sm:py-14 w-full sm:w-[600px] rounded-lg">
+                        <div className="flex items-center justify-between mb-8 sm:mb-12">
+                            <h1 className="text-[38px] sm:text-[45px] font-bold">Modificar Chave</h1>
+                            <button onClick={(e) => { props.setModal(false); e.preventDefault()}} className="text-white text-[20px] bg-red-900 p-3 rounded-md ml-6"><MdClose /></button>
                         </div>
 
                         <div className="flex items-center gap-2 mb-1">
                             <h4 className="text-[18px] text-slate-700 font-outfit mb-[5px]">Pessoas</h4>
                             <Asteristico/>
                         </div>
-                        <button onClick={(e) => {e.preventDefault(); setStatus_pessoa(!status_pessoa)}} className="w-full h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-end items-center px-5 whitespace-pre">
-                            <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{pessoas.length != 0 ? `${pessoas[count_pessoa].nome_completo}     -     ${pessoas[count_pessoa].contato}` : 'Não há Imobiliárias cadastradas'}</h6>
-                            {status_pessoa ? <BsCaretUpFill className="text-[#ffffff] ml-[75px]"/>  : <BsCaretDownFill className="text-[#ffffff] ml-[75px]"/> }
+                        <button onClick={(e) => {e.preventDefault(); setStatus_pessoa(!status_pessoa)}} className="w-full h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-end items-center px-2 sm:px-5 whitespace-pre">
+                            <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{pessoas.length != 0 ? (isLowScreen ? `${pessoas[count_pessoa].nome_completo}     -     ${pessoas[count_pessoa].contato}` : `${pessoas[count_pessoa].nome_completo}  -  ${pessoas[count_pessoa].contato}`) : 'Não há Imobiliárias cadastradas'}</h6>
+                            {status_pessoa ? <BsCaretUpFill className="text-[#ffffff] ml-[20px] sm:ml-[75px]"/>  : <BsCaretDownFill className="text-[#ffffff] ml-[20px] sm:ml-[75px]"/> }
                         </button>
                         {status_pessoa &&
                             <ul className="relative translate-y-[6px]">
                                 {pessoas.length != 0 && pessoas.map((pessoa, index) => 
-                                    <li className="mb-1"><button onClick={(e) => {e.preventDefault(); setCountPessoa(index); setStatus_pessoa(!status_pessoa)}} className="w-full whitespace-pre h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{`${pessoa.nome_completo}          -           ${pessoa.contato}`}</button></li>
+                                    <li className="mb-1"><button onClick={(e) => {e.preventDefault(); setCountPessoa(index); setStatus_pessoa(!status_pessoa)}} className="w-full whitespace-pre h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{isLowScreen ? `${pessoa.nome_completo}          -           ${pessoa.contato}` : `${pessoa.nome_completo}    -    ${pessoa.contato}`}</button></li>
                                 )}
                             </ul>}
                                     

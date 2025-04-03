@@ -8,6 +8,7 @@ import { api } from "../apis/api";
 import buscarCorretores from "../apis/buscar_corretores";
 import { Asteristico } from "../components/asteristico";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+import { useMediaQuery } from "react-responsive";
 
 type userProps = {
     username: string,
@@ -31,6 +32,8 @@ export function CriarCotacao () {
     const tipo_cotacao = ["Aluguel", "Venda"];
 
     const { register, handleSubmit } = useForm();
+
+    const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
     const location = useLocation();
     let id_imovel = location.state.id_imovel;
@@ -180,13 +183,13 @@ export function CriarCotacao () {
                                 <Asteristico/>
                             </div>
                             <button data-toggle="tooltip" data-placement="top" title={corretores.length != 0 ? `Imobiliária - ${corretores[status_corretor].nome_imobiliaria}` : ""} onClick={(e) => {e.preventDefault(); setAtivacao_corretor(!ativacao_corretor)}} value={status_corretor + 1} className="w-full lg:w-[400px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5 whitespace-pre">
-                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? `${corretores[status_corretor].nome_corretor}     -     ${corretores[status_corretor].telefone}` : "Ainda não foi criado"}</h6>
+                                <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{corretores.length != 0 ? (isLowScreen ? `${corretores[status_corretor].nome_corretor}     -     ${corretores[status_corretor].telefone}` : `${corretores[status_corretor].nome_corretor}`) : "Ainda não foi criado"}</h6>
                                 {ativacao_corretor ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao_corretor &&
                                 <ul className="relative lg:absolute translate-y-[6px]">
                                     {corretores.length != 0 && corretores.map((corretor, index) => 
-                                        <li data-toggle="tooltip" data-placement="top" title={`Imobiliária - ${corretor.nome_imobiliaria}`}><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-full lg:w-[400px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2 whitespace-pre">{` ${corretor.nome_corretor}     -     ${corretor.telefone}`}</button></li>
+                                        <li data-toggle="tooltip" data-placement="top" title={`Imobiliária - ${corretor.nome_imobiliaria}`}><button onClick={(e) => {e.preventDefault(); setStatus_corretor(index); setAtivacao_corretor(!ativacao_corretor)}} className="w-full lg:w-[400px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2 whitespace-pre">{isLowScreen ? ` ${corretor.nome_corretor}     -     ${corretor.telefone}` : ` ${corretor.nome_corretor}`}</button></li>
                                     )}
                                 </ul>}
                         </div>

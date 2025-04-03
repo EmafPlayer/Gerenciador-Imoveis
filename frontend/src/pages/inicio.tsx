@@ -49,7 +49,7 @@ export function Inicio() {
   })
 
   const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
-  const isLowScreen = useMediaQuery({ query: '(min-width: 768px)' })
+  const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
   const user: userProps = {
     username: localStorage.getItem("nome_usuario") ?? "",
@@ -113,16 +113,16 @@ export function Inicio() {
   }
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-full sm:h-screen w-full">
       <NavBar user={user}>
       </NavBar>
-      <body className="h-full w-full p-6 lg:pl-16 pt-[95px]">
+      <body className="h-full w-full p-6 lg:pl-16 pt-[70px] sm:pt-[95px]">
         <div className="bg-[#FFFFFF]"></div>
         <div className="flex">
           <div className={twMerge("", casas.length == 0 ? "w-full px-14" : "w-full xl:w-[70%] 2xl:w-[50%]" )}>
-            <div className="flex items-center justify-between w-full">
-              <h1 className="text-[35px] pt-14 pb-10 font-sans">Imóveis</h1>
-              <div className={twMerge("flex items-center pr-7", casas.length == 0 ? "gap-32" : "gap-4" )}>
+            <div className="flex items-center justify-between w-full pt-14 pb-6 sm:pb-10">
+              <h1 className="text-[35px] font-sans">Imóveis</h1>
+              <div className={twMerge("flex items-center pr-0 sm:pr-7", casas.length == 0 ? "gap-32" : "gap-4" )}>
                 <button onClick={lastPage}><BsArrowLeftCircle className={casas.length == 0 ? "text-[40px]" : "text-[30px]"}/></button>
                 <button onClick={nextPage}><BsArrowRightCircle className={casas.length == 0 ? "text-[40px]" : "text-[30px]"}/></button>
               </div>
@@ -135,15 +135,15 @@ export function Inicio() {
             <div className="grid grid-rows-3 gap-5 w-full mb-10 lg:mb-0">
               {casas[contador] ? (
                 casas[contador].map((casa, index) => 
-                  <button key={index} onClick={() => setImovel(index)} onMouseOver={() => setId_imovel(casa.id)} className="bg-[#DEDEDE] h-[18rem] md:h-[13rem] w-full cursor-default px-5 py-2 hover:bg-slate-300 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3">
+                  <button key={index} onClick={() => setImovel(index)} onMouseOver={() => setId_imovel(casa.id)} className="bg-[#DEDEDE] h-[31rem] md:h-[13rem] w-full cursor-default px-5 py-2 hover:bg-slate-300 rounded-xl shadow-md border-2 border-[#a1a1a1d3] border-3">
                     <div className={twMerge("w-full", !isLowScreen ? 'flex-col' : 'flex justify-between')}>
-                      <div className={twMerge("flex", !isLowScreen? 'justify-around' : '' )}>
-                        <img src={apiFotos + casa.foto} className="h-[165px] w-[250px] rounded-xl shadow-md"/>
-                        <div className="pl-8 pt-1">
-                          <h1 className="text-[25px] text-slate-800 text-left pb-2 font-serif">{casa.nome}</h1>
-                          <h1 className="text-[18px] text-slate-600 font-sans pb-8">{!isMidScreen ? ( <>{casa.rua}, {casa.numero},<br/> {casa.bairro}</>) : (<> {casa.rua}, {casa.numero}, {casa.bairro}</>)}</h1>
-                          <div className="flex items-center gap-2">
-                            <h1 className="bg-slate-500 py-2 px-3 text-[15px] text-center font-medium text-white rounded-md">{casa.status_imovel}</h1>
+                      <div className={twMerge("", !isLowScreen? 'justify-around flex flex-col items-center' : 'flex ' )}>
+                        <img src={apiFotos + casa.foto} className="h-[200px] sm:h-[165px]  mb-5 sm:mb-0 w-full sm:w-[250px] rounded-xl shadow-md"/>
+                        <div className="pl-0 sm:pl-8 pt-1">
+                          <h1 className="text-[25px] text-slate-800 text-center sm:text-left pb-2 font-serif">{casa.nome}</h1>
+                          <h1 className="text-[18px] text-slate-600 font-sans pb-5 sm:pb-8">{!isMidScreen ? ( <>{casa.rua}, {casa.numero},<br/> {casa.bairro}</>) : (<> {casa.rua}, {casa.numero}, {casa.bairro}</>)}</h1>
+                          <div className="flex justify-center sm:justify-start items-center gap-2">
+                            <h1 className="bg-slate-500 py-2 px-10 sm:px-3 text-[15px] text-center font-medium text-white rounded-md">{casa.status_imovel}</h1>
                             {rule == "admin" && <button onClick={() => {setModificarStatus(true);}} className="rounded-lg bg-[#0258d9b4] flex justify-center items-center h-[37px] w-[37px] transition ease-in-out delay-100 hover:scale-125"><FaPencilAlt className="text-[18px] text-slate-100"/></button>}
                           </div>
                         </div>
