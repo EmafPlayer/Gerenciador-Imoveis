@@ -46,11 +46,9 @@ export function CriarCotacao () {
         const fetchData = async () => {
             const dataCorretores = await buscarCorretores();
 
-            if (dataCorretores?.corretores_imobiliarias) {
+            if (dataCorretores?.corretores_imobiliarias) 
                 setCorretores(dataCorretores.corretores_imobiliarias);
-            } else {
-                console.warn("Tabela não encontrada ou dados inválidos:");
-            }
+            
         };
 
         fetchData();
@@ -89,7 +87,6 @@ export function CriarCotacao () {
                 });
                 
             } catch (error) {
-                console.error(error);
             }
 
         }

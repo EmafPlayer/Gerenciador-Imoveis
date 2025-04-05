@@ -43,8 +43,6 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
         const fetchData = async () => {
             const dataPessoas = await CarregarChaves(id_imovel);
 
-            console.log(dataPessoas?.pessoas)
-
             if (dataPessoas?.pessoas) 
                 setPessoas(dataPessoas.pessoas);
         };
@@ -74,8 +72,6 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
 
         } catch (error) {
             
-            console.error(error);
-
         }
 
     }

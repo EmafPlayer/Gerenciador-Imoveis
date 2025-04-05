@@ -1,5 +1,7 @@
 import { MdClose } from "react-icons/md"
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
+import { GoogleMap, Marker } from '@react-google-maps/api'
+import { isLoaded } from "../../keys"
+
 
 type propsDetalhesImobiliaria = {
     imobiliaria: {
@@ -20,11 +22,6 @@ type propsDetalhesImobiliaria = {
 }
 
 export function DetalhesImobiliaria ( { imobiliaria, setModal }: propsDetalhesImobiliaria ) {
-
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyCBRfZswUbwtx24MDvyRAKZGVHF3XJweME',
-    }) 
 
     return (
         <div className="fixed z-30 inset-0 h-screen w-full items-center justify-center flex bg-gray-500 bg-opacity-75 py-3 sm:py-0 px-4 sm:px-0">

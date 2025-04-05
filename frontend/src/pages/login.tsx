@@ -25,13 +25,11 @@ export function Login(){
 
             try{
 
-                if(!seederChamado.current) {
-                    const response = await api.post('v1/inicio/run-seeder-role');
-                    console.log(response);
-                }
+                if(!seederChamado.current) 
+                    await api.post('v1/inicio/run-seeder-role');
 
             } catch(error) {
-                console.error(error);
+                
             }
 
         }

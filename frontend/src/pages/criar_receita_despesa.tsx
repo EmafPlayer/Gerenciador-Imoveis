@@ -73,11 +73,8 @@ export function CriarReceitaDespesa () {
     
             setAcontecimentos(acontecimentos);
     
-            if (dataTitulos?.titulos) {
+            if (dataTitulos?.titulos) 
                 setTitulos_despesa(dataTitulos.titulos);
-            } else {
-                console.warn("Tabela não encontrada ou dados inválidos:");
-            }
         };
     
         fetchData();
@@ -118,7 +115,7 @@ export function CriarReceitaDespesa () {
                     });
 
             } catch (error) {
-                console.error(error);
+                
             }
             
         }

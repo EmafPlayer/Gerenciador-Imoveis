@@ -65,8 +65,6 @@ export function CompDespesas (  ) {
                 setReceitas(response.receitas);
             if(response?.receitas_despesas)
                 setReceitasDespesas(response.receitas_despesas);
-            else
-                console.warn("Tabela não encontrada ou dados inválidos:");
 
         }
 
@@ -126,7 +124,6 @@ export function CompDespesas (  ) {
                 });
     
             } catch(error){
-                console.error(error);
             }    
         }
 
@@ -155,7 +152,6 @@ export function CompDespesas (  ) {
                 });
     
             } catch(error) {
-                console.error(error);
             }   
 
         }
@@ -186,8 +182,6 @@ export function CompDespesas (  ) {
     
             } catch(error) {
     
-                console.error(error);
-    
             }
 
         }            
@@ -199,7 +193,7 @@ export function CompDespesas (  ) {
 
             <div className="w-full h-screen">
                 <Opcoes stateImovel={false} stateCotacoes={false} stateDespesas={true} stateAcontecimentos={false} id_imovel={id_imovel}/>
-                <div className="w-full flex flex-col items-center justify-center pt-[70px] sm:pt-[140px]">
+                <div className="w-full flex flex-col items-center justify-center pt-[70px] sm:pt-[120px]">
 
                     <div className="flex items-center justify-between w-full pb-6 sm:pb-8 pt-4 px-3 lg:px-16">
                         <div>

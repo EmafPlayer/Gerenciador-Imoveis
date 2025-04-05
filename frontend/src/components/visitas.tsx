@@ -32,15 +32,13 @@ export function Visitas ( {setModal, id_imovel}: props ) {
     
     useEffect(() => {
         const fetchData = async () => {
-            const dataPessoas = await CarregarVisitas(id_imovel);
 
-            console.log(dataPessoas?.visitas)
+            const dataPessoas = await CarregarVisitas(id_imovel);
 
             if (dataPessoas?.visitas) {
                 setVisitas(dataPessoas.visitas);
-            } else {
-                console.warn("Tabela não encontrada ou dados inválidos:");
             }
+
         };
 
         fetchData();

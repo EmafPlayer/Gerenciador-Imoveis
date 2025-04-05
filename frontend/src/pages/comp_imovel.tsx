@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
+import { GoogleMap, Marker } from '@react-google-maps/api'
 import { DetalhesImovel } from "../components/popup_detalhes_imovel";
 import { FaClipboardList, FaFileImage } from "react-icons/fa";
 import { UploadFotos } from "../components/upload_fotos";
@@ -13,6 +13,8 @@ import { Visitas } from "../components/visitas";
 import { Opcoes } from "../components/opcoes";
 import { useLocation } from "react-router-dom";
 import { apiFotos } from "../apis/api";
+import { isLoaded } from "../../keys"
+
 
 type propsImovel = {
     id: number;
@@ -60,11 +62,6 @@ export function CompImovel ( ) {
 
     const isHighScreen = useMediaQuery({ query: '(min-width: 1536px)' })
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyCBRfZswUbwtx24MDvyRAKZGVHF3XJweME',
-    }) 
-
     useEffect (()=> {
         
         const fetchData = async () => {
@@ -73,9 +70,8 @@ export function CompImovel ( ) {
 
             if(response?.imovel){
                 setImovel(response.imovel);
-            }else {
-                console.warn("Tabela não encontrada ou dados inválidos:");
             }
+            //console.warn("Tabela não encontrada ou dados inválidos:");
 
         }
 

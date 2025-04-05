@@ -35,11 +35,8 @@ export function CriarCorretor () {
         const fetchData = async () => {
             const dataImobiliarias = await buscarImobiliarias();
 
-            if (dataImobiliarias?.imobiliarias) {
+            if (dataImobiliarias?.imobiliarias) 
                 setImobiliarias(dataImobiliarias.imobiliarias);
-            } else {
-                console.warn("Tabela não encontrada ou dados inválidos:");
-            }
         };
 
         fetchData();
@@ -73,7 +70,7 @@ export function CriarCorretor () {
                 });
                 
             } catch (error) {
-                console.error(error);
+                
             }
             
         }

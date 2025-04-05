@@ -49,7 +49,6 @@ export function SignUp(){
             }
 
         } catch(error) {
-            console.error(error);
         }
 
     }

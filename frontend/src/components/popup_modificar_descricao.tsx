@@ -44,8 +44,6 @@ export function ModificarDescricaoAcontecimento ( props: props ) {
 
         } catch(error) {
 
-            console.error(error);
-
         }
 
     }

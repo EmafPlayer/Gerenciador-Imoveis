@@ -5,7 +5,6 @@ const carregarImovel =  async( id_imovel: number | null ) => {
     try {
 
         const response = await api.get(`v1/inicio/ver-imovel/${id_imovel}`)
-        console.error(response?.data);  
 
         if(response.status == 200){
             return { imovel: response.data.imovel }
@@ -13,7 +12,6 @@ const carregarImovel =  async( id_imovel: number | null ) => {
 
     } catch (error){
 
-        console.error(error);
         return { message: 'Erro ao fazer a requisição' };
 
     }

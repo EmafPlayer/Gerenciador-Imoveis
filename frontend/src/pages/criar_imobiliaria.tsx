@@ -12,7 +12,6 @@ type userProps = {
 
 export function CriarImobiliaria () {
 
-
     const { register, handleSubmit } = useForm();
 
     const user: userProps = {
@@ -54,7 +53,6 @@ export function CriarImobiliaria () {
             });
             
         } catch (error) {
-            console.error(error);
         }
     }
 

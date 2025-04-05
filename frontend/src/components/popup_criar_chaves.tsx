@@ -37,13 +37,8 @@ export function CriarChaves ({ setModal, id_imovel }: props) {
         const fetchData = async () => {
             const dataPessoas = await CarregarPessoas();
 
-            console.log(dataPessoas?.pessoas)
-
-            if (dataPessoas?.pessoas) {
+            if (dataPessoas?.pessoas)
                 setPessoas(dataPessoas.pessoas);
-            } else {
-                console.warn("Tabela não encontrada ou dados inválidos:");
-            }
         };
 
         fetchData();
@@ -76,7 +71,6 @@ export function CriarChaves ({ setModal, id_imovel }: props) {
                 setWarning(true);
     
             } catch (error) {
-                console.error(error);
             }
 
         }

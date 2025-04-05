@@ -4,13 +4,14 @@ import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { IoChevronForwardCircleOutline } from "react-icons/io5";
 import { GrAdd } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
+import { GoogleMap, Marker } from '@react-google-maps/api'
 import CarregarImoveis from "../apis/carregar_imoveis";
 import { api, apiFotos } from "../apis/api";
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from "tailwind-merge";
 import { FaPencilAlt } from "react-icons/fa";
 import { ModificarStatusImovel } from "../components/modificar_status_imovel";
+import { isLoaded } from "../../keys"
 
 //
 
@@ -43,11 +44,6 @@ export function Inicio() {
 
   const [modificar_status, setModificarStatus] = useState(false);
 
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyCBRfZswUbwtx24MDvyRAKZGVHF3XJweME',
-  })
-
   const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
   const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
@@ -64,24 +60,19 @@ export function Inicio() {
         localStorage.setItem("rule_user", responseRule.data.rule);
         setRule(responseRule.data.rule);
       } catch(error) {
-        console.error()
+
       }
 
       const dataImoveis = await CarregarImoveis();
 
       if (!seedersChamado.current) {
         seedersChamado.current = true;
-        const seeders = await api.post('/v1/inicio/run-seeders');
-        console.log(seeders.data.message);
+        await api.post('/v1/inicio/run-seeders');
       }
 
 
-      if(dataImoveis?.imoveis){
+      if(dataImoveis?.imoveis)
         setCasas(dataImoveis.imoveis);
-      } else {
-        console.warn("Tabela não encontrada ou dados inválidos:");
-      }
-
     }
 
     fetchData();
@@ -118,7 +109,7 @@ export function Inicio() {
       </NavBar>
       <body className="h-full w-full p-6 lg:pl-16 pt-[70px] sm:pt-[95px]">
         <div className="bg-[#FFFFFF]"></div>
-        <div className="flex">
+        <div className="flex h-full">
           <div className={twMerge("", casas.length == 0 ? "w-full px-14" : "w-full xl:w-[70%] 2xl:w-[50%]" )}>
             <div className="flex items-center justify-between w-full pt-14 pb-6 sm:pb-10">
               <h1 className="text-[35px] font-sans">Imóveis</h1>

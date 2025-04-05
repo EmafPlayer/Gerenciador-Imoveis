@@ -56,7 +56,6 @@ export function CriarAcontecimento () {
             });            
             
         } catch (error) {
-            console.error(error);
         }
     }
 

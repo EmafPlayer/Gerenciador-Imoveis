@@ -81,7 +81,7 @@ export function CriarImoveis () {
             });
             
         } catch (error) {
-            console.error(error);
+            
         }
     }
 

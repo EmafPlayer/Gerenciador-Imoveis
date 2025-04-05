@@ -36,7 +36,6 @@ export function CriarPessoa ({ setModal }: props) {
             });
 
         } catch (error) {
-            console.error(error);
         }
         
     }

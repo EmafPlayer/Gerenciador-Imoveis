@@ -62,7 +62,6 @@ export function UploadFotos ( { setModal, id_imovel }: props) {
             setWarning(true);
     
         } catch (error) {
-            console.error(error);
         }
     };
 

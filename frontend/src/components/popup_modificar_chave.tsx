@@ -33,17 +33,13 @@ export function ModificarChave ( props: props) {
     const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
     useEffect(() => {
+        
         const fetchData = async () => {
             const dataPessoas = await CarregarPessoas();
-
-            console.log(dataPessoas?.pessoas)
 
             if (dataPessoas?.pessoas) 
                 setPessoas(dataPessoas.pessoas);
 
-            else {
-                console.warn("Tabela não encontrada ou dados inválidos:");
-            }
         };
 
         fetchData();
@@ -72,7 +68,7 @@ export function ModificarChave ( props: props) {
                 setWarning(true);
     
             } catch (error) {
-                console.error(error);
+
             }
 
         }

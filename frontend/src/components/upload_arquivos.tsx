@@ -34,10 +34,9 @@ export function UploadArquivos ( { setModal, id_acontecimento }: props) {
             
             e.preventDefault();
 
-            if (!info.file) {
-                console.error("Nenhum arquivo selecionado!");
+            if (!info.file)
                 return;
-            }
+            
     
             const formData = new FormData();
             formData.append("file", info.file);
@@ -67,7 +66,6 @@ export function UploadArquivos ( { setModal, id_acontecimento }: props) {
             setWarning(true);
     
         } catch (error) {
-            console.error(error);
         }
     };
 

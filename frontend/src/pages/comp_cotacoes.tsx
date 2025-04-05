@@ -73,11 +73,9 @@ export function CompCotacoes (  ) {
           
           const dataImoveis = await CarregarCotacoes(id_imovel);
     
-          if(dataImoveis?.cotacoes){
+          if(dataImoveis?.cotacoes)
             setCotacoes(dataImoveis.cotacoes);
-          } else {
-            console.warn("Tabela não encontrada ou dados inválidos:");
-          }
+          
     
         }
     

@@ -66,8 +66,6 @@ export function CompAcontecimentos (  ) {
             
             if(response?.acontecimentos)
                 setAcontecimentos(response.acontecimentos);
-            else
-                console.warn("Tabela não encontrada ou dados inválidos:");
 
         }
 
