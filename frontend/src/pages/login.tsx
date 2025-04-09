@@ -1,5 +1,4 @@
 import { AiOutlineHome } from "react-icons/ai";
-import { Asteristico } from "../components/asteristico";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -13,30 +12,10 @@ export function Login(){
 
     const [aviso, setAviso] = useState(false);
     const [mensagem, setMensagem] = useState("");
-    const seederChamado = useRef(false);
 
     const navigate = useNavigate();
 
     const [olho, setOlho] = useState(false);
-
-    useEffect (() => {
-
-        const fetchData = async () => {
-
-            try{
-
-                if(!seederChamado.current) 
-                    await api.post('v1/inicio/run-seeder-role');
-
-            } catch(error) {
-                
-            }
-
-        }
-
-        fetchData();
-
-    }, []);
 
     const submit = async ( data:any ) => {
         

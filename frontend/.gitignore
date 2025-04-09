@@ -26,3 +26,6 @@ dist-ssr
 src/apis/api.ts
 route_fotos_backend.tsx
 keys.tsx
+
+.env
+Dockerfile

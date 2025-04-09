@@ -9,9 +9,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import carregarAcontecimentos from "../apis/carregar_acontecimentos";
 import { useMediaQuery } from "react-responsive";
 import { Opcoes } from "../components/opcoes";
-import { FaFileAlt, FaFileUpload, FaPencilAlt } from "react-icons/fa";
+import { FaFileAlt, FaPencilAlt } from "react-icons/fa";
 import { ModificarDescricaoAcontecimento } from "../components/popup_modificar_descricao";
-import { Warning } from "../components/warning";
 import { IoAddCircle } from "react-icons/io5";
 import { UploadArquivos } from "../components/upload_arquivos";
 import { apiArquivos } from "../apis/api";
@@ -108,7 +107,7 @@ export function CompAcontecimentos (  ) {
 
                     <div className="w-full grid grid-cols-1 gap-10 px-4 lg:px-14 mb-7">
 
-                        {acontecimentos.length != 0 && acontecimentos[contador].map((acontecimento, index) => 
+                        {acontecimentos.length != 0 && acontecimentos[contador].map((acontecimento) => 
                             <div className="bg-[#f0f0f0d3]  rounded-xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col divide-y divide-slate-400">
                                 <div className={twMerge("pb-6  divide-slate-800", isLowScreen ? "flex divide-x-2 " : "flex flex-col divide-y-2")}>
                                     <div className="lg:pl-8 lg:pr-14 flex items-center">

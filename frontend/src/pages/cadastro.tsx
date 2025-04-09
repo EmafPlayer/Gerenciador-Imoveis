@@ -1,8 +1,7 @@
 import { AiOutlineHome } from "react-icons/ai";
-import { Asteristico } from "../components/asteristico";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { api } from "../apis/api";
 import { useNavigate } from "react-router-dom";

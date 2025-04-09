@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Database\Seeders\TipoStatusImoveisSeeder;
 
 return new class extends Migration
 {
@@ -16,6 +17,8 @@ return new class extends Migration
             $table->string('descricao', 20); 
             $table->timestamps();
         });
+
+        app(TipoStatusImoveisSeeder::class)->run();
     }
 
     /**
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipo_status');
+        Schema::dropIfExists('tipo_status_imoveis');
     }
 };

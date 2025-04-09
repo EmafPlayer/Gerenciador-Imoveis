@@ -33,8 +33,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/criacao-chave', [ChavesController::class, 'create']);
         Route::post('/criacao-visita', [VisitasController::class, 'create']);
         
-        Route::post('/run-seeders', [SeedersControllers::class, 'run']);
-        Route::post('/run-seeder-role', [SeedersControllers::class, 'roleSeeder']);
         Route::post('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
 
         Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotoImovel']);
@@ -64,6 +62,7 @@ Route::prefix('v1')->group(function () {
         Route::put('/modificar-chave/{id_chave}/{id_pessoa}', [ChavesController::class, 'modificarChave']);
         Route::put('/modificar-descricao-acontecimento/{id_acontecimento}', [AcontecimentoControllers::class, 'modificarDescricao']);
         Route::put('/modificar-status-imovel/{id_imovel}/{id_status}', [ImoveisController::class, 'modificarStatusImovel']);
+        Route::put('/modificar-status-anuncio/{id_imovel}/{anunciado}', [ImoveisController::class, 'modificarAnuncio']);
 
     });
     

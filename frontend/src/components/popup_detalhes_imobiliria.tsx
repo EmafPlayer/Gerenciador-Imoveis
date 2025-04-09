@@ -1,6 +1,7 @@
+import { useJsApiLoader } from '@react-google-maps/api'
 import { MdClose } from "react-icons/md"
 import { GoogleMap, Marker } from '@react-google-maps/api'
-import { isLoaded } from "../../keys"
+import { useLoaded } from "../../keys"
 
 
 type propsDetalhesImobiliaria = {
@@ -22,6 +23,8 @@ type propsDetalhesImobiliaria = {
 }
 
 export function DetalhesImobiliaria ( { imobiliaria, setModal }: propsDetalhesImobiliaria ) {
+
+    const { isLoaded } =  useLoaded();
 
     return (
         <div className="fixed z-30 inset-0 h-screen w-full items-center justify-center flex bg-gray-500 bg-opacity-75 py-3 sm:py-0 px-4 sm:px-0">
@@ -58,23 +61,23 @@ export function DetalhesImobiliaria ( { imobiliaria, setModal }: propsDetalhesIm
                         </div>
                     </div>
                     <div className="flex justify-center">
-                    <div className="w-[400px] h-[160px] pt-1">
+                        <div className="w-[400px] h-[160px] pt-1">
                             {isLoaded ? (
-                            <GoogleMap mapContainerClassName="rounded-xl"
-                                mapContainerStyle={{width: '100%', height: '100%'}}
-                                center={{
-                                lat: imobiliaria.latitude,
-                                lng: imobiliaria.longitude
-                                }}
-                                zoom={16}
-                            >
-                                <Marker position={{
-                                lat: imobiliaria.latitude,
-                                lng: imobiliaria.longitude
-                                }}/>
-                            </GoogleMap>
+                                <GoogleMap mapContainerClassName="rounded-xl"
+                                    mapContainerStyle={{width: '100%', height: '100%'}}
+                                    center={{
+                                        lat: imobiliaria.latitude,
+                                        lng: imobiliaria.longitude
+                                    }}
+                                    zoom={16}
+                                >
+                                    <Marker position={{
+                                        lat: imobiliaria.latitude,
+                                        lng: imobiliaria.longitude
+                                    }}/>
+                                </GoogleMap>
                             ) : (
-                            <></>
+                                <></>
                             )}
                         </div>
                     </div>

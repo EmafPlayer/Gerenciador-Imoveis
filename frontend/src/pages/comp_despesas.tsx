@@ -37,7 +37,6 @@ export function CompDespesas (  ) {
     
     const rule = localStorage.getItem("rule_user");
 
-    const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
     const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
     const location = useLocation();
@@ -55,9 +54,6 @@ export function CompDespesas (  ) {
         const fetchData = async () => {
 
             const response = await carregarDespesas(id_imovel);
-
-            console.log(response?.despesas);
-            console.log(response?.receitas);
 
             if(response?.despesas)
                 setDespesas(response.despesas);

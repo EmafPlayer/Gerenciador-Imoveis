@@ -140,7 +140,7 @@ export function CompCotacoes (  ) {
                                 <div className="flex flex-col">
                                     <div className={twMerge("gap-3", isLowScreen ? "flex items-center " : "flex flex-col items-center")}>
                                         
-                                        <h1 data-toggle="tooltip" data-placement="top" title={cotacao.nome_corretor} className="text-[40px] font-outfit">{cotacao.nome_corretor.length > 20 ? cotacao.nome_corretor.slice(0, 20) + "..." : cotacao.nome_corretor}</h1>
+                                        <h1 data-toggle="tooltip" data-placement="top" title={cotacao.nome_corretor} className="text-[40px] font-outfit truncate">{cotacao.nome_corretor}</h1>
                                         
                                         <div className={twMerge("flex mb-5 sm:mb-0", isLowScreen ? "gap-2" : "items-center justify-around w-full ")}>
                                             <button className="transition ease-in-out delay-100 hover:scale-110"><a href={`mailto:${cotacao.email_corretor}`} target="_blank" className="flex items-center gap-2 px-2 py-[6px] ease-in-out duration-300 text-[40px] bg-opacity-15  text-[#568692] rounded-xl">
