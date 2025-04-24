@@ -93,7 +93,7 @@ export function CriarChaves ({ setModal, id_imovel }: props) {
                         <Asteristico/>
                     </div>
                     <button onClick={(e) => {e.preventDefault(); setStatus_pessoa(!status_pessoa)}} className="w-full h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-end items-center px-2 sm:px-5 whitespace-pre">
-                        <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{pessoas.length != 0 ? (isLowScreen ? `${pessoas[id_pessoa].nome_completo}     -     ${pessoas[id_pessoa].contato}` : `${pessoas[id_pessoa].nome_completo}  -  ${pessoas[id_pessoa].contato}`) : 'Não há Imobiliárias cadastradas'}</h6>
+                        <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{pessoas.length != 0 ? (isLowScreen ? `${pessoas[id_pessoa].nome_completo}     -     ${pessoas[id_pessoa].contato}` : `${pessoas[id_pessoa].nome_completo}  -  ${pessoas[id_pessoa].contato}`) : 'Não há Pessoas cadastradas'}</h6>
                         {status_pessoa ? <BsCaretUpFill className="text-[#ffffff] ml-4 sm:ml-[45px]"/>  : <BsCaretDownFill className="text-[#ffffff] ml-4 sm:ml-[45px]"/> }
                     </button>
                     {status_pessoa &&

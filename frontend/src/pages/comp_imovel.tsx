@@ -153,7 +153,7 @@ export function CompImovel ( ) {
                                 <div className="">
                                     <div className="flex items-center justify-between">
                                         <h1 data-toggle="tooltip" data-placement="top" title={imovel.nome} className="text-[40px] lg:text-[50px] font-outfit truncate">{imovel.nome}</h1>
-                                        <button onClick={() => {alterarAnuncio()}} data-toggle="tooltip" data-placement="top" title={imovel.anunciado ? "Já foi anunciado" : "Ainda não foi anunciado"} className={twMerge("p-2 rounded-lg", imovel.anunciado ? "bg-emerald-600" : "bg-red-600")}><TfiAnnouncement className="text-[20px] text-white"/></button>
+                                        <button onClick={() => {alterarAnuncio()}} data-toggle="tooltip" data-placement="top" title={imovel.anunciado ? "Já foi anunciado" : "Ainda não foi anunciado"} className={twMerge("p-2 rounded-lg", imovel.anunciado ? "bg-emerald-600" : "bg-red-600", rule == "admin" && "transition hover:scale-125 duration-100 delay-150")}><TfiAnnouncement className="text-[20px] text-white"/></button>
                                     </div>
                                     <h3 className="pt-3 pb-5 text-[21px] font-outfit opacity-[70%]">{imovel.rua}, {imovel.numero} - {imovel.bairro} - {imovel.cidade}, {imovel.estado}</h3>
                                     <h2 className="text-[15px] lg:text-[18px] font-outfit overflow-auto overscroll-contain h-[80px] mb-10 sm:mb-0">{imovel.descricao}</h2>

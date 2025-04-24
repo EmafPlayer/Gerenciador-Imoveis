@@ -104,10 +104,13 @@ export function CompChaves ( { setModal, id_imovel }: props ) {
                                     <div className="text-[14px] text-white text-opacity-90">{pessoa.contato}</div>
                                 </div>
                             </div> 
-                            <div className="flex flex-col gap-y-1">
-                                <button onClick={() => {setIdChave(pessoa.id_chave); setModificarChave(true)}} className="rounded-lg bg-[#0258d9ee] flex justify-center items-center h-[32px] sm:h-[38px] w-[32px] sm:w-[38px] transition ease-in-out delay-100 hover:scale-125"><FaPencilAlt className="text-[18px] text-slate-100"/></button>
-                                <button onClick={() => {deletarChave(pessoa.id_chave)}} className="rounded-lg bg-[#db001de5] flex justify-center items-center h-[32px] sm:h-[38px] w-[32px] sm:w-[38px] transition ease-in-out delay-100 hover:scale-125"><RiDeleteBin2Fill className="text-[20px] text-slate-100"/></button>
-                            </div>
+                            {
+                                rule == "admin" &&
+                                <div className="flex flex-col gap-y-1">
+                                    <button onClick={() => {setIdChave(pessoa.id_chave); setModificarChave(true)}} className="rounded-lg bg-[#0258d9ee] flex justify-center items-center h-[32px] sm:h-[38px] w-[32px] sm:w-[38px] transition ease-in-out delay-100 hover:scale-125"><FaPencilAlt className="text-[18px] text-slate-100"/></button>
+                                    <button onClick={() => {deletarChave(pessoa.id_chave)}} className="rounded-lg bg-[#db001de5] flex justify-center items-center h-[32px] sm:h-[38px] w-[32px] sm:w-[38px] transition ease-in-out delay-100 hover:scale-125"><RiDeleteBin2Fill className="text-[20px] text-slate-100"/></button>
+                                </div>
+                            }
                             
                         </div>
                     )}
