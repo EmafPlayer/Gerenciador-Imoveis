@@ -1,9 +1,8 @@
 import { AiOutlineHome } from "react-icons/ai";
-import { Asteristico } from "../components/asteristico";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../apis/api";
 import { useNavigate } from "react-router-dom";
 
@@ -49,12 +48,12 @@ export function Login(){
 
     return (
         <div className="bg-[#f0f0f0] w-full h-screen flex items-center justify-center">
-            <form onSubmit={handleSubmit(submit)} className="w-[600px] h-[700px] bg-[#FF5500] py-8 px-24 rounded-lg shadow-xl shadow-slate-500 flex flex-col items-center justify-center">
+            <form onSubmit={handleSubmit(submit)} className="w-[600px] h-full sm:h-[700px] bg-[#FF5500] py-8 px-10 sm:px-24 rounded-lg shadow-xl shadow-slate-500 flex flex-col items-center justify-center">
                 <div className="flex items-center gap-5 mb-12">
                     <div className='text-[60px] text-[#FFFFFF] '><AiOutlineHome/></div>
                     <h1 className="text-[#FFFFFF] font-sans text-[30px] sm:text-[35px] pt-1 justify-center uppercase">MGI</h1>
                 </div>
-                <h1 className="text-[40px] text-white font-outfit font-semibold mb-8">Sign In</h1>
+                <h1 className="text-[50px] sm:text-[40px] text-white font-outfit font-semibold mb-8">Sign In</h1>
                 <div className="w-full">
                     <div className="flex flex-col gap-6">
                         <div>

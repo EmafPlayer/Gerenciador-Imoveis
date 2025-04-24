@@ -35,7 +35,9 @@ export function CompDespesas (  ) {
     const [receitas, setReceitas] = useState<propsReceitaDespesa[][]>([]);
     const [receitas_despesas, setReceitasDespesas] = useState<propsReceitaDespesa[]>([]);
     
-    const isMidScreen = useMediaQuery({ query: '(min-width: 1024px)' })
+    const rule = localStorage.getItem("rule_user");
+
+    const isLowScreen = useMediaQuery({ query: '(min-width: 640px)' })
 
     const location = useLocation();
 
@@ -53,17 +55,12 @@ export function CompDespesas (  ) {
 
             const response = await carregarDespesas(id_imovel);
 
-            console.log(response?.despesas);
-            console.log(response?.receitas);
-
             if(response?.despesas)
                 setDespesas(response.despesas);
             if(response?.receitas)
                 setReceitas(response.receitas);
             if(response?.receitas_despesas)
                 setReceitasDespesas(response.receitas_despesas);
-            else
-                console.warn("Tabela não encontrada ou dados inválidos:");
 
         }
 
@@ -102,84 +99,88 @@ export function CompDespesas (  ) {
 
     const modificarStatusDespesa = async (index1: number, index2: number) => {
 
-        try {
+        if(rule == "admin") {
 
-            await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
-                pago: !despesas[index1][index2].pago
-            });
-
-            toast.success("Status modificado com sucesso", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            });
-
-        } catch(error){
-            console.error(error);
-        }    
-
-
+            try {
+    
+                await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
+                    pago: !despesas[index1][index2].pago
+                });
+    
+                toast.success("Status modificado com sucesso", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+    
+            } catch(error){
+            }    
+        }
 
     }
 
     const modificarStatusReceita = async (index1: number, index2: number) => {
 
-        try{
+        if(rule == "admin") {
+            
+            try{
+    
+                await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
+                    pago: !receitas[index1][index2].pago
+                });
+    
+                toast.success("Status modificado com sucesso", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+    
+            } catch(error) {
+            }   
 
-            await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
-                pago: !receitas[index1][index2].pago
-            });
-
-            toast.success("Status modificado com sucesso", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            });
-
-        } catch(error) {
-            console.error(error);
-        }   
+        }
 
     }
 
     const modificarStatusReceitaDespesa = async (index: number) => {
 
-        try{
+        if(rule == "admin") {
+            
+            try{
+    
+                await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
+                    pago: !receitas_despesas[index].pago
+                });
+    
+                toast.success("Status modificado com sucesso", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+    
+            } catch(error) {
+    
+            }
 
-            await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
-                pago: !receitas_despesas[index].pago
-            });
-
-            toast.success("Status modificado com sucesso", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            });
-
-        } catch(error) {
-
-            console.error(error);
-
-        }
-
+        }            
 
     }
 
@@ -188,39 +189,41 @@ export function CompDespesas (  ) {
 
             <div className="w-full h-screen">
                 <Opcoes stateImovel={false} stateCotacoes={false} stateDespesas={true} stateAcontecimentos={false} id_imovel={id_imovel}/>
-                <div className="w-full flex flex-col items-center justify-center  pt-[120px]">
+                <div className="w-full flex flex-col items-center justify-center pt-[70px] sm:pt-[120px]">
 
-                    <div className="flex items-center justify-between w-full pb-6 pt-4 px-3 lg:px-16">
+                    <div className="flex items-center justify-between w-full pb-6 sm:pb-8 pt-4 px-3 lg:px-16">
                         <div>
-                            <button onClick={() => {setAtivacao(!ativacao)}} className="w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5">
+                            <button onClick={() => {setAtivacao(!ativacao)}} className={twMerge("w-[230px] sm:w-[300px] h-12 text-[16px] rounded-md bg-[#353941] hover:bg-[#4a4e57] active:border-2 flex justify-between items-center px-5", !isLowScreen && valorBotao != 0 ? "w-[150px]" : "w-[230px] ")}>
                                 <h6 className="text-slate-100 hover:text-[#ffffff] font-normal">{statusBotao[valorBotao]}</h6>
                                 {ativacao ? <BsCaretUpFill className="text-[#ffffff]"/>  : <BsCaretDownFill className="text-[#ffffff]"/> }
                             </button>
                             {ativacao &&
                                 <ul className="absolute translate-y-[6px] flex flex-col gap-1">
                                     {statusBotao.map((status, index) => 
-                                        <li><button onClick={() => {setValorBotao(index); setAtivacao(!ativacao)}} className="w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2">{status}</button></li>
+                                        <li><button onClick={() => {setValorBotao(index); setAtivacao(!ativacao)}} className={twMerge("sm:w-[300px] h-11 text-[16px] font-normal rounded-md text-slate-100 hover:text-[#ffffff] bg-[#353941] hover:bg-[#4a4e57] active:border-2", !isLowScreen && valorBotao != 0 ? "w-[150px]" : "w-[230px] ")}>{status}</button></li>
                                     )}
                                 </ul>
                             }
                         </div>
                         { valorBotao != 0 &&
-                            <div className="flex items-center gap-8 lg:gap-32 lg:pr-20">
-                                <button onClick={lastPage}><BsArrowLeftCircle className="text-[40px]"/></button>
-                                <button onClick={nextPage}><BsArrowRightCircle className="text-[40px]"/></button>
+                            <div className="flex items-center gap-4 lg:gap-32 lg:pr-20">
+                                <button onClick={lastPage}><BsArrowLeftCircle className="text-[30px] sm:text-[40px]"/></button>
+                                <button onClick={nextPage}><BsArrowRightCircle className="text-[30px] sm:text-[40px]"/></button>
                             </div>
                         }
-                        <div className="flex items-center gap-3">
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Receita ou Despesa" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex items-center gap-3 transition ease-in-out delay-100 hover:scale-110"><AiFillPlusCircle className="text-[30px] lg:text-[20px]"/>
-                            { ((valorBotao == 0 && !isMidScreen) || (isMidScreen)) && <h1 className="font-outfit font-semibold">Criar Receita ou Despesa</h1>}
-                            </button> 
-                            <button className="bg-yellow-500 p-2 rounded-md hover:bg-blue-200 transition ease-in-out delay-100 hover:scale-125" onClick={recarregarPagina}><TbReload className="text-[23px] text-white hover:text-slate-500"/></button>
+                        <div className={twMerge("flex items-center gap-3", isLowScreen ? "" : "flex-row-reverse")}>
+                            { rule == "admin" &&
+                                <button data-toggle="tooltip" data-placement="top" title="Criar Receita ou Despesa" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-[11px] sm:p-2 rounded-md text-[#FFFFFF] flex items-center gap-3 transition ease-in-out delay-100 hover:scale-110"><AiFillPlusCircle className="text-[25px] sm:text-[30px] lg:text-[20px]"/>
+                                { (isLowScreen) && <h1 className="font-outfit font-semibold">Criar Receita ou Despesa</h1>}
+                                </button> 
+                            }
+                            <button className="bg-yellow-500 p-[11px] sm:p-2 rounded-md hover:bg-blue-200 transition ease-in-out delay-100 hover:scale-125" onClick={recarregarPagina}><TbReload className="text-[23px] text-white hover:text-slate-500"/></button>
                         </div>
                     </div>
 
                     {valorBotao == 0 ? 
-                        <div className="w-full overflow-x-auto px-4 lg:px-10">
-                            <table className="border-[0.2px] border-solid border-[#414040] rounded-md shadow-md table-auto divide-y divide-[#000000] w-full mb-10">
+                        <div className="w-full overflow-x-auto overflow-y-auto h-[370px] sm:h-[640px] px-4 lg:px-10">
+                            <table className="border-[0.2px] border-solid border-[#414040] rounded-md shadow-md table-auto divide-y divide-[#000000] w-[1600px] sm:w-full mb-10">
                                 <thead className="w-full ">
                                     <tr>
                                         <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Título</th>
@@ -259,7 +262,7 @@ export function CompDespesas (  ) {
                     
                     valorBotao == 1 ? 
                     
-                    <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-x-3 lg:gap-x-8 gap-y-4 px-3 lg:px-32 mb-5 lg:mb-0">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-3 lg:gap-x-8 gap-y-4 px-7 sm:px-3 lg:px-20 mb-5 lg:mb-0">
                         {receitas.length != 0 && receitas[contador_receitas].map((receita, index) => 
                             <div className="bg-[#f0f0f0d3] h-[310px] rounded-xl px-1 lg:px-4 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
                                 <div className="flex flex-col justify-between h-full">
@@ -302,7 +305,7 @@ export function CompDespesas (  ) {
                     
                     : 
                     
-                    <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-x-3 lg:gap-x-8 gap-y-4 px-3 lg:px-32 mb-5 lg:mb-0">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-3 lg:gap-x-8 gap-y-4 px-7 sm:px-3 lg:px-20 mb-5 lg:mb-0">
                         {despesas.length != 0 && despesas[contador_despesas].map((despesa, index) => 
                             <div className="bg-[#f0f0f0d3] h-[310px] rounded-xl px-1 lg:px-4 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 w-full">
                                 <div className="flex flex-col justify-between h-full">

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Database\Seeders\TipoCotacaoSeeder;
 
 return new class extends Migration
 {
@@ -16,6 +17,8 @@ return new class extends Migration
             $table->string('descricao', 20); 
             $table->timestamps();
         });
+
+        app(TipoCotacaoSeeder::class)->run();
     }
 
     /**

@@ -68,7 +68,7 @@ class ImoveisController extends Controller
         Imoveis::create([
             'nome' => $request->nome_imovel,
             'id_endereco' => $id_endereco,
-            'anunciado' => $request->anunciado ? 1 : 0,
+            'anunciado' => $request->anunciado,
             'fornecimento_agua' => $request->fornecimento_agua,
             'fornecimento_luz' => $request->fornecimento_luz,
             'cadastro_iptu' => $request->cadastro_iptu,
@@ -125,7 +125,7 @@ class ImoveisController extends Controller
 
         $imovel = Imoveis::join("enderecos", "imoveis.id_endereco", "=", "enderecos.id")
                          ->join("localizacoes", "enderecos.id_localizacao", "=", "localizacoes.id")
-                         ->select("imoveis.id", "imoveis.id_tipo_imovel as tipo_imovel", "nome", "descricao", "fornecimento_agua", "fornecimento_luz", "cadastro_iptu", "matricula", "cartorio_registro", 
+                         ->select("imoveis.id", "imoveis.id_tipo_imovel as tipo_imovel", "nome", "descricao", "fornecimento_agua", "anunciado", "fornecimento_luz", "cadastro_iptu", "matricula", "cartorio_registro", 
                                   "area", "area_testada", "fracao_ideal", "area_total", "area_construida",
                                   "rua", "numero", "bairro", "cidade","estado", "latitude", "longitude")->where("imoveis.id", "=", $id_imovel)->firstOrFail()->toArray();
 
@@ -137,6 +137,16 @@ class ImoveisController extends Controller
         
         return response()->json(['message' => 'Imóvel carregado com sucesso', 'imovel' => $imovel], 200);
         
+    }
+
+    public function modificarAnuncio ($id_imovel, $anunciado) {
+        
+        Imoveis::where("id", "=", $id_imovel)->update([
+            "anunciado" => $anunciado
+        ]);
+
+        return response()->json(["message" => "Status modificado com sucesso"], 200);
+
     }
 
     public function modificarStatusImovel ($id_imovel, $id_status) {

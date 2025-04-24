@@ -8,7 +8,7 @@ interface Props {
 export function Warning ( {setModal}: Props ) {
 
     return (
-        <main className="h-screen w-full fixed inset-0 z-10 pt-10 bg-gray-500 bg-opacity-50 flex justify-center">
+        <main className="h-screen w-full fixed inset-0 z-40 pt-10 bg-gray-500 bg-opacity-50 flex justify-center">
             <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5}} className="w-[350px] bg-slate-400 h-[200px] rounded-lg p-10 flex flex-col justify-between items-center">
                 <div className="flex items-center gap-7">
                     <h1 className="text-4xl font-bold text-white">Warning!!!</h1>

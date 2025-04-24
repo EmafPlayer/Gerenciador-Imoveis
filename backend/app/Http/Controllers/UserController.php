@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -21,7 +22,8 @@ class UserController extends Controller
 
         User::create([
             "name" => $request->name,
-            "password" => Hash::make($request->password)
+            "password" => Hash::make($request->password),
+            "id_rule" => User::exists() ? 2 : 1
         ]);
 
         return response()->json(["message" => "Usuário criado com sucesso"], 201);
@@ -39,6 +41,17 @@ class UserController extends Controller
             return response()->json(["message" => "Sign-in concluído com sucesso"], 202);
         
         return response()->json(["message" => "Login ou senha inválidos."], 200);
+
+    }
+
+    public function returnRule($username) {
+
+        $rule = User::join('rules', 'users.id_rule', '=', 'rules.id')->select('rules.descricao')->where('users.name', '=', $username)->get()->first();
+
+        if($rule)
+            return response()->json(["rule" => $rule['descricao']], 200);
+
+        return response()->json(["message" => "Erro ao carregar Rule"],400);
 
     }
 

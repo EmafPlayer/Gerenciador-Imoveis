@@ -43,6 +43,8 @@ export function CompCotacoes (  ) {
     const [statusImobiliaria, setStatusImobiliaria] = useState(false);
     const [escolhida, setEscolhida] = useState(0);
     const [cotacoes, setCotacoes] = useState<propsCotacao[][]>([]); 
+    
+    const rule = localStorage.getItem("rule_user");
 
     const navigate = useNavigate();
 
@@ -71,13 +73,9 @@ export function CompCotacoes (  ) {
           
           const dataImoveis = await CarregarCotacoes(id_imovel);
     
-          console.log(dataImoveis?.cotacoes);
-    
-          if(dataImoveis?.cotacoes){
+          if(dataImoveis?.cotacoes)
             setCotacoes(dataImoveis.cotacoes);
-          } else {
-            console.warn("Tabela não encontrada ou dados inválidos:");
-          }
+          
     
         }
     
@@ -95,82 +93,89 @@ export function CompCotacoes (  ) {
             setContador(contador - 1);
     }
 
-    console.log(cotacoes);
-
     return (
 
         <div className="h-screen w-full">
             <Opcoes stateImovel={false} stateCotacoes={true} stateDespesas={false} stateAcontecimentos={false} id_imovel={id_imovel}/>
-            <div className="w-full flex flex-col items-center justify-center pt-[140px]">
+            <div className="w-full flex flex-col items-center justify-center pt-[65px] sm:pt-[140px]">
 
-                <div className="flex items-center justify-between w-full pb-8 pt-4 px-6 lg:px-20">
-                    <h1 className="text-[35px] font-kanit">Cotações</h1>
-                    <div className="flex items-center gap-12 lg:gap-32 lg:pl-[330px]">
-                        <button onClick={lastPage}><BsArrowLeftCircle className="text-[32px] lg:text-[45px]"/></button>
-                        <button onClick={nextPage}><BsArrowRightCircle className="text-[32px] lg:text-[45px]"/></button>
+                <div className="flex items-center justify-between w-full pb-8 pt-4 px-2 lg:px-20">
+                    <div className={twMerge("w-full sm:pb-4", isLowScreen ? "flex items-center justify-between" : "flex flex-col gap-5")}>
+                        <div className="flex items-center justify-around sm:justify-between w-full sm:w-[55%]">
+                            <h1 className="text-[35px] font-kanit">Cotações</h1>
+                            <div className="flex items-center gap-4 sm:gap-12 lg:gap-32 lg:pl-[330px]">
+                                <button onClick={lastPage}><BsArrowLeftCircle className="text-[32px] lg:text-[45px]"/></button>
+                                <button onClick={nextPage}><BsArrowRightCircle className="text-[32px] lg:text-[45px]"/></button>
+                            </div>
+                        </div>
+                        { rule == "admin" &&
+                            <ul className={twMerge("gap-3", isMidScreen ? "flex items-center" : "flex " )}>
+                                <li>
+                                    <button data-toggle="tooltip" data-placement="top" title="Criar Imobiliária" onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[125px] sm:w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
+                                        <AiFillPlusCircle className="text-[20px]"/>
+                                        <h1 className="font-outfit">{isLowScreen? "Criar Imobiliária" : "Imobiliária"}</h1>
+                                    </button> 
+                                </li>
+                                <li>
+                                    <button data-toggle="tooltip" data-placement="top" title="Criar Corretor" onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[110px] sm:w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
+                                        <AiFillPlusCircle className="text-[20px]"/>
+                                        <h1 className="font-outfit">{isLowScreen? "Criar Corretor" : "Corretor"}</h1>
+                                    </button> 
+                                </li>
+                                <li>
+                                    <button data-toggle="tooltip" data-placement="top" title="Criar Cotação" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[110px] sm:w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
+                                        <AiFillPlusCircle className="text-[20px]"/>
+                                        <h1 className="font-outfit">{isLowScreen? "Criar Cotação" : "Cotação"}</h1>
+                                    </button> 
+                                </li>
+                            </ul>
+                        }
                     </div>
-                    <ul className={twMerge("gap-4", isMidScreen ? "flex items-center" : "flex flex-col" )}>
-                        <li>
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Imobiliária" onClick={() => redirectCriarImobiliaria()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
-                                <AiFillPlusCircle className="text-[20px]"/>
-                                <h1 className="font-outfit">Criar Imobiliária</h1>
-                            </button> 
-                        </li>
-                        <li>
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Corretor" onClick={() => redirectCriarCorretor()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
-                                <AiFillPlusCircle className="text-[20px]"/>
-                                <h1 className="font-outfit">Criar Corretor</h1>
-                            </button> 
-                        </li>
-                        <li>
-                            <button data-toggle="tooltip" data-placement="top" title="Criar Cotação" onClick={() => redirectCriarCotacao()} className="bg-[#3A0C3D] hover:bg-[#711977e1] active:bg-[#711977a6] p-2 rounded-md text-[#FFFFFF] flex justify-between w-[170px] items-center gap-3 transition ease-in-out delay-100 hover:scale-110">
-                                <AiFillPlusCircle className="text-[20px]"/>
-                                <h1 className="font-outfit">Criar Cotação</h1>
-                            </button> 
-                        </li>
-                    </ul>
                 </div>
                 
                 <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 px-6 lg:px-14 mb-4 lg:mb-0">
                     {cotacoes.length != 0 && cotacoes[contador].map((cotacao, index) => 
-                        <div className="bg-[#f0f0f0d3] h-[340px] xl:h-[270px] rounded-xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
+                        <div className="bg-[#f0f0f0d3] h-[full] xl:h-[270px] rounded-xl px-6 py-4 border-2 border-[#c7c7c7] shadow-md col-span-1 flex flex-col justify-between">
                             <div className={twMerge("w-full", isMidScreen ? 'flex justify-between' : 'flex flex-col')}>
                                 <div className="flex flex-col">
-                                    <div className="flex items-center gap-3">
+                                    <div className={twMerge("gap-3", isLowScreen ? "flex items-center " : "flex flex-col items-center")}>
                                         
-                                        <h1 data-toggle="tooltip" data-placement="top" title={cotacao.nome_corretor} className="text-[40px] font-outfit">{cotacao.nome_corretor.length > 20 ? cotacao.nome_corretor.slice(0, 20) + "..." : cotacao.nome_corretor}</h1>
+                                        <h1 data-toggle="tooltip" data-placement="top" title={cotacao.nome_corretor} className="text-[40px] font-outfit truncate">{cotacao.nome_corretor}</h1>
                                         
-                                        <button className="transition ease-in-out delay-100 hover:scale-110"><a href={`mailto:${cotacao.email_corretor}`} target="_blank" className="flex items-center gap-2 px-2 py-[6px] ease-in-out duration-300 text-[40px] bg-opacity-15  text-[#568692] rounded-xl">
-                                            <MdOutlineEmail/>
-                                        </a></button>
+                                        <div className={twMerge("flex mb-5 sm:mb-0", isLowScreen ? "gap-2" : "items-center justify-around w-full ")}>
+                                            <button className="transition ease-in-out delay-100 hover:scale-110"><a href={`mailto:${cotacao.email_corretor}`} target="_blank" className="flex items-center gap-2 px-2 py-[6px] ease-in-out duration-300 text-[40px] bg-opacity-15  text-[#568692] rounded-xl">
+                                                <MdOutlineEmail/>
+                                            </a></button>
 
-                                        {cotacao.url_anuncio && <button className="transition ease-in-out delay-100 hover:scale-110"><a href={cotacao.url_anuncio} target="_blank" className="flex items-center gap-2 px-2 py-[6px] ease-in-out duration-300 text-[30px] bg-opacity-15  text-[#568692] rounded-xl">
-                                            <TfiAnnouncement />
-                                        </a></button>}
+                                            {cotacao.url_anuncio && <button className="transition ease-in-out delay-100 hover:scale-110"><a href={cotacao.url_anuncio} target="_blank" className="flex items-center gap-2 px-2 py-[6px] ease-in-out duration-300 text-[30px] bg-opacity-15  text-[#568692] rounded-xl">
+                                                <TfiAnnouncement />
+                                            </a></button>}
+                                        </div>
+
                                     </div>
-                                    <div className="flex flex-col items-start  gap-1">
+                                    <div className="flex flex-col items-start gap-4 sm:gap-1">
                                         <h1 className="text-[25px] font-outfit">{cotacao.nome_fantasia}</h1>
-                                        <div className="flex items-center  gap-3">
+                                        <div className="flex items-center gap-3">
                                             <h1 className="text-[15px] font-outfit">({cotacao.nome_oficial})</h1>
                                             <button onClick={() => {setStatusImobiliaria(true); setEscolhida(index)}} className="text-[25px] transition ease-in-out delay-100 hover:scale-125"><FcDepartment/></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex flex-col gap-1 pt-3">
+                                <div className="flex flex-col gap-1 pt-5 sm:pt-3 ">
                                     <h1 className={"text-[20px] font-outfit text-end"}>Contato: {cotacao.contato_corretor}</h1>
                                     <h1 className="text-[17px] font-kanit text-end">{new Date(cotacao.data_cotacao).toLocaleDateString("pt-BR")}</h1>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-around pb-3 w-full">
-                                <div className="flex flex-col">
+                            <div className={twMerge("pb-3 pt-5 w-full", isLowScreen ? "flex items-center justify-around" : "flex flex-col items-start justify-around")}>
+                                <div className={twMerge("", isLowScreen ? "flex flex-col items-center" : "flex items-center gap-5")}>
                                     <h1 className="text-[28px] lg:text-[35px] font-serif" text->{cotacao.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
-                                    <h1 className="text-[15px] lg:text-[18px] text-slate-700">REAIS (BRL - R$)</h1>
+                                    <h1 className="text-[15px] lg:text-[18px] text-slate-700">REAIS</h1>
                                 </div>
-                                <div className="flex flex-col">
+                                <div className={twMerge("", isLowScreen ? "flex flex-col items-center" : "flex items-center gap-5")}>
                                     <h1 className="text-[28px] lg:text-[35px] font-serif" text->{cotacao.valor_min.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                                     <h1 className="text-[15px] lg:text-[18px] text-slate-700">Valor (min)</h1>
                                 </div>
-                                <div className="flex flex-col">
+                                <div className={twMerge("", isLowScreen ? "flex flex-col items-center" : "flex items-center gap-5")}>
                                     <h1 className="text-[28px] lg:text-[35px] font-serif" text->{cotacao.valor_max.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>
                                     <h1 className="text-[15px] lg:text-[18px] text-slate-700">Valor (max)</h1>
                                 </div>

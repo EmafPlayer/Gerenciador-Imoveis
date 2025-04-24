@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('password');
+            $table->foreignId('id_rule');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('id_rule')->references('id')->on('rules');
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('users');
     }
 };

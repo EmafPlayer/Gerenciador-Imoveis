@@ -15,10 +15,6 @@ use App\Http\Controllers\VisitasController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 Route::prefix('v1')->group(function () {
 
     Route::prefix('inicio')->group(function () {
@@ -37,8 +33,12 @@ Route::prefix('v1')->group(function () {
         Route::post('/criacao-chave', [ChavesController::class, 'create']);
         Route::post('/criacao-visita', [VisitasController::class, 'create']);
         
-        Route::post('/run-seeders', [SeedersControllers::class, 'run']);
         Route::post('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
+
+        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotoImovel']);
+        Route::post('/upload-arquivos', [AcontecimentoControllers::class, 'uploadFile']);
+
+        Route::get('/return-rule/{username}', [UserController::class, 'returnRule']);
 
         Route::get('/ver-imobiliarias', [ImobiliariaControllers::class, 'show']);
         Route::get('/ver-corretores', [CorretorControllers::class, 'show']);
@@ -55,14 +55,14 @@ Route::prefix('v1')->group(function () {
         Route::get('/carregar-visitas/{id_imovel}', [VisitasController::class, 'carregarVisitas']);
 
         Route::get('/fotos/{filename}', [ImoveisController::class, 'verFotoImovel']);
-
-        Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotoImovel']);
+        Route::get('/download-arquivo/{filename}', [AcontecimentoControllers::class, 'downloadArquivoAcontecimento']);
 
         Route::delete('/deletar-chave/{id_chave}', [ChavesController::class, 'deletarChave']);
 
         Route::put('/modificar-chave/{id_chave}/{id_pessoa}', [ChavesController::class, 'modificarChave']);
         Route::put('/modificar-descricao-acontecimento/{id_acontecimento}', [AcontecimentoControllers::class, 'modificarDescricao']);
         Route::put('/modificar-status-imovel/{id_imovel}/{id_status}', [ImoveisController::class, 'modificarStatusImovel']);
+        Route::put('/modificar-status-anuncio/{id_imovel}/{anunciado}', [ImoveisController::class, 'modificarAnuncio']);
 
     });
     

@@ -36,16 +36,15 @@ export function CriarPessoa ({ setModal }: props) {
             });
 
         } catch (error) {
-            console.error(error);
         }
         
     }
 
     return (
-        <div className="fixed inset-0 z-10 flex justify-center items-center bg-gray-500 bg-opacity-75 h-screen w-full">
-            <form onSubmit={handleSubmit(submit)} className="bg-white p-12 w-[35rem] lg:w-[45rem]">
-                <div className="flex items-center justify-between mb-12">
-                    <h1 className="text-[45px] font-bold">Criar Pessoa</h1>
+        <div className="fixed inset-0 z-30 flex justify-center items-center bg-gray-500 bg-opacity-75 h-screen w-full px-4 sm:px-0">
+            <form onSubmit={handleSubmit(submit)} className="bg-white px-5 sm:px-14 py-6 sm:py-14 w-full sm:w-[45rem] rounded-lg">
+                <div className="flex items-center justify-between sm:px-0 mb-8 sm:mb-12">
+                    <h1 className="text-[40px] sm:text-[45px] font-bold">Criar Pessoa</h1>
                     <div className="flex items-center gap-3">
                         <button onClick={(e) => {setModal(false); e.preventDefault()}} className="text-white text-[20px] bg-red-900 p-3 rounded-md ml-6"><MdClose /></button>
                     </div>
@@ -60,7 +59,7 @@ export function CriarPessoa ({ setModal }: props) {
                     className={twMerge('bg-slate-50 border-slate-400 w-full text-[16px] font-normal rounded-xl border-2 pl-3 transition duration-150 ease-in-out py-[8px] placeholder:italic placeholder:text-[17px]')} placeholder="Marco Raphael"/>
                 </div>
 
-                <div className="col-span-1 sm:col-span-1 mt-0 lg:mt-6">
+                <div className="col-span-1 sm:col-span-1 mt-8 lg:mt-6">
                     <div className="flex items-center gap-2 mb-1">
                         <label htmlFor="contato" className="text-[18px] text-slate-700 font-outfit">Contato</label>
                         <Asteristico/>
