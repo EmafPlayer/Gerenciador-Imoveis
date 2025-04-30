@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+    container_name: imoveis-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www
+    working_dir: /var/www
+    depends_on:
+      - mysql
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: gerenciador_imoveis
+      DB_USERNAME: admin
+      DB_PASSWORD: emanu123
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: imoveis-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    command: npm run dev -- --host
+    depends_on:
+      - backend
+
+  mysql:
+    image: mysql:8
+    container_name: imoveis-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: emanu123
+      MYSQL_DATABASE: gerenciador_imoveis
+    volumes:
+      - mgi_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+volumes:
+  mgi_data:
+    driver: local

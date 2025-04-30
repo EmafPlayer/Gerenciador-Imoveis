@@ -33,8 +33,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/criacao-chave', [ChavesController::class, 'create']);
         Route::post('/criacao-visita', [VisitasController::class, 'create']);
         
-        Route::post('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
-
         Route::post('/upload-fotos', [ImoveisController::class, 'uploadFotoImovel']);
         Route::post('/upload-arquivos', [AcontecimentoControllers::class, 'uploadFile']);
 
@@ -45,7 +43,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/ver-titulos', [DespesaControllers::class, 'verTitulos']);
         Route::get('/ver-acontecimentos', [AcontecimentoControllers::class, 'verAcontecimentos']);
         Route::get('/ver-imovel/{id_imovel}', [ImoveisController::class, 'verImovel']);
-
+        
         Route::get('/carregar-imoveis', [ImoveisController::class, 'carregarImoveis']);
         Route::get('/carregar-cotacoes/{id_imovel}', [CotacaoControllers::class, 'carregarCotacoes']);
         Route::get('/carregar-despesas/{id_imovel}', [DespesaControllers::class, 'carregarDespesas']);
@@ -53,12 +51,14 @@ Route::prefix('v1')->group(function () {
         Route::get('/carregar-chaves/{id_imovel}', [ChavesController::class, 'carregarChaves']);
         Route::get('/carregar-pessoas', [PessoaController::class, 'carregarPessoas']);
         Route::get('/carregar-visitas/{id_imovel}', [VisitasController::class, 'carregarVisitas']);
-
+        
         Route::get('/fotos/{filename}', [ImoveisController::class, 'verFotoImovel']);
         Route::get('/download-arquivo/{filename}', [AcontecimentoControllers::class, 'downloadArquivoAcontecimento']);
-
+        
         Route::delete('/deletar-chave/{id_chave}', [ChavesController::class, 'deletarChave']);
-
+        Route::delete('/deletar-receita-despesa/{id_despesa}', [DespesaControllers::class, 'deletarDespesa']);
+        
+        Route::put('/update-pago/{id_despesa}', [DespesaControllers::class, 'updateStatusPago']);
         Route::put('/modificar-chave/{id_chave}/{id_pessoa}', [ChavesController::class, 'modificarChave']);
         Route::put('/modificar-descricao-acontecimento/{id_acontecimento}', [AcontecimentoControllers::class, 'modificarDescricao']);
         Route::put('/modificar-status-imovel/{id_imovel}/{id_status}', [ImoveisController::class, 'modificarStatusImovel']);
