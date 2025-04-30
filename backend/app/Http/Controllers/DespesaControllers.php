@@ -123,4 +123,12 @@ class DespesaControllers extends Controller
         return response()->json(['message' => 'Update realizado com sucesso'], 200);
     }
 
+    public function deletarDespesa($id_despesa){
+
+        Despesas::where('id', $id_despesa)->delete();
+
+        return response()->json(['message' => 'Despesa deletada com sucesso'], 200);
+
+    }
+
 }

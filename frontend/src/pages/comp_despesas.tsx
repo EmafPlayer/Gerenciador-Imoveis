@@ -10,6 +10,7 @@ import { api } from "../apis/api";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { Opcoes } from "../components/opcoes";
 import { TbReload } from "react-icons/tb";
+import { RiDeleteBin2Fill } from "react-icons/ri";
 
 
 type propsReceitaDespesa = {
@@ -103,7 +104,7 @@ export function CompDespesas (  ) {
 
             try {
     
-                await api.post(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
+                await api.put(`/v1/inicio/update-pago/${despesas[index1][index2].id}`, {
                     pago: !despesas[index1][index2].pago
                 });
     
@@ -131,7 +132,7 @@ export function CompDespesas (  ) {
             
             try{
     
-                await api.post(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
+                await api.put(`/v1/inicio/update-pago/${receitas[index1][index2].id}`, {
                     pago: !receitas[index1][index2].pago
                 });
     
@@ -160,7 +161,7 @@ export function CompDespesas (  ) {
             
             try{
     
-                await api.post(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
+                await api.put(`/v1/inicio/update-pago/${receitas_despesas[index].id}`, {
                     pago: !receitas_despesas[index].pago
                 });
     
@@ -181,6 +182,78 @@ export function CompDespesas (  ) {
             }
 
         }            
+
+    }
+
+    const deletarReceitaDespesa = async ( index_receita_despesa: number ) => {
+
+        try{
+
+            await api.delete(`/v1/inicio/deletar-receita-despesa/${receitas_despesas[index_receita_despesa].id}`);
+            
+            toast.error("Despesa deletada com sucesso", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            
+        } catch(error) {
+            
+        }
+
+    }
+
+    const deletarReceita = async ( index_receita_1: number, index_receita_2: number ) => {
+
+        try{
+
+            await api.delete(`/v1/inicio/deletar-receita-despesa/${receitas[index_receita_1][index_receita_2].id}`);
+            
+            toast.error("Despesa deletada com sucesso", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            
+        } catch(error) {
+            
+        }
+
+    }
+
+    const deletarDespesa = async ( index_receita_1: number, index_receita_2: number ) => {
+
+        try{
+
+            await api.delete(`/v1/inicio/deletar-receita-despesa/${despesas[index_receita_1][index_receita_2].id}`);
+            
+            toast.error("Despesa deletada com sucesso", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            
+        } catch(error) {
+            
+        }
 
     }
 
@@ -235,6 +308,8 @@ export function CompDespesas (  ) {
                                         <th className="px-2 py-4 w-[10%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Receita ou Despesa</th>
                                         <th className="px-2 py-4 w-[8%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Valor (R$)</th>
                                         <th className="px-2 py-4 w-[6%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Pago/Recebido?</th>
+                                        {rule === "admin" && 
+                                            <th className="px-2 py-4 w-[2%] font-extrabold text-[16px] text-[#fefefe] bg-[#63666b] border-[2px] border-solid border-[#414040]">Deletar</th>}
                                     </tr>
                                 </thead>
                                 <tbody className="bg-[#fefefe] divide-y divide-[#b9b8b8]">
@@ -251,7 +326,13 @@ export function CompDespesas (  ) {
                                             <td className={twMerge("px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8] font-bold", receita_despesa.receita_despesa ? 'text-amber-700' : 'text-sky-800')}>{receita_despesa.receita_despesa ? 'Despesa' : 'Receita'}</td>
                                             <td className={twMerge("px-2 text-[18px] text-center border-x-[0.4px] border-solid border-[#b9b8b8]", receita_despesa.receita_despesa ? 'text-amber-700' : 'text-sky-800')}>{receita_despesa.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
                                             <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]"><div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceitaDespesa(index)}} className="transition duration-100 hover:scale-125">{receita_despesa.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div></td>
-                                            
+                                            {rule === "admin" && 
+                                                <td className="px-2 text-center border-x-[0.4px] border-solid border-[#b9b8b8]">
+                                                    <div className="flex justify-center items-center">
+                                                        <button onClick={() => {deletarReceitaDespesa(index)}} className="rounded-lg bg-[#db001de5] flex justify-center items-center p-2 transition ease-in-out delay-100 hover:scale-125"><RiDeleteBin2Fill className="text-[18px] text-slate-100"/></button>
+                                                    </div>
+                                                </td>
+                                            }
                                         </tr>     
                                     )}
                                 </tbody>
@@ -297,6 +378,7 @@ export function CompDespesas (  ) {
                                             <h1 className="text-[12px] text-sky-800">REAIS (BRL - R$)</h1>
                                         </div>
                                         <div className="flex justify-center items-center"><button onClick={() => {modificarStatusReceita(contador_receitas, index)}} className="transition duration-100 hover:scale-125">{receita.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div>
+                                        {rule === "admin" && <button onClick={() => {deletarReceita(contador_receitas, index)}} className="rounded-lg bg-[#db001de5] flex justify-center items-center p-2 transition ease-in-out delay-100 hover:scale-125"><RiDeleteBin2Fill className="text-[18px] text-slate-100"/></button>}
                                     </div>
                                 </div>
                             </div>
@@ -340,6 +422,7 @@ export function CompDespesas (  ) {
                                             <h1 className="text-[12px] text-amber-700">REAIS (BRL - R$)</h1>
                                         </div>
                                         <div className="flex justify-center items-center"><button onClick={() => {modificarStatusDespesa(contador_despesas, index)}} className="transition duration-100 hover:scale-125">{despesa.pago ? <AiFillCheckSquare className={twMerge("text-[30px] text-emerald-600")}/> : <AiFillCloseSquare className={twMerge("text-[30px] text-red-600")}/> }</button></div>
+                                        {rule === "admin" && <button onClick={() => {deletarDespesa(contador_despesas, index)}} className="rounded-lg bg-[#db001de5] flex justify-center items-center p-2 transition ease-in-out delay-100 hover:scale-125"><RiDeleteBin2Fill className="text-[18px] text-slate-100"/></button>}
                                     </div>
                                 </div>
                             </div>
